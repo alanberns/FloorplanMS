@@ -15,16 +15,13 @@ services:
       - floorplan_db
 
   floorplan_db:
-    image: postgres:13
+    image: mongo:4.4
     container_name: floorplan_db
     ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: floorplan_db
+      - "27017:27017"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - mongo_data:/data/db
 
 volumes:
-  postgres_data:
+  mongo_data:
+
