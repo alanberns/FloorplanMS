@@ -31,4 +31,12 @@ export class OrganizacionService {
   async remove(id: string): Promise<Organizacion> {
     return this.organizacionModel.findOneAndDelete({_id: id }).exec();
   }
+
+  async addUsuario(id: string, usuarioId: string): Promise<Organizacion> {
+    return this.organizacionModel.findByIdAndUpdate(
+      id,
+      { $push: { usuarios: usuarioId } },
+      { new: true, useFindAndModify: false }
+    ).exec();
+  }
 }
