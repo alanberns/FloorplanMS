@@ -39,4 +39,12 @@ export class OrganizacionService {
       { new: true, useFindAndModify: false }
     ).exec();
   }
+
+  async addProyecto(id: string, proyectoId: string): Promise<Organizacion> {
+    return this.organizacionModel.findByIdAndUpdate(
+      id,
+      { $push: { proyectos: proyectoId } },
+      { new: true, useFindAndModify: false }
+    ).exec();
+  }
 }

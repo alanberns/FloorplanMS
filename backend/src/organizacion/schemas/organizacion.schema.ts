@@ -17,6 +17,9 @@ export class Organizacion extends Document {
 
   @Prop([{ type: MongooseSchema.Types.ObjectId, ref: 'Usuario' }])
   usuarios: MongooseSchema.Types.ObjectId[];
+
+  @Prop([{ type: MongooseSchema.Types.ObjectId, ref: 'Proyecto' }])
+  proyectos: MongooseSchema.Types.ObjectId[];
 }
 
 export const OrganizacionSchema = SchemaFactory.createForClass(Organizacion);

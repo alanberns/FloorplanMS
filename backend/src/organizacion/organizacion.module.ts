@@ -8,5 +8,6 @@ import { Organizacion, OrganizacionSchema } from './schemas/organizacion.schema'
   imports: [MongooseModule.forFeature([{ name: Organizacion.name, schema: OrganizacionSchema }])],
   controllers: [OrganizacionController],
   providers: [OrganizacionService],
+  exports: [OrganizacionService],
 })
 export class OrganizacionModule {}
