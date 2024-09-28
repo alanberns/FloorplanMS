@@ -18,8 +18,6 @@ export class Usuario extends Document {
   @Prop()
   fechaDeNacimiento: Date;
 
-  @Prop({ enum: ['admin', 'user'], default: 'user' })
-  rol: string;
 }
 
 export const UsuarioSchema = SchemaFactory.createForClass(Usuario);
