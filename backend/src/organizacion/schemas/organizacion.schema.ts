@@ -3,17 +3,14 @@ import { Document, Schema as MongooseSchema } from 'mongoose';
 
 @Schema()
 export class Organizacion extends Document {
-  @Prop({ required: true })
+  @Prop({ required: true, minlength: 3, maxlength: 100 })
   nombre: string;
 
-  @Prop()
+  @Prop({ required: true, minlength: 3, maxlength: 300 })
   direccion: string;
 
-  @Prop()
-  telefono: string;
-
-  @Prop()
-  email: string;
+  @Prop({ required: true, minlength: 3, maxlength: 300 })
+  contacto: string;
 
   @Prop([{ type: MongooseSchema.Types.ObjectId, ref: 'Usuario' }])
   usuarios: MongooseSchema.Types.ObjectId[];

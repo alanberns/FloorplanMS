@@ -3,16 +3,16 @@ import { Document, Schema as MongooseSchema } from 'mongoose';
 
 @Schema()
 export class Usuario extends Document {
-  @Prop({ required: true })
+  @Prop({ required: true, minlength: 3, maxlength: 100 })
   nombre: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, minlength: 3, maxlength: 100 })
   apellido: string;
 
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true, unique: true, match: /.+@.+\..+/  })
   email: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, minlength: 3, maxlength: 100 })
   password: string;
 
   @Prop()

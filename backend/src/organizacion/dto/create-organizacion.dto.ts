@@ -1,7 +1,18 @@
+import { IsNotEmpty, IsString, Length } from 'class-validator';
+
 export class CreateOrganizacionDto {
-    readonly nombre: string;
-    readonly direccion?: string;
-    readonly telefono?: string;
-    readonly email?: string;
-  }
-  
+  @IsNotEmpty()
+  @IsString()
+  @Length(3, 100)
+  nombre: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @Length(3, 300)
+  direccion: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @Length(3, 300)
+  contacto: string;
+}
