@@ -15,9 +15,6 @@ export class Usuario extends Document {
   @Prop({ required: true, minlength: 3, maxlength: 100 })
   password: string;
 
-  @Prop()
-  fechaDeNacimiento: Date;
-
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Organizacion' })
   organizacion: MongooseSchema.Types.ObjectId;
 }
