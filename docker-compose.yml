@@ -22,5 +22,18 @@ services:
     volumes:
       - mongo_data:/data/db
 
+  floorplan_react:
+    build: ./frontend
+    container_name: floorplan_react
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - floorplan_nest
+
 volumes:
   mongo_data:
