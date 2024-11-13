@@ -12,11 +12,15 @@ export class CreateUsuarioDto {
     apellido: string;
 
     @IsNotEmpty()
-    @IsEmail()
+    @IsEmail({}, { message: "email must be valid" })
     email: string;
 
     @IsNotEmpty()
     @IsString()
     @Length(3, 100)
     password: string;
+
+    @IsNotEmpty()
+    @IsString()
+    readonly organizacionId: string;
 }

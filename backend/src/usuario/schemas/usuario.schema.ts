@@ -15,6 +15,9 @@ export class Usuario extends Document {
   @Prop({ required: true, minlength: 3, maxlength: 100 })
   password: string;
 
+  @Prop({ default: true })
+  isActive: boolean;
+
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Organizacion' })
   organizacion: MongooseSchema.Types.ObjectId;
 }

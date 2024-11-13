@@ -32,4 +32,12 @@ export class ProyectoService {
     return this.proyectoModel.findOneAndDelete({_id: id }).exec();
   }
 
+  async addPlano(id: string, planoId: string): Promise<Proyecto> {
+    return this.proyectoModel.findByIdAndUpdate(
+      id,
+      { $push: { planos: planoId } },
+      { new: true, useFindAndModify: false }
+    ).exec();
+  }
+  
 }

@@ -1,6 +1,6 @@
 import { IsEnum, IsNotEmpty, IsString, Length } from 'class-validator';
 
-enum Destino {
+enum Obra {
   A_CONSTRUIR = 'A CONSTRUIR',
   A_AMPLIAR = 'A AMPLIAR',
   A_REFACCIONAR = 'A REFACCIONAR',
@@ -9,7 +9,7 @@ enum Destino {
   A_DOCUMENTAR = 'A DOCUMENTAR'
 }
 
-enum Obra {
+enum Destino {
   Vivienda_unifamiliar = 'Vivienda unifamiliar',
   Vivienda_multifamiliar = 'Vivienda multifamiliar',
   Vivienda_Unifamiliar_Agrupada = 'Vivienda Unifamiliar Agrupada',
@@ -37,6 +37,7 @@ export class CreateProyectoDto {
   @IsEnum(Obra)
   obra: Obra;
 
+  @IsNotEmpty()
   @IsString()
   readonly organizacionId: string;
 }

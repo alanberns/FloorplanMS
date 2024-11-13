@@ -2,7 +2,6 @@ import { Controller, Get, Post, Body, Put, Param, Delete, Patch } from '@nestjs/
 import { OrganizacionService } from './organizacion.service';
 import { CreateOrganizacionDto } from './dto/create-organizacion.dto';
 import { UpdateOrganizacionDto } from './dto/update-organizacion.dto';
-import { AddUsuarioDto } from '../usuario/dto/add-user.dto'
 
 @Controller('organizacion')
 export class OrganizacionController {
@@ -31,13 +30,5 @@ export class OrganizacionController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.organizacionService.remove(id);
-  }
-
-  @Patch(':id/usuarios')
-  async addUsuario(
-    @Param('id') id: string,
-    @Body() addUsuarioDto: AddUsuarioDto,
-  ) {
-    return this.organizacionService.addUsuario(id, addUsuarioDto.usuarioId);
   }
 }

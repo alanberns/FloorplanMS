@@ -12,5 +12,6 @@ import { OrganizacionModule } from '../organizacion/organizacion.module';
   ],
   controllers: [ProyectoController],
   providers: [ProyectoService],
+  exports: [ProyectoService],
 })
 export class ProyectoModule {}
