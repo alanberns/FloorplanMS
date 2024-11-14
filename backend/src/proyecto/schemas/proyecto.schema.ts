@@ -39,20 +39,20 @@ export class Proyecto extends Document{
   @Prop({ required: true, minlength: 1, maxlength: 10 })
   escala: string;
   
-  @Prop({ type: Object })
-  otrasExigencias?: Record<string, any>;
+  @Prop({ maxlength: 255 })
+  otrasExigencias?: string;
 
-  @Prop({ type: String })
+  @Prop({ maxlength: 100 })
   antecedentes?: string;
 
-  @Prop({ type: Object })
-  propietario?: Record<string, any>;
+  @Prop({ tmaxlength: 255 })
+  propietario?: string;
 
-  @Prop({ type: [Object] })
-  proyectistas?: Record<string, any>[];
+  @Prop({ maxlength: 150 })
+  proyectistas?: string;
 
-  @Prop({ type: [Object] })
-  direccionTecnica?: Record<string, any>[];
+  @Prop({ maxlength: 150 })
+  direccionTecnica?: string;
 
   @Prop({ default: false })
   aprobado: boolean;

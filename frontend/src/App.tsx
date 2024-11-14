@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import Home from './components/Home';
 import Organizaciones from './components/organizaciones/Organizaciones';
 import NotFound from './components/error/NotFound';
+import Proyectos from './components/proyectos/Proyectos';
 
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/organizaciones" element={<Organizaciones />} />
+        <Route path="/proyectos" element={<Proyectos />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BaseLayout>

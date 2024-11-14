@@ -8,6 +8,7 @@ function NavbarLayout() {
   const routes = [
       {path:"/", name:"Home"},
       {path:"/organizaciones", name:"Organizaciones"},
+      {path:"/proyectos", name:"Proyectos"},
   ];
 
   return (

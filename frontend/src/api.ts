@@ -7,6 +7,8 @@ const api = axios.create({
   headers: { 'Content-Type': 'application/json' },
 });
 
+// ORGANIZACIONES
+
 // Obtener todas las organizaciones
 export const getOrganizaciones = async () => {
   try{
@@ -18,7 +20,7 @@ export const getOrganizaciones = async () => {
   }
 }
 
-// Obtener todas las organizaciones
+// Obtener una organizacion
 export const getOrganizacion = async (id: string) => {
   try{
       const response = await api.get(`/organizacion/${id}`);
@@ -58,6 +60,64 @@ export const deleteOrganizacion = async (id: string) => {
     return response.data;
   } catch (error) {
     console.error('Error al eliminar organización:', error);
+    throw error;
+  }
+};
+
+
+// PROYECTOS
+
+// Obtener todos los proyectos
+export const getProyectos = async () => {
+  try{
+      const response = await api.get('/proyecto');
+      return response.data;
+  } catch(error) {
+      console.error('Error al obtener proyectos:', error);
+      throw error;
+  }
+}
+
+// Obtener un proyecto
+export const getProyecto = async (id: string) => {
+  try{
+      const response = await api.get(`/proyecto/${id}`);
+      return response.data;
+  } catch(error) {
+      console.error('Error al obtener el proyecto:', error);
+      throw error;
+  }
+}
+
+// Crear un nuevo proyecto
+export const createProyecto = async (data: { nombre: string; ubicacion: string, destino: string, obra: string, escala: string }) => {
+  try {
+    const response = await api.post('/proyecto', data);
+    return response.data;
+  } catch (error) {
+    console.error('Error al crear proyecto:', error);
+    throw error;
+  }
+};
+
+// Actualizar un proyecto existente
+export const updateProyecto = async (id: string, data: { nombre: string; ubicacion: string, destino: string, obra: string, escala: string }) => {
+  try {
+    const response = await api.put(`/proyecto/${id}`, data);
+    return response.data;
+  } catch (error) {
+    console.error('Error al actualizar proyecto:', error);
+    throw error;
+  }
+};
+
+// Eliminar un proyecto
+export const deleteProyecto = async (id: string) => {
+  try {
+    const response = await api.delete(`/proyecto/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error al eliminar proyecto:', error);
     throw error;
   }
 };

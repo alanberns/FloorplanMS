@@ -5,8 +5,7 @@ import { showErrorAlert, showSuccessAlert } from "../../alerts";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import OrganizacionForm from './OrganizacionForm';
-import { Spinner, Button, Card, Container } from 'react-bootstrap';
-
+import { Spinner, Button, Container, Table } from 'react-bootstrap';
 
 const MySwal = withReactContent(Swal);
 
@@ -22,7 +21,7 @@ function Organizaciones() {
         const data = await getOrganizaciones();
         setOrganizaciones(data);
       } catch (error) {
-        showErrorAlert("ocurrio un error al cargar las organizaciones");
+        showErrorAlert("Ocurrió un error al cargar las organizaciones");
       } finally {
         setLoading(false);
       }    
@@ -132,24 +131,34 @@ function Organizaciones() {
           <div className="d-flex justify-content-end mb-3">
             <Button variant="primary" onClick={handleShowCreateForm}>Crear Organización</Button>
           </div>
-          <ul className="list-unstyled">
-            {organizaciones.map((organizacion) => (
-              <Card key={organizacion._id} className="mb-3">
-                <Card.Body>
-                  <Card.Title>{organizacion.nombre}</Card.Title>
-                  <Card.Text>
-                    <strong>Dirección:</strong> {organizacion.direccion}<br />
-                    <strong>Contacto:</strong> {organizacion.contacto}
-                  </Card.Text>
-                  <Button variant="warning" onClick={() => handleShowEditForm(organizacion)}>Modificar</Button>{' '}
-                  <Button variant="danger" onClick={() => handleConfirmDelete(organizacion._id)}>Eliminar</Button>
-                </Card.Body>
-              </Card>
-            ))}
-          </ul>
+          <Table striped bordered hover className="rounded">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Dirección</th>
+                <th>Contacto</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {organizaciones.map((organizacion) => (
+                <tr key={organizacion._id}>
+                  <td>{organizacion.nombre}</td>
+                  <td>{organizacion.direccion}</td>
+                  <td>{organizacion.contacto}</td>
+                  <td>
+                    <Button variant="warning" onClick={() => handleShowEditForm(organizacion)} className="me-2">Modificar</Button>
+                    <Button variant="danger" onClick={() => handleConfirmDelete(organizacion._id)} className="me-2">Eliminar</Button>
+                    <Button variant="secondary" onClick={() => showErrorAlert('Sin implementar')} className="me-2">Ver usuarios</Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
         </>
       )}
     </Container>
   );
 }
+
 export default Organizaciones;
