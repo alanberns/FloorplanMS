@@ -116,6 +116,30 @@ function Proyectos() {
     });
   };
 
+  const handleShowDetails = (proyecto: Proyecto) => { 
+    MySwal.fire({ 
+      title: `<strong>${proyecto.nombre}</strong>`, 
+      html: ` 
+        <div class="card"> 
+          <div class="card-body"> 
+            <p class="card-text"><strong>Expediente:</strong> ${proyecto.expediente}</p> 
+            <p class="card-text"><strong>Ubicación:</strong> ${proyecto.ubicacion}</p> 
+            <p class="card-text"><strong>Destino:</strong> ${proyecto.destino}</p> 
+            <p class="card-text"><strong>Obra:</strong> ${proyecto.obra}</p> 
+            <p class="card-text"><strong>Aprobado:</strong> ${proyecto.aprobado ? 'Sí' : 'No'}</p> 
+            <p class="card-text"><strong>Antecedentes:</strong> ${proyecto.antecedentes}</p> 
+            <p class="card-text"><strong>Propietarios:</strong> ${proyecto.propietario}</p> 
+            <p class="card-text"><strong>Proyectistas:</strong> ${proyecto.proyectistas}</p> 
+            <p class="card-text"><strong>Dirección técnica:</strong> ${proyecto.direccionTecnica}</p> 
+            <p class="card-text"><strong>Otras exigencias:</strong> ${proyecto.otrasExigencias}</p> 
+          </div>
+        </div> `,
+      showCancelButton: false,
+      showConfirmButton: true, 
+      confirmButtonText: 'Volver', 
+    });
+  };
+
   return (
     <Container>
       <h1 className="text-center my-4">Proyectos</h1>
@@ -148,7 +172,7 @@ function Proyectos() {
                   <td>
                     <Button variant="secondary" onClick={() => handleShowEditForm(proyecto)} className="me-2">Modificar</Button>
                     <Button variant="secondary" onClick={() => handleConfirmDelete(proyecto._id)} className="me-2">Eliminar</Button>
-                    <Button variant="secondary" onClick={() => showErrorAlert('Sin implementar')} className="me-2">Ver detalles</Button>
+                    <Button variant="secondary" onClick={() => handleShowDetails(proyecto)} className="me-2">Ver detalles</Button>
                     <Button variant="secondary" onClick={() => showErrorAlert('Sin implementar')} className="me-2">Ver planos</Button>
                   </td>
                 </tr>
