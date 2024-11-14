@@ -118,11 +118,11 @@ function Proyectos() {
 
   const handleShowDetails = (proyecto: Proyecto) => { 
     MySwal.fire({ 
-      title: `<strong>${proyecto.nombre}</strong>`, 
+      title: `<strong>${proyecto.expediente}</strong>`, 
       html: ` 
         <div class="card"> 
           <div class="card-body"> 
-            <p class="card-text"><strong>Expediente:</strong> ${proyecto.expediente}</p> 
+            <p class="card-text"><strong>Nombre:</strong> ${proyecto.nombre}</p> 
             <p class="card-text"><strong>Ubicación:</strong> ${proyecto.ubicacion}</p> 
             <p class="card-text"><strong>Destino:</strong> ${proyecto.destino}</p> 
             <p class="card-text"><strong>Obra:</strong> ${proyecto.obra}</p> 

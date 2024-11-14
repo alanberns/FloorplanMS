@@ -21,13 +21,13 @@ enum Destino {
 
 @Schema()
 export class Proyecto extends Document{
-  @Prop({ required: true, minlength: 3, maxlength: 100 })
+  @Prop({ required: true, minlength: 3, maxlength: 100, match: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s,.-@:]*$/ })
   nombre: string;
 
-  @Prop({ required: true, minlength: 3, maxlength: 50 })
+  @Prop({ required: true, minlength: 3, maxlength: 50, match: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s,.-@:]*$/ })
   expediente: string;
 
-  @Prop({ required: true, minlength: 3 })
+  @Prop({ required: true, minlength: 3, maxlength: 255, match: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s,.-@:]*$/ })
   ubicacion: string;
 
   @Prop({ required: true, enum: Destino })
@@ -36,28 +36,28 @@ export class Proyecto extends Document{
   @Prop({ required: true, enum: Obra })
   obra: Obra;
 
-  @Prop({ required: true, minlength: 1, maxlength: 10 })
+  @Prop({ required: true, match: /^1:[1-9]\d*$/ })
   escala: string;
   
-  @Prop({ maxlength: 255 })
+  @Prop({ maxlength: 255, match: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s,.-@:]*$/ })
   otrasExigencias?: string;
 
-  @Prop({ maxlength: 100 })
+  @Prop({ maxlength: 100, match: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s,.-@:]*$/ })
   antecedentes?: string;
 
-  @Prop({ tmaxlength: 255 })
+  @Prop({ maxlength: 255, match: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s,.-@:]*$/ })
   propietario?: string;
 
-  @Prop({ maxlength: 150 })
+  @Prop({ maxlength: 155, match: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s,.-@:]*$/ })
   proyectistas?: string;
 
-  @Prop({ maxlength: 150 })
+  @Prop({ maxlength: 155, match: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s,.-@:]*$/ })
   direccionTecnica?: string;
 
   @Prop({ default: false })
   aprobado: boolean;
 
-  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Organizacion' })
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Organizacion', required: true })
   organizacion: MongooseSchema.Types.ObjectId;
 
   @Prop([{ type: MongooseSchema.Types.ObjectId, ref: 'Plano' }])
