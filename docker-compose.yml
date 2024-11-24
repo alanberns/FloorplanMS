@@ -1,16 +1,56 @@
 version: '3.8'
-
 services:
-  floorplan_nest:
-    build: ./backend
-    container_name: floorplan_nest
+  nginx:
+    image: nginx:latest
     ports:
-      - "3000:3000"
+      - "80:80"
     volumes:
-      - ./backend:/app
-      - /app/node_modules
-    environment:
-      - NODE_ENV=development
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    links:
+      - floorplan_nest_prueba1:floorplan_nest_prueba1
+      - floorplan_nest_prueba2:floorplan_nest_prueba2
+      - floorplan_nest_prueba3:floorplan_nest_prueba3
+    depends_on: 
+      - floorplan_nest_prueba1 
+      - floorplan_nest_prueba2 
+      - floorplan_nest_prueba3
+
+  floorplan_nest_prueba1:
+    image: floorplanms-floorplan_nest
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    hostname: "floorplan_nest_prueba1"
+    expose:
+      - "3000"
+    ports:
+      - "3001:3000"
+    depends_on:
+      - floorplan_db
+
+  floorplan_nest_prueba2:
+    image: floorplanms-floorplan_nest
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    hostname: "floorplan_nest_prueba2"
+    expose:
+      - "3000"
+    ports:
+      - "3002:3000"
+    depends_on:
+      - floorplan_db
+
+  floorplan_nest_prueba3:
+    image: floorplanms-floorplan_nest
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    hostname: "floorplan_nest_prueba3"
+    expose:
+      - "3000"
+    ports:
+      - "3003:3000"
     depends_on:
       - floorplan_db
 
@@ -21,19 +61,6 @@ services:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
-
-  floorplan_react:
-    build: ./frontend
-    container_name: floorplan_react
-    ports:
-      - "5173:5173"
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-    environment:
-      - NODE_ENV=development
-    depends_on:
-      - floorplan_nest
-
-volumes:
+      
+volumes: 
   mongo_data:
