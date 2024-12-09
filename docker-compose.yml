@@ -27,6 +27,7 @@ services:
       - "3001:3000"
     depends_on:
       - floorplan_db
+    cpu_quota: 25000
 
   floorplan_nest_prueba2:
     image: floorplanms-floorplan_nest
@@ -40,6 +41,8 @@ services:
       - "3002:3000"
     depends_on:
       - floorplan_db
+    cpu_quota: 25000
+
 
   floorplan_nest_prueba3:
     image: floorplanms-floorplan_nest
@@ -53,6 +56,8 @@ services:
       - "3003:3000"
     depends_on:
       - floorplan_db
+    cpu_quota: 25000
+
 
   floorplan_db:
     image: mongo:4.4
