@@ -1,9 +1,12 @@
+import { useAuth0 } from '@auth0/auth0-react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
+import { LoginButton, LogoutButton } from '../authButtons/AuthButtons';
 
 function NavbarLayout() {
 
   const location = useLocation();
+  const { user, isAuthenticated } = useAuth0();
 
   const routes = [
       {path:"/", name:"Home"},
@@ -23,6 +26,14 @@ function NavbarLayout() {
             </Nav.Link>
           ))}
         </Navbar.Collapse>
+          { user !== undefined && isAuthenticated && (
+            <>
+              <p className={"text-light mx-2"}>{user.name}</p>
+              <LogoutButton></LogoutButton> 
+            </> )}
+          { !isAuthenticated && (
+            <LoginButton></LoginButton>
+          )}
       </Container>
     </Navbar>
   );
