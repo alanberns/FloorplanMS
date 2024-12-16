@@ -6,6 +6,11 @@ import { UsuarioModule } from './usuario/usuario.module';
 import { OrganizacionModule } from './organizacion/organizacion.module';
 import { ProyectoModule } from './proyecto/proyecto.module';
 import { PlanoModule } from './plano/plano.module';
+import { JwtStrategy } from './jwt.strategy'; 
+import { JwtAuthGuard } from './jwt-auth.guard';
+import { PassportModule } from '@nestjs/passport'; 
+import { JwtModule } from '@nestjs/jwt';
+
 
 @Module({
   imports: [
@@ -13,10 +18,18 @@ import { PlanoModule } from './plano/plano.module';
     UsuarioModule,
     OrganizacionModule,
     ProyectoModule,
-    PlanoModule
+    PlanoModule,
+    PassportModule, 
+    JwtModule.register({
+      secret: '7e3K3jKxoghSTlYFnnPeigOLfzGWmfFeztaKX-AhLPbWy-EF2LCIy8JBaI46yqIm',
+      signOptions: { 
+        expiresIn: '60m' 
+      },
+     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, JwtStrategy, JwtAuthGuard],
+  exports: [JwtAuthGuard]
 })
 
 

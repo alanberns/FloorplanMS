@@ -28,7 +28,7 @@ function NavbarLayout() {
         </Navbar.Collapse>
           { user !== undefined && isAuthenticated && (
             <>
-              <p className={"text-light mx-2"}>{user.name}</p>
+              <p className={"text-light mx-2"}>{user.email}</p>
               <LogoutButton></LogoutButton> 
             </> )}
           { !isAuthenticated && (
