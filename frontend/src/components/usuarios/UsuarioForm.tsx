@@ -17,7 +17,7 @@ interface UsuarioFormProps {
     email: string;
     isActive: boolean;
   };
-  onSubmit: (data: { nombre: string; apellido: string; email: string }) => void;
+  onSubmit: (data: { nombre: string; apellido: string; email: string, isActive: boolean }) => void;
 }
 
 const UsuarioForm: React.FC<UsuarioFormProps> = ({ initialData, onSubmit }) => {
@@ -27,7 +27,7 @@ const UsuarioForm: React.FC<UsuarioFormProps> = ({ initialData, onSubmit }) => {
         nombre: initialData?.nombre || '',
         apellido: initialData?.apellido || '',
         email: initialData?.email || '',
-        isActive: initialData?.isActive || true,
+        isActive: initialData?.isActive ?? true, // Usar nullish coalescing para manejar undefined
       }}
       validationSchema={usuarioSchema}
       onSubmit={(values, { setSubmitting }) => {

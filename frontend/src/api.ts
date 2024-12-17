@@ -133,7 +133,11 @@ export const createUsuario = async (data: { nombre: string; apellido: string; em
   return response.data;
 };
 
-//DESACTIVAR
+export const updateUsuario = async (id: string, data: Partial<{ isActive: boolean }>) => { 
+  const response = await api.patch(`/usuario/${id}`, data); 
+  return response.data; 
+};
+
 export const deleteUsuario = async (id: string) => {
   const response = await api.delete(`/usuario/${id}`);
   return response.data;

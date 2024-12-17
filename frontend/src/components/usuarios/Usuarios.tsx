@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getUsuarios, createUsuario, deleteUsuario } from '../../api'; 
+import { getUsuarios, createUsuario, deleteUsuario, updateUsuario } from '../../api'; 
 import { Usuario } from "../../types";
 import { showErrorAlert, showSuccessAlert } from "../../alerts";
 import Swal from 'sweetalert2';
@@ -13,6 +13,7 @@ function Usuarios() {
   
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [editingUsuario, setEditingUsuario] = useState<Usuario | null>(null);
   
   useEffect(() => {
     const fetchUsuarios = async () => {
@@ -44,6 +45,22 @@ function Usuarios() {
     }
   };
 
+  const handleEdit = async (id: string, data: { nombre: string; apellido: string; email: string, isActive: boolean }) => {
+    try {
+      setLoading(true);
+      const updatedUsuario = await updateUsuario(id, data);
+      setUsuarios(usuarios.map(user => (user._id === id ? updatedUsuario : user)));
+      setEditingUsuario(null);
+      Swal.close();
+      showSuccessAlert("El usuario ha sido modificado");
+    } catch (error) {
+      showErrorAlert('Error al actualizar el usuario');
+      console.error('Error al actualizar usuario:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleDelete = async (id: string) => {
     try {
       setLoading(true);
@@ -57,12 +74,39 @@ function Usuarios() {
     }
   };
 
+  const handleToggleActive = async (id: string, isActive: boolean) => {
+    try {
+      setLoading(true);
+      const updatedUsuario = await updateUsuario(id, { isActive: !isActive });
+      setUsuarios(usuarios.map(user => (user._id === id ? updatedUsuario : user)));
+      showSuccessAlert(`El usuario ha sido ${!isActive ? 'activado' : 'desactivado'}`);
+    } catch (error) {
+      showErrorAlert('Ocurrió un error al actualizar el usuario');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleShowCreateForm = () => {
     MySwal.fire({
       title: 'Crear Usuario',
       html: <UsuarioForm onSubmit={handleCreate} />,
       showCancelButton: true,
       showConfirmButton: false,
+      cancelButtonText: 'Cancelar',
+      preConfirm: () => {
+        Swal.close();
+      },
+    });
+  };
+
+  const handleShowEditForm = (usuario: Usuario) => {
+    setEditingUsuario(usuario);
+    MySwal.fire({
+      title: 'Modificar Usuario',
+      html: <UsuarioForm initialData={usuario} onSubmit={(data) => handleEdit(usuario._id, data)} />,
+      showConfirmButton: false,
+      showCancelButton: true,
       cancelButtonText: 'Cancelar',
       preConfirm: () => {
         Swal.close();
@@ -112,6 +156,7 @@ function Usuarios() {
                   <th>Nombre</th>
                   <th>Apellido</th>
                   <th>Email</th>
+                  <th>Activo</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
@@ -121,8 +166,17 @@ function Usuarios() {
                     <td>{usuario.nombre}</td>
                     <td>{usuario.apellido}</td>
                     <td>{usuario.email}</td>
+                    <td>{usuario.isActive ? 'Sí' : 'No'}</td>
                     <td>
-                      <Button variant="danger" onClick={() => handleConfirmDelete(usuario._id)} className="me-2">Eliminar</Button>
+                      <Button variant="success" onClick={() => handleToggleActive(usuario._id, usuario.isActive)} className="me-2">
+                        {usuario.isActive ? 'Desactivar' : 'Activar'}
+                      </Button>
+                      <Button variant="warning" onClick={() => handleShowEditForm(usuario)} className="me-2">
+                        Modificar
+                      </Button>
+                      <Button variant="danger" onClick={() => handleConfirmDelete(usuario._id)} className="me-2">
+                        Eliminar
+                      </Button>
                     </td>
                   </tr>
                 ))}
