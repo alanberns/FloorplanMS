@@ -21,4 +21,12 @@ export interface Proyecto {
   aprobado: boolean;
   organizacionId: string;
 }
+
+export interface Usuario {
+  _id: string;
+  nombre: string;
+  apellido: string;
+  email: string;
+  isActive: boolean;
+}
   

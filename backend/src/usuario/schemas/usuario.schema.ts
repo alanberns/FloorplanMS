@@ -12,9 +12,6 @@ export class Usuario extends Document {
   @Prop({ required: true, unique: true, match: /.+@.+\..+/  })
   email: string;
 
-  @Prop({ required: true, minlength: 3, maxlength: 100 })
-  password: string;
-
   @Prop({ default: true })
   isActive: boolean;
 

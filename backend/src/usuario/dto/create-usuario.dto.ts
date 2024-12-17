@@ -1,6 +1,6 @@
-import { IsEmail, IsNotEmpty, IsString, Length, Matches } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString, Length, IsBoolean } from 'class-validator';
 
-export class CreateUsuarioDto {
+export class CreateUsuarioDto {    
     @IsNotEmpty()
     @IsString()
     @Length(3, 100)
@@ -15,12 +15,9 @@ export class CreateUsuarioDto {
     @IsEmail({}, { message: "email must be valid" })
     email: string;
 
-    @IsNotEmpty()
-    @IsString()
-    @Length(3, 100)
-    password: string;
+    @IsBoolean()
+    isActive: boolean;
 
-    @IsNotEmpty()
-    @IsString()
-    readonly organizacionId: string;
+    //@IsString()
+    organizacionId: string;
 }

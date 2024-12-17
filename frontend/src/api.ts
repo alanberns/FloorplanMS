@@ -122,5 +122,23 @@ export const deleteProyecto = async (id: string) => {
   }
 };
 
+// USUARIOS
+export const getUsuarios = async () => {
+  const response = await api.get('/usuario');
+  return response.data;
+};
+
+export const createUsuario = async (data: { nombre: string; apellido: string; email: string }) => {
+  const response = await api.post('/usuario', data);
+  return response.data;
+};
+
+//DESACTIVAR
+export const deleteUsuario = async (id: string) => {
+  const response = await api.delete(`/usuario/${id}`);
+  return response.data;
+};
+
+
 // Exporta el cliente de Axios para usos adicionales si es necesario
 export default api;

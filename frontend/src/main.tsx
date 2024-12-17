@@ -15,7 +15,7 @@ createRoot(document.getElementById('root')!).render(
       authorizationParams={{ 
         redirect_uri: window.location.origin,
         audience: 'http://localhost:3000',
-        scope: "read:current_user update:current_user_metadata"
+        scope: "read:current_user update:current_user_metadata profile email"
       }}
     >
       <Router>

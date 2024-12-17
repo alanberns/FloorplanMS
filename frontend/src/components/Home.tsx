@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import PruebaAuth from './pruebaAuth';
+import Usuarios from './usuarios/Usuarios';
 
 
 function Home() {
@@ -23,6 +24,7 @@ function Home() {
       <h1>Contador: {count}</h1>
       <button onClick={() => {setCount(count + 1); showAlert();}}>Incrementar</button>
       <PruebaAuth></PruebaAuth>
+      <Usuarios></Usuarios>
     </div>
   )
 }
