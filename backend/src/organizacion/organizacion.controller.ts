@@ -22,6 +22,11 @@ export class OrganizacionController {
     return this.organizacionService.findOne(id);
   }
 
+  @Get(':id/usuarios')
+  findUsuariosByOrganizacion(@Param('id') id: string) {
+    return this.organizacionService.findUsuariosByOrganizacion(id);
+  }
+
   @Put(':id')
   update(@Param('id') id: string, @Body() updateOrganizacionDto: UpdateOrganizacionDto) {
     return this.organizacionService.update(id, updateOrganizacionDto);

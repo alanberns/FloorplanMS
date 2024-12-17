@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { getOrganizaciones, createOrganizacion, updateOrganizacion, deleteOrganizacion } from '../../api'; 
-import { Organizacion } from "../../types";
+import { getOrganizaciones, createOrganizacion, updateOrganizacion, deleteOrganizacion, getUsuariosByOrganizacion } from '../../api'; 
+import { Organizacion, Usuario } from "../../types";
 import { showErrorAlert, showSuccessAlert } from "../../alerts";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -117,6 +117,27 @@ function Organizaciones() {
     });  
   };
 
+  const handleShowUsuarios = async (orgId: string) => {
+    try {
+      setLoading(true);
+      const usuarios: Usuario[] = await getUsuariosByOrganizacion(orgId); 
+      const usuariosHtml = usuarios.map((usuario: Usuario) => `<li>${usuario.nombre} ${usuario.apellido} - ${usuario.email}</li>`).join('');
+      
+      MySwal.fire({
+        title: 'Usuarios de la Organización',
+        html: `<ul>${usuariosHtml}</ul>`,
+        showCancelButton: false,
+        showConfirmButton: true,
+        confirmButtonText: 'Cerrar'
+      });
+    } catch (error) {
+      showErrorAlert('Ocurrió un error al cargar los usuarios de la organización');
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+
   return (
     <Container>
       <h1 className="text-center my-4">Organizaciones</h1>
@@ -154,7 +175,7 @@ function Organizaciones() {
                     <td>
                       <Button variant="warning" onClick={() => handleShowEditForm(organizacion)} className="me-2">Modificar</Button>
                       <Button variant="danger" onClick={() => handleConfirmDelete(organizacion._id)} className="me-2">Eliminar</Button>
-                      <Button variant="secondary" onClick={() => showErrorAlert('Sin implementar')} className="me-2">Ver usuarios</Button>
+                      <Button variant="secondary" onClick={() => handleShowUsuarios(organizacion._id)} className="me-2">Ver usuarios</Button>
                     </td>
                   </tr>
                 ))}
@@ -165,6 +186,7 @@ function Organizaciones() {
       )}
     </Container>
   );
+  
 }  
 
 export default Organizaciones;

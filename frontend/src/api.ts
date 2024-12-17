@@ -143,6 +143,12 @@ export const deleteUsuario = async (id: string) => {
   return response.data;
 };
 
+// Obtener usuarios de una organizacion
+export const getUsuariosByOrganizacion = async (orgId: string) => {
+  const response = await api.get(`/organizacion/${orgId}/usuarios`);
+  return response.data;
+};
+
 
 // Exporta el cliente de Axios para usos adicionales si es necesario
 export default api;

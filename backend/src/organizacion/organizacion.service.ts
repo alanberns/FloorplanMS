@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Organizacion } from './schemas/organizacion.schema';
+import { Usuario } from '../usuario/schemas/usuario.schema';
 import { CreateOrganizacionDto } from './dto/create-organizacion.dto';
 import { UpdateOrganizacionDto } from './dto/update-organizacion.dto';
 
@@ -9,6 +10,7 @@ import { UpdateOrganizacionDto } from './dto/update-organizacion.dto';
 export class OrganizacionService {
   constructor(
     @InjectModel(Organizacion.name) private organizacionModel: Model<Organizacion>,
+    @InjectModel(Usuario.name) private usuarioModel: Model<Usuario>,
   ) {}
 
   async create(createOrganizacionDto: CreateOrganizacionDto): Promise<Organizacion> {
@@ -47,4 +49,12 @@ export class OrganizacionService {
       { new: true, useFindAndModify: false }
     ).exec();
   }
+
+  async findUsuariosByOrganizacion(orgId: string): Promise<Usuario[]> { 
+    const organizacion = await this.organizacionModel.findById(orgId).populate('usuarios').lean().exec(); 
+    if (organizacion && organizacion.usuarios) { 
+      return organizacion.usuarios as unknown as Usuario[]; 
+    } 
+    return []; }
+  
 }
