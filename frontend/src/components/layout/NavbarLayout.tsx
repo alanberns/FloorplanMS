@@ -26,11 +26,13 @@ function NavbarLayout() {
             </Nav.Link>
           ))}
         </Navbar.Collapse>
-          { user !== undefined && isAuthenticated && (
-            <>
-              <p className={"text-light mx-2"}>{user.name}</p>
-              <LogoutButton></LogoutButton> 
-            </> )}
+          <Nav className="ms-auto d-flex align-items-center">
+            { user !== undefined && isAuthenticated && (
+              <>
+                <span className="text-light mx-2">{user?.name}</span>
+                <LogoutButton></LogoutButton> 
+              </> )}
+          </Nav>
           { !isAuthenticated && (
             <LoginButton></LoginButton>
           )}

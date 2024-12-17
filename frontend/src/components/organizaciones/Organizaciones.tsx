@@ -131,34 +131,40 @@ function Organizaciones() {
           <div className="d-flex justify-content-end mb-3">
             <Button variant="primary" onClick={handleShowCreateForm}>Crear Organización</Button>
           </div>
-          <Table striped bordered hover className="rounded">
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Dirección</th>
-                <th>Contacto</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {organizaciones.map((organizacion) => (
-                <tr key={organizacion._id}>
-                  <td>{organizacion.nombre}</td>
-                  <td>{organizacion.direccion}</td>
-                  <td>{organizacion.contacto}</td>
-                  <td>
-                    <Button variant="warning" onClick={() => handleShowEditForm(organizacion)} className="me-2">Modificar</Button>
-                    <Button variant="danger" onClick={() => handleConfirmDelete(organizacion._id)} className="me-2">Eliminar</Button>
-                    <Button variant="secondary" onClick={() => showErrorAlert('Sin implementar')} className="me-2">Ver usuarios</Button>
-                  </td>
+          {organizaciones.length === 0 ? (
+            <div className="text-center">
+              <p>No hay organizaciones registradas.</p>
+            </div>
+          ) : (
+            <Table striped bordered hover className="rounded">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Dirección</th>
+                  <th>Contacto</th>
+                  <th>Acciones</th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
+              </thead>
+              <tbody>
+                {organizaciones.map((organizacion) => (
+                  <tr key={organizacion._id}>
+                    <td>{organizacion.nombre}</td>
+                    <td>{organizacion.direccion}</td>
+                    <td>{organizacion.contacto}</td>
+                    <td>
+                      <Button variant="warning" onClick={() => handleShowEditForm(organizacion)} className="me-2">Modificar</Button>
+                      <Button variant="danger" onClick={() => handleConfirmDelete(organizacion._id)} className="me-2">Eliminar</Button>
+                      <Button variant="secondary" onClick={() => showErrorAlert('Sin implementar')} className="me-2">Ver usuarios</Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          )}
         </>
       )}
     </Container>
   );
-}
+}  
 
 export default Organizaciones;

@@ -154,35 +154,41 @@ function Proyectos() {
           <div className="d-flex justify-content-end mb-3">
             <Button variant="primary" onClick={handleShowCreateForm}>Crear Proyecto</Button>
           </div>
-          <Table striped bordered hover className="rounded">
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Expediente</th>
-                <th>Aprobación</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {proyectos.map((proyecto) => (
-                <tr key={proyecto._id}>
-                  <td>{proyecto.nombre}</td>
-                  <td>{proyecto.expediente}</td>
-                  <td>{proyecto.aprobado ? 'Sí' : 'No'}</td>
-                  <td>
-                    <Button variant="secondary" onClick={() => handleShowEditForm(proyecto)} className="me-2">Modificar</Button>
-                    <Button variant="secondary" onClick={() => handleConfirmDelete(proyecto._id)} className="me-2">Eliminar</Button>
-                    <Button variant="secondary" onClick={() => handleShowDetails(proyecto)} className="me-2">Ver detalles</Button>
-                    <Button variant="secondary" onClick={() => showErrorAlert('Sin implementar')} className="me-2">Ver planos</Button>
-                  </td>
+          {proyectos.length === 0 ? (
+            <div className="text-center">
+              <p>No hay proyectos registrados.</p>
+            </div>
+          ) : (
+            <Table striped bordered hover className="rounded">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Expediente</th>
+                  <th>Aprobación</th>
+                  <th>Acciones</th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
+              </thead>
+              <tbody>
+                {proyectos.map((proyecto) => (
+                  <tr key={proyecto._id}>
+                    <td>{proyecto.nombre}</td>
+                    <td>{proyecto.expediente}</td>
+                    <td>{proyecto.aprobado ? 'Sí' : 'No'}</td>
+                    <td>
+                      <Button variant="secondary" onClick={() => handleShowEditForm(proyecto)} className="me-2">Modificar</Button>
+                      <Button variant="secondary" onClick={() => handleConfirmDelete(proyecto._id)} className="me-2">Eliminar</Button>
+                      <Button variant="secondary" onClick={() => handleShowDetails(proyecto)} className="me-2">Ver detalles</Button>
+                      <Button variant="secondary" onClick={() => showErrorAlert('Sin implementar')} className="me-2">Ver planos</Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          )}
         </>
       )}
     </Container>
   );
-}
+}  
 
 export default Proyectos;
