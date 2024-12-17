@@ -27,7 +27,7 @@ const UsuarioForm: React.FC<UsuarioFormProps> = ({ initialData, onSubmit }) => {
         nombre: initialData?.nombre || '',
         apellido: initialData?.apellido || '',
         email: initialData?.email || '',
-        isActive: initialData?.isActive ?? true, // Usar nullish coalescing para manejar undefined
+        isActive: initialData?.isActive ?? true, 
       }}
       validationSchema={usuarioSchema}
       onSubmit={(values, { setSubmitting }) => {

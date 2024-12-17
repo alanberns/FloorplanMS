@@ -149,6 +149,23 @@ export const getUsuariosByOrganizacion = async (orgId: string) => {
   return response.data;
 };
 
+// Eliminar usuario de una organizacion
+export const removeUsuarioFromOrganizacion = async (orgId: string, usuarioId: string) => { 
+  const response = await api.delete(`/organizacion/${orgId}/usuario/${usuarioId}`); 
+  return response.data; 
+};
+
+// Añadir usuario a organizacion
+export const addUsuarioToOrganizacion = async (orgId: string, usuarioId: string) => {
+  const response = await api.post(`/organizacion/${orgId}/usuario/${usuarioId}`); 
+  return response.data; 
+};
+
+//Obtener usuarios que no pertenecen a una organizacion
+export const getUsuariosNoAsignados = async (orgId: string) => {
+  const response = await api.get(`/organizacion/${orgId}/usuarios-no-asignados`);
+  return response.data;
+};
 
 // Exporta el cliente de Axios para usos adicionales si es necesario
 export default api;

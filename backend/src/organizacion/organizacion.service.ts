@@ -55,6 +55,25 @@ export class OrganizacionService {
     if (organizacion && organizacion.usuarios) { 
       return organizacion.usuarios as unknown as Usuario[]; 
     } 
-    return []; }
+    return []; 
+  }
+
+  async removeUsuarioFromOrganizacion(orgId: string, usuarioId: string): Promise<Organizacion> { 
+    return this.organizacionModel.findByIdAndUpdate( orgId, { $pull: { usuarios: usuarioId } }, { new: true } ).exec();
+  }
+  
+  async findUsuariosNoAsignados(orgId: string): Promise<Usuario[]> {
+    const organizacion = await this.organizacionModel.findById(orgId).select('usuarios').lean().exec();
+    console.log("Organización:", organizacion);
+    const usuariosOrg = organizacion?.usuarios || [];
+    console.log("IDs de Usuarios en la Organización:", usuariosOrg);
+    
+    const query = {
+      _id: { $nin: usuariosOrg },
+      isActive: true,
+    };
+  
+    return this.usuarioModel.find(query).exec();
+  }
   
 }

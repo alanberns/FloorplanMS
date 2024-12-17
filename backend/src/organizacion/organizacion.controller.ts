@@ -36,4 +36,20 @@ export class OrganizacionController {
   remove(@Param('id') id: string) {
     return this.organizacionService.remove(id);
   }
+
+  @Delete(':orgId/usuario/:usuarioId') 
+  removeUsuarioFromOrganizacion(@Param('orgId') orgId: string, @Param('usuarioId') usuarioId: string) {
+   return this.organizacionService.removeUsuarioFromOrganizacion(orgId, usuarioId); 
+  }
+
+  @Get(':orgId/usuarios-no-asignados') 
+  findUsuariosNoAsignados(@Param('orgId') orgId: string) { 
+    return this.organizacionService.findUsuariosNoAsignados(orgId); 
+  }
+
+  // URGENTE: EL USUARIO NO CONOCE A SU ORGANIZACION POR EL MOMENTO.
+  @Post(':orgId/usuario/:usuarioId')
+  addUsuarioToOrganizacion(@Param('orgId') orgId: string, @Param('usuarioId') usuarioId: string) {
+    return this.organizacionService.addUsuario(orgId,usuarioId);
+  }
 }
