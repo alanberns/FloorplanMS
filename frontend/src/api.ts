@@ -122,6 +122,13 @@ export const deleteProyecto = async (id: string) => {
   }
 };
 
+// Obtener proyectos de una organizacion
+export const getProyectosByOrganizacion = async (orgId: string) => {
+  const response = await api.get(`/organizacion/${orgId}/proyectos`);
+  return response.data;
+};
+
+
 // USUARIOS
 export const getUsuarios = async () => {
   const response = await api.get('/usuario');

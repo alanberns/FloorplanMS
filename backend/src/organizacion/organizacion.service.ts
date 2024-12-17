@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Organizacion } from './schemas/organizacion.schema';
 import { Usuario } from '../usuario/schemas/usuario.schema';
+import { Proyecto } from '../proyecto/schemas/proyecto.schema';
 import { CreateOrganizacionDto } from './dto/create-organizacion.dto';
 import { UpdateOrganizacionDto } from './dto/update-organizacion.dto';
 
@@ -64,9 +65,7 @@ export class OrganizacionService {
   
   async findUsuariosNoAsignados(orgId: string): Promise<Usuario[]> {
     const organizacion = await this.organizacionModel.findById(orgId).select('usuarios').lean().exec();
-    console.log("Organización:", organizacion);
     const usuariosOrg = organizacion?.usuarios || [];
-    console.log("IDs de Usuarios en la Organización:", usuariosOrg);
     
     const query = {
       _id: { $nin: usuariosOrg },
@@ -75,5 +74,12 @@ export class OrganizacionService {
   
     return this.usuarioModel.find(query).exec();
   }
-  
+
+  async findProyectosByOrganizacion(orgId: string): Promise<Proyecto[]> {
+    const organizacion = await this.organizacionModel.findById(orgId).populate('proyectos').lean().exec(); 
+      if (organizacion && organizacion.proyectos) { 
+        return organizacion.proyectos as unknown as Proyecto[]; 
+      } 
+      return []; 
+    };
 }

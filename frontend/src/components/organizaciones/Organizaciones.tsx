@@ -179,7 +179,9 @@ function Organizaciones() {
     }
   };
 
-
+  const handleShowProyectos = (orgId: string) => { 
+    navigate(`/organizaciones/${orgId}/proyectos`); 
+  };
 
   const handleShowUsuarios = (orgId: string) => {
     navigate(`/organizaciones/${orgId}/usuarios`);
@@ -224,6 +226,7 @@ function Organizaciones() {
                       <Button variant="danger" onClick={() => handleConfirmDelete(organizacion._id)} className="me-2">Eliminar</Button>
                       <Button variant="secondary" onClick={() => handleShowUsuarios(organizacion._id)} className="me-2">Ver usuarios</Button>
                       <Button variant="success" onClick={() => handleShowAddUserForm(organizacion._id)} className="me-2">Añadir usuario</Button>
+                      <Button variant="info" onClick={() => handleShowProyectos(organizacion._id)} className="me-2">Ver proyectos</Button>
                     </td>
                   </tr>
                 ))}

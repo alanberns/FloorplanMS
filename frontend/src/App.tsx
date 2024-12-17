@@ -5,6 +5,7 @@ import Home from './components/Home';
 import Organizaciones from './components/organizaciones/Organizaciones';
 import NotFound from './components/error/NotFound';
 import Proyectos from './components/proyectos/Proyectos';
+import ProyectosList from './components/proyectos/ProyectosList';
 import UsuariosList from './components/usuarios/UsuariosList';
 
 
@@ -16,6 +17,7 @@ function App() {
         <Route path="/organizaciones" element={<Organizaciones />} />
         <Route path="/proyectos" element={<Proyectos />} />
         <Route path="/organizaciones/:orgId/usuarios" element={<UsuariosList />} />
+        <Route path="/organizaciones/:orgId/proyectos" element={<ProyectosList />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BaseLayout>

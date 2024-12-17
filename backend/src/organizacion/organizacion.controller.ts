@@ -52,4 +52,9 @@ export class OrganizacionController {
   addUsuarioToOrganizacion(@Param('orgId') orgId: string, @Param('usuarioId') usuarioId: string) {
     return this.organizacionService.addUsuario(orgId,usuarioId);
   }
+
+  @Get(':orgId/proyectos')
+  findProyectosByOrganizacion(@Param('orgId') orgId: string) {
+    return this.organizacionService.findProyectosByOrganizacion(orgId);
+  }
 }
