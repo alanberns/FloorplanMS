@@ -81,7 +81,7 @@ interface UsuariosListProps {
                         <td>{usuario.apellido}</td>
                         <td>{usuario.email}</td>
                         <td>
-                        <Button variant="danger" className="me-2" onClick={() => handleRemoveUsuario(usuario._id)}>Eliminar</Button>
+                        <Button variant="secondary" className="me-2" onClick={() => handleRemoveUsuario(usuario._id)}>Eliminar</Button>
                         </td>
                     </tr>
                     ))}

@@ -121,17 +121,17 @@ function Proyectos() {
       title: `<strong>${proyecto.expediente}</strong>`, 
       html: ` 
         <div class="card"> 
-          <div class="card-body"> 
-            <p class="card-text"><strong>Nombre:</strong> ${proyecto.nombre}</p> 
-            <p class="card-text"><strong>Ubicación:</strong> ${proyecto.ubicacion}</p> 
-            <p class="card-text"><strong>Destino:</strong> ${proyecto.destino}</p> 
+          <div class="card-body text-start"> 
+            <p class="card-text"><strong>Nombre:</strong> ${proyecto.nombre ? proyecto.nombre : "-"}</p> 
+            <p class="card-text"><strong>Ubicación:</strong> ${proyecto.ubicacion ? proyecto.ubicacion : "-"}</p> 
+            <p class="card-text"><strong>Destino:</strong> ${proyecto.destino ? proyecto.destino : "-"}</p> 
             <p class="card-text"><strong>Obra:</strong> ${proyecto.obra}</p> 
             <p class="card-text"><strong>Aprobado:</strong> ${proyecto.aprobado ? 'Sí' : 'No'}</p> 
-            <p class="card-text"><strong>Antecedentes:</strong> ${proyecto.antecedentes}</p> 
-            <p class="card-text"><strong>Propietarios:</strong> ${proyecto.propietario}</p> 
-            <p class="card-text"><strong>Proyectistas:</strong> ${proyecto.proyectistas}</p> 
-            <p class="card-text"><strong>Dirección técnica:</strong> ${proyecto.direccionTecnica}</p> 
-            <p class="card-text"><strong>Otras exigencias:</strong> ${proyecto.otrasExigencias}</p> 
+            <p class="card-text"><strong>Antecedentes:</strong> ${proyecto.antecedentes ? proyecto.antecedentes : "-"}</p> 
+            <p class="card-text"><strong>Propietarios:</strong> ${proyecto.propietario ? proyecto.propietario : "-"}</p> 
+            <p class="card-text"><strong>Proyectistas:</strong> ${proyecto.proyectistas ? proyecto.proyectistas : "-"}</p> 
+            <p class="card-text"><strong>Dirección técnica:</strong> ${proyecto.direccionTecnica ? proyecto.direccionTecnica : "-"}</p> 
+            <p class="card-text"><strong>Otras exigencias:</strong> ${proyecto.otrasExigencias ? proyecto.otrasExigencias : "-"}</p> 
           </div>
         </div> `,
       showCancelButton: false,

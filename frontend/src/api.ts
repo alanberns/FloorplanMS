@@ -9,6 +9,18 @@ const api = axios.create({
 
 // ORGANIZACIONES
 
+// Obtener una organizacion por id
+export const getOrganizacionById = async (id: string) => {
+  try{
+      const response = await api.get(`/organizacion/${id}`);
+      return response.data;
+  } catch(error) {
+      console.error('Error al obtener la organización:', error);
+      throw error;
+  }
+}
+
+
 // Obtener todas las organizaciones
 export const getOrganizaciones = async () => {
   try{

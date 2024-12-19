@@ -168,13 +168,13 @@ function Usuarios() {
                     <td>{usuario.email}</td>
                     <td>{usuario.isActive ? 'Sí' : 'No'}</td>
                     <td>
-                      <Button variant="success" onClick={() => handleToggleActive(usuario._id, usuario.isActive)} className="me-2">
+                      <Button variant="secondary" onClick={() => handleToggleActive(usuario._id, usuario.isActive)} className="me-2">
                         {usuario.isActive ? 'Desactivar' : 'Activar'}
                       </Button>
-                      <Button variant="warning" onClick={() => handleShowEditForm(usuario)} className="me-2">
+                      <Button variant="secondary" onClick={() => handleShowEditForm(usuario)} className="me-2">
                         Modificar
                       </Button>
-                      <Button variant="danger" onClick={() => handleConfirmDelete(usuario._id)} className="me-2">
+                      <Button variant="secondary" onClick={() => handleConfirmDelete(usuario._id)} className="me-2">
                         Eliminar
                       </Button>
                     </td>

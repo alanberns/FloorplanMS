@@ -222,11 +222,11 @@ function Organizaciones() {
                     <td>{organizacion.direccion}</td>
                     <td>{organizacion.contacto}</td>
                     <td>
-                      <Button variant="warning" onClick={() => handleShowEditForm(organizacion)} className="me-2">Modificar</Button>
-                      <Button variant="danger" onClick={() => handleConfirmDelete(organizacion._id)} className="me-2">Eliminar</Button>
+                      <Button variant="secondary" onClick={() => handleShowEditForm(organizacion)} className="me-2">Modificar</Button>
+                      <Button variant="secondary" onClick={() => handleConfirmDelete(organizacion._id)} className="me-2">Eliminar</Button>
                       <Button variant="secondary" onClick={() => handleShowUsuarios(organizacion._id)} className="me-2">Ver usuarios</Button>
-                      <Button variant="success" onClick={() => handleShowAddUserForm(organizacion._id)} className="me-2">Añadir usuario</Button>
-                      <Button variant="info" onClick={() => handleShowProyectos(organizacion._id)} className="me-2">Ver proyectos</Button>
+                      <Button variant="secondary" onClick={() => handleShowAddUserForm(organizacion._id)} className="me-2">Añadir usuario</Button>
+                      <Button variant="secondary" onClick={() => handleShowProyectos(organizacion._id)} className="me-2">Ver proyectos</Button>
                     </td>
                   </tr>
                 ))}
