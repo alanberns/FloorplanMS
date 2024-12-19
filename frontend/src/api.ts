@@ -102,7 +102,20 @@ export const getProyecto = async (id: string) => {
 }
 
 // Crear un nuevo proyecto
-export const createProyecto = async (data: { nombre: string; ubicacion: string, destino: string, obra: string, escala: string }) => {
+export const createProyecto = async (data: { 
+    nombre: string, 
+    expediente: string,
+    ubicacion: string, 
+    destino: string, 
+    obra: string, 
+    escala: string, 
+    otrasExigencias: string,
+    antecedentes: string,
+    propietario: string,
+    proyectistas: string,
+    direccionTecnica: string,
+    aprobado: boolean,
+    organizacionId: string }) => {
   try {
     const response = await api.post('/proyecto', data);
     return response.data;
@@ -113,9 +126,21 @@ export const createProyecto = async (data: { nombre: string; ubicacion: string, 
 };
 
 // Actualizar un proyecto existente
-export const updateProyecto = async (id: string, data: { nombre: string; ubicacion: string, destino: string, obra: string, escala: string }) => {
+export const updateProyecto = async (id: string, data: {
+    nombre: string, 
+    expediente: string,
+    ubicacion: string, 
+    destino: string, 
+    obra: string, 
+    escala: string, 
+    otrasExigencias: string,
+    antecedentes: string,
+    propietario: string,
+    proyectistas: string,
+    direccionTecnica: string,
+    aprobado: boolean, }) => {
   try {
-    const response = await api.put(`/proyecto/${id}`, data);
+    const response = await api.patch(`/proyecto/${id}`, data);
     return response.data;
   } catch (error) {
     console.error('Error al actualizar proyecto:', error);

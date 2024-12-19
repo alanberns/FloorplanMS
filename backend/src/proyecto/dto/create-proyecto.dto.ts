@@ -21,18 +21,18 @@ enum Destino {
 export class CreateProyectoDto {
   @IsString()
   @Length(3, 100)
-  @Matches(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s,.-@:]*$/, { message: 'Valid characters: a-zA-ZáéíóúÁÉÍÓÚñÑ0-9,.-@:' })
+  @Matches(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s, .-@:]*$/, { message: 'Valid characters: a-zA-ZáéíóúÁÉÍÓÚñÑ0-9,.- @:' })
   nombre: string;
 
   @IsString()
   @Length(3, 50)
-  @Matches(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s,.-@:]*$/, { message: 'Valid characters: a-zA-ZáéíóúÁÉÍÓÚñÑ0-9,.-@:' })
+  @Matches(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s, .-@:]*$/, { message: 'Valid characters: a-zA-ZáéíóúÁÉÍÓÚñÑ0-9,.- @:' })
   expediente: string;
 
   @IsNotEmpty()
   @IsString()
   @Length(3, 255)
-  @Matches(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s,.-@:]*$/, { message: 'Valid characters: a-zA-ZáéíóúÁÉÍÓÚñÑ0-9,.-@:' })
+  @Matches(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s, .-@:]*$/, { message: 'Valid characters: a-zA-ZáéíóúÁÉÍÓÚñÑ0-9,.- @:' })
   ubicacion: string;
 
   @IsString()
@@ -50,23 +50,23 @@ export class CreateProyectoDto {
   obra: Obra;
 
   @MaxLength(255)
-  @Matches(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s,.-@:]*$/, { message: 'Valid characters: a-zA-ZáéíóúÁÉÍÓÚñÑ0-9,.-@:' })
+  @Matches(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s, .-@:]*$/, { message: 'Valid characters: a-zA-ZáéíóúÁÉÍÓÚñÑ0-9,.- @:' })
   otrasExigencias?: string;
 
   @MaxLength(100)
-  @Matches(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s,.-@:]*$/, { message: 'Valid characters: a-zA-ZáéíóúÁÉÍÓÚñÑ0-9,.-@:' })
+  @Matches(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s, .-@:]*$/, { message: 'Valid characters: a-zA-ZáéíóúÁÉÍÓÚñÑ0-9,.- @:' })
   antecedentes?: string;
 
   @MaxLength(255)
-  @Matches(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s,.-@:]*$/, { message: 'Valid characters: a-zA-ZáéíóúÁÉÍÓÚñÑ0-9,.-@:' })
+  @Matches(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s, .-@:]*$/, { message: 'Valid characters: a-zA-ZáéíóúÁÉÍÓÚñÑ0-9,.- @:' })
   propietario?: string;
 
   @MaxLength(155)
-  @Matches(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s,.-@:]*$/, { message: 'Valid characters: a-zA-ZáéíóúÁÉÍÓÚñÑ0-9,.-@:' })
+  @Matches(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s, .-@:]*$/, { message: 'Valid characters: a-zA-ZáéíóúÁÉÍÓÚñÑ0-9,.- @:' })
   proyectistas?: string;
 
   @MaxLength(155)
-  @Matches(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s,.-@:]*$/, { message: 'Valid characters: a-zA-ZáéíóúÁÉÍÓÚñÑ0-9,.-@:' })
+  @Matches(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s, .-@:]*$/, { message: 'Valid characters: a-zA-ZáéíóúÁÉÍÓÚñÑ0-9,.- @:' })
   direccionTecnica?: string;
 
   @IsNotEmpty()

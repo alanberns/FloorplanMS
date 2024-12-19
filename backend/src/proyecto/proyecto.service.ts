@@ -11,8 +11,11 @@ export class ProyectoService {
     @InjectModel(Proyecto.name) private proyectoModel: Model<Proyecto>,
   ) {}
 
-  async create(createProyectoDto: CreateProyectoDto): Promise<Proyecto> {
-    const createdProyecto = new this.proyectoModel(createProyectoDto);
+  async create(createProyectoDto: CreateProyectoDto): Promise<Proyecto> { 
+    const { organizacionId, ...data } = createProyectoDto; 
+    const createdProyecto = new this.proyectoModel({ 
+      ...data, organizacion: organizacionId, 
+      }); 
     return createdProyecto.save();
   }
 

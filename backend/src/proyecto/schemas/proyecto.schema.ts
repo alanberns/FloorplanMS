@@ -21,13 +21,13 @@ enum Destino {
 
 @Schema()
 export class Proyecto extends Document{
-  @Prop({ required: true, minlength: 3, maxlength: 100, match: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s,.-@:]*$/ })
+  @Prop({ required: true, minlength: 3, maxlength: 100, match: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s, .-@:]*$/ })
   nombre: string;
 
-  @Prop({ required: true, minlength: 3, maxlength: 50, match: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s,.-@:]*$/ })
+  @Prop({ required: true, minlength: 3, maxlength: 50, match: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s, .-@:]*$/ })
   expediente: string;
 
-  @Prop({ required: true, minlength: 3, maxlength: 255, match: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s,.-@:]*$/ })
+  @Prop({ required: true, minlength: 3, maxlength: 255, match: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s, .-@:]*$/ })
   ubicacion: string;
 
   @Prop({ required: true, enum: Destino })
@@ -39,19 +39,19 @@ export class Proyecto extends Document{
   @Prop({ required: true, match: /^1:[1-9]\d*$/ })
   escala: string;
   
-  @Prop({ maxlength: 255, match: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s,.-@:]*$/ })
+  @Prop({ maxlength: 255, match: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s, .-@:]*$/ })
   otrasExigencias?: string;
 
-  @Prop({ maxlength: 100, match: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s,.-@:]*$/ })
+  @Prop({ maxlength: 100, match: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s, .-@:]*$/ })
   antecedentes?: string;
 
-  @Prop({ maxlength: 255, match: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s,.-@:]*$/ })
+  @Prop({ maxlength: 255, match: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s, .-@:]*$/ })
   propietario?: string;
 
-  @Prop({ maxlength: 155, match: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s,.-@:]*$/ })
+  @Prop({ maxlength: 155, match: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s, .-@:]*$/ })
   proyectistas?: string;
 
-  @Prop({ maxlength: 155, match: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s,.-@:]*$/ })
+  @Prop({ maxlength: 155, match: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s, .-@:]*$/ })
   direccionTecnica?: string;
 
   @Prop({ default: false })

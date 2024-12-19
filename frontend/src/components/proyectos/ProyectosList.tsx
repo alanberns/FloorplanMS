@@ -26,7 +26,8 @@ const ProyectosList: React.FC<ProyectosListProps> = () => {
   useEffect(() => {
     const fetchProyectos = async () => {
       try {
-        setLoading(true);
+        setLoading(true); 
+        if (!orgId) { throw new Error("Organización ID no disponible"); }
         const data = await getProyectosByOrganizacion(orgId);
         setProyectos(data);
         const dataOrg = await getOrganizacionById(orgId);
@@ -41,9 +42,23 @@ const ProyectosList: React.FC<ProyectosListProps> = () => {
     fetchProyectos();
   }, [orgId]);
 
-  const handleCreate = async (data: { nombre: string; ubicacion: string, destino: string, obra: string, escala: string }) => {
+  const handleCreate = async (data: { 
+                                  nombre: string; 
+                                  expediente: string;
+                                  ubicacion: string; 
+                                  destino: string; 
+                                  obra: string; 
+                                  escala: string; 
+                                  otrasExigencias: string;
+                                  antecedentes: string;
+                                  propietario: string;
+                                  proyectistas: string;
+                                  direccionTecnica: string;
+                                  aprobado: boolean;
+                                  organizacionId: string; }) => {
     try {
       setLoading(true);
+      console.log("handle create");
       const nuevoProyecto = await createProyecto(data);
       setProyectos([...proyectos, nuevoProyecto]);
       Swal.close();
@@ -55,7 +70,19 @@ const ProyectosList: React.FC<ProyectosListProps> = () => {
     }
   };
 
-  const handleEdit = async (id: string, data: { nombre: string; ubicacion: string, destino: string, obra: string, escala: string }) => {
+  const handleEdit = async (id: string, data: { 
+      nombre: string, 
+      expediente: string,
+      ubicacion: string, 
+      destino: string, 
+      obra: string, 
+      escala: string, 
+      otrasExigencias: string,
+      antecedentes: string,
+      propietario: string,
+      proyectistas: string,
+      direccionTecnica: string,
+      aprobado: boolean, }) => {
     try {
       setLoading(true);
       const updatedProyecto = await updateProyecto(id, data);
@@ -84,9 +111,10 @@ const ProyectosList: React.FC<ProyectosListProps> = () => {
   };
 
   const handleShowCreateForm = () => {
+    console.log("handle show create form");
     MySwal.fire({
       title: 'Crear Proyecto',
-      html: <ProyectoForm onSubmit={handleCreate} />,
+      html: <ProyectoForm onSubmit={(data) => handleCreate({ ...data, organizacionId: orgId || '' })} />,
       showCancelButton: true,
       showConfirmButton: false,
       cancelButtonText: 'Cancelar',
@@ -100,7 +128,7 @@ const ProyectosList: React.FC<ProyectosListProps> = () => {
     setEditingProyecto(proyecto);
     MySwal.fire({
       title: 'Modificar Proyecto',
-      html: <ProyectoForm initialData={proyecto} onSubmit={(data) => handleEdit(proyecto._id, data)} />,
+      html: <ProyectoForm initialData={{ ...proyecto, organizacionId: orgId || '' }} onSubmit={(data) => handleEdit(proyecto._id, data)} />,
       showConfirmButton: false,
       showCancelButton: true,
       cancelButtonText: 'Cancelar',

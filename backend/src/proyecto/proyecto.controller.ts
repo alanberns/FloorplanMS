@@ -12,9 +12,14 @@ export class ProyectoController {
 
   @Post()
   async create(@Body() createProyectoDto: CreateProyectoDto) {
-    const createdProyecto = await this.proyectoService.create(createProyectoDto);
-    await this.organizacionService.addProyecto(createProyectoDto.organizacionId, createdProyecto.id);
-    return createdProyecto;
+    try {
+      const createdProyecto = await this.proyectoService.create(createProyectoDto);
+      await this.organizacionService.addProyecto(createProyectoDto.organizacionId, createdProyecto.id);
+      return createdProyecto;
+    } catch (error) { 
+      console.error('Error al crear proyecto:', error); 
+      return error;
+    }
   }
 
   @Get()

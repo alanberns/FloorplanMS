@@ -58,7 +58,5 @@ export const proyectoSchema = Yup.object().shape({
     .matches(textoRegEx, 'Caracteres válidos: '+ validChars),
   direccionTecnica: Yup.string()
     .max(155, 'La dirección técnica es muy larga')
-    .matches(textoRegEx, 'Caracteres válidos: '+ validChars),
-  organizacionId: Yup.string()
-    .required('El ID de la organización es obligatorio')
+    .matches(textoRegEx, 'Caracteres válidos: '+ validChars)
 });
