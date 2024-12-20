@@ -221,14 +221,14 @@ export const getPlanosByProyecto = async (proyectoId: string) => {
 };
 
 // Crear un plano
-export const createPlano = async (data: {}) => {
+export const createPlano = async (data: {nombre: string; especialidad: string; archivo: string; etiquetas?: string[]; proyectoId: string;}) => {
   const response = await api.post('/plano', data);
   return response.data;
 }
 
 // Editar un plano
-export const updatePlano = async (id: string, data: {}) => {
-  const response = await api.patch(`/plano/${id}`, data)
+export const updatePlano = async (id: string, data: {nombre: string; especialidad: string; archivo: string; etiquetas?: string[];}) => {
+  const response = await api.patch(`/plano/${id}`, data);
   return response.data;
 }
 

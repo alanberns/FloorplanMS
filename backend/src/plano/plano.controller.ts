@@ -12,10 +12,15 @@ export class PlanoController {
 
   @Post()
   async create(@Body() createPlanoDto: CreatePlanoDto) {
-    const createdPlano = await this.planoService.create(createPlanoDto);
-    await this.proyectoService.addPlano(createPlanoDto.proyectoId, createdPlano.id);
-    return createdPlano;
-  }
+    try{
+      const createdPlano = await this.planoService.create(createPlanoDto);
+      await this.proyectoService.addPlano(createPlanoDto.proyectoId, createdPlano.id);
+      return createdPlano;
+    } catch (error) { 
+      console.error('Error al crear el plano:', error); 
+      return error;
+    }
+  } 
 
   @Get()
   findAll() {

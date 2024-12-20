@@ -12,16 +12,12 @@ export class PlanoService {
   ) {}
 
   async create(createPlanoDto: CreatePlanoDto): Promise<Plano> {
-    const createdPlano = new this.planoModel(createPlanoDto);
-    return createdPlano.save();
-  }
-  /*
-  const { proyectoId, ...data } = createPlanoDto; 
-    const createdPlano = new this.proyectoModel({ 
+    const { proyectoId, ...data } = createPlanoDto; 
+    const createdPlano = new this.planoModel({ 
       ...data, proyecto: proyectoId, 
       }); 
     return createdPlano.save();
-  */
+  }
 
   async findAll(): Promise<Plano[]> {
     return this.planoModel.find().exec();
