@@ -7,6 +7,7 @@ import ProyectoForm from './ProyectoForm';
 import { useParams } from 'react-router-dom';
 import { Spinner, Button, Table, Container } from 'react-bootstrap';
 import withReactContent from 'sweetalert2-react-content';
+import { useNavigate } from 'react-router-dom';
 
 
 interface ProyectosListProps {
@@ -22,6 +23,7 @@ const ProyectosList: React.FC<ProyectosListProps> = () => {
   const [organizacion, setOrganizacion] = useState<Organizacion>();
   const [loading, setLoading] = useState<boolean>(true);
   const [editingProyecto, setEditingProyecto] = useState<Proyecto | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProyectos = async () => {
@@ -179,6 +181,10 @@ const ProyectosList: React.FC<ProyectosListProps> = () => {
     });
   };
 
+  const handleShowPlanos = (proyectoId: string) => { 
+    navigate(`/proyectos/${proyectoId}/planos`); 
+  };
+
   return (
     <Container>
       <h1 className="text-center my-4">Proyectos - {organizacion?.nombre}</h1>
@@ -217,7 +223,7 @@ const ProyectosList: React.FC<ProyectosListProps> = () => {
                       <Button variant="secondary" onClick={() => handleShowEditForm(proyecto)} className="me-2">Modificar</Button>
                       <Button variant="secondary" onClick={() => handleConfirmDelete(proyecto._id)} className="me-2">Eliminar</Button>
                       <Button variant="secondary" onClick={() => handleShowDetails(proyecto)} className="me-2">Ver detalles</Button>
-                      <Button variant="secondary" onClick={() => showErrorAlert('Sin implementar')} className="me-2">Ver planos</Button>
+                      <Button variant="secondary" onClick={() => handleShowPlanos(proyecto._id)} className="me-2">Ver planos</Button>
                     </td>
                   </tr>
                 ))}

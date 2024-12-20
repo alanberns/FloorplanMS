@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { CreateProyectoDto } from './dto/create-proyecto.dto';
 import { UpdateProyectoDto } from './dto/update-proyecto.dto';
 import { Proyecto } from './schemas/proyecto.schema';
+import { Plano } from '../plano/schemas/plano.schema';
 
 @Injectable()
 export class ProyectoService {
@@ -42,5 +43,12 @@ export class ProyectoService {
       { new: true, useFindAndModify: false }
     ).exec();
   }
-  
+
+  async findPlanosByProyecto(id: string): Promise<Plano[]> {
+    const proyecto = await this.proyectoModel.findById(id).populate('planos').lean().exec(); 
+    if (proyecto && proyecto.planos) { 
+      return proyecto.planos as unknown as Plano[]; 
+    } 
+    return []; 
+  };
 }

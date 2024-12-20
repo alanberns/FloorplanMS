@@ -41,4 +41,9 @@ export class ProyectoController {
   remove(@Param('id') id: string) {
     return this.proyectoService.remove(id);
   }
+
+  @Get(':id/planos')
+  findPlanosByProyecto(@Param('id') id: string){
+    return this.proyectoService.findPlanosByProyecto(id);
+  }
 }

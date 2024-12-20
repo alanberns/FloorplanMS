@@ -1,8 +1,8 @@
 import * as Yup from 'yup';
 
-const textoRegEx = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s,.-@:]*$/;
+const textoRegEx = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s, .-@:]*$/;
 const escalaRegex = /^1:[1-9]\d*$/;
-const validChars = "a-zA-ZáéíóúÁÉÍÓÚñÑ0-9,.-@:";
+const validChars = "a-zA-ZáéíóúÁÉÍÓÚñÑ0-9, .-@:";
 
 export const organizacionSchema = Yup.object().shape({
   nombre: Yup.string()
@@ -59,4 +59,17 @@ export const proyectoSchema = Yup.object().shape({
   direccionTecnica: Yup.string()
     .max(155, 'La dirección técnica es muy larga')
     .matches(textoRegEx, 'Caracteres válidos: '+ validChars)
+});
+
+export const planoSchema = Yup.object().shape({
+  nombre: Yup.string()
+    .min(3, 'El nombre es muy corto')
+    .max(100, 'El nombre es muy largo')
+    .required('El nombre es obligatorio'),
+  especialidad: Yup.string()
+    .required('La especialidad es obligatoria'),
+  etiquetas: Yup.array()
+    .of(Yup.string()),
+  archivo: Yup.string()
+    .required('El archivo es obligatorio'),
 });

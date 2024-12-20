@@ -29,4 +29,12 @@ export interface Usuario {
   email: string;
   isActive: boolean;
 }
+
+export interface Plano {
+  _id: string;
+  nombre: string;
+  especialidad: string;
+  etiquetas: [];
+  archivo: string;
+}
   

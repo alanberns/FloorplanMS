@@ -211,5 +211,33 @@ export const getUsuariosNoAsignados = async (orgId: string) => {
   return response.data;
 };
 
+
+//PLANOS
+
+// Obtener planos de un proyecto
+export const getPlanosByProyecto = async (proyectoId: string) => {
+  const response = await api.get(`/proyecto/${proyectoId}/planos`);
+  return response.data;
+};
+
+// Crear un plano
+export const createPlano = async (data: {}) => {
+  const response = await api.post('/plano', data);
+  return response.data;
+}
+
+// Editar un plano
+export const updatePlano = async (id: string, data: {}) => {
+  const response = await api.patch(`/plano/${id}`, data)
+  return response.data;
+}
+
+// Eliminar un plano
+export const deletePlano = async (id: string) => {
+  const response = await api.delete(`/plano/${id}`);
+  return response.data;
+}
+
+
 // Exporta el cliente de Axios para usos adicionales si es necesario
 export default api;

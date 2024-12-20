@@ -7,6 +7,7 @@ import NotFound from './components/error/NotFound';
 import Proyectos from './components/proyectos/Proyectos';
 import ProyectosList from './components/proyectos/ProyectosList';
 import UsuariosList from './components/usuarios/UsuariosList';
+import PlanosList from './components/planos/PlanoList';
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/proyectos" element={<Proyectos />} />
         <Route path="/organizaciones/:orgId/usuarios" element={<UsuariosList />} />
         <Route path="/organizaciones/:orgId/proyectos" element={<ProyectosList />} />
+        <Route path="/proyectos/:proyectoId/planos" element={<PlanosList />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BaseLayout>
