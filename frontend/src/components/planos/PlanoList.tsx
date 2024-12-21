@@ -125,14 +125,16 @@ const PlanosList: React.FC = () => {
     };
 
     const handleShowFile = (plano: Plano) => {
+      const base64String = plano.archivo;
+    
       let fileContent;
     
       if (plano.nombreArchivo.endsWith('.pdf')) {
         // Si el archivo es un PDF
-        fileContent = `<iframe src="data:application/pdf;base64,${plano.archivo}" width="100%" height="600px"></iframe>`;
+        fileContent = `<iframe src="data:application/pdf;base64,${base64String}" width="100%" height="600px"></iframe>`;
       } else {
         // Asumimos que es una imagen si no es un PDF
-        fileContent = `<img src="data:image/jpeg;base64,${plano.archivo}" alt="${plano.nombreArchivo}" style="max-width: 100%; height: auto;" />`;
+        fileContent = `<img src="data:image/jpeg;base64,${base64String}" alt="${plano.nombreArchivo}" style="max-width: 100%; height: auto;" />`;
       }
     
       Swal.fire({
@@ -143,7 +145,6 @@ const PlanosList: React.FC = () => {
         confirmButtonText: 'Cerrar',
       });
     };
-    
     
 
     return (
