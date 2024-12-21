@@ -21,8 +21,11 @@ export class Plano extends Document {
   @Prop({ type: [String] })
   etiquetas?: string[];
 
-  @Prop({ required: true })
-  archivo: string;
+  @Prop({ required: true, type: Buffer })
+  archivo: Buffer;
+
+  @Prop({ type: String, required: true})
+  nombreArchivo: String
 
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Proyecto' })
   proyecto: MongooseSchema.Types.ObjectId;

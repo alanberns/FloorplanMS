@@ -33,10 +33,11 @@ const PlanosList: React.FC = () => {
       fetchPlanos();
     }, [proyectoId]);
   
-    const handleCreate = async (data: { nombre: string; especialidad: string; archivo: string; proyectoId: string; etiquetas?: string[] }) => {
+    const handleCreate = async (formData: FormData, proyectoId: string) => {
       try {
         setLoading(true);
-        const nuevoPlano = await createPlano(data);
+        formData.append('proyectoId', proyectoId);
+        const nuevoPlano = await createPlano(formData);
         setPlanos([...planos, nuevoPlano]);
         Swal.close();
         showSuccessAlert("El plano ha sido creado");
@@ -46,8 +47,10 @@ const PlanosList: React.FC = () => {
         setLoading(false);
       }
     };
+    
+    
   
-    const handleEdit = async (id: string, data: { nombre: string; especialidad: string; archivo: string; etiquetas?: string[] }) => {
+    const handleEdit = async (id: string, data: { nombre: string; especialidad: string; etiquetas?: string[] }) => {
       try {
         setLoading(true);
         const updatedPlano = await updatePlano(id, data);
@@ -74,11 +77,11 @@ const PlanosList: React.FC = () => {
         setLoading(false);
       }
     };
-  
-    const handleShowCreateForm = () => {
+   
+    const handleShowCreateForm = (proyectoId: string) => {
       MySwal.fire({
         title: 'Crear Plano',
-        html: <PlanoForm onSubmit={(data) => handleCreate({ ...data, proyectoId: proyectoId || '' })} />,
+        html: <PlanoForm onSubmit={(data) => handleCreate(data, proyectoId)} isEdit={false} />,
         showCancelButton: true,
         showConfirmButton: false,
         cancelButtonText: 'Cancelar',
@@ -87,12 +90,14 @@ const PlanosList: React.FC = () => {
         },
       });
     };
+    
+    
   
     const handleShowEditForm = (plano: Plano) => {
       setEditingPlano(plano);
       MySwal.fire({
         title: 'Modificar Plano',
-        html: <PlanoForm initialData={{ ...plano, proyectoId: proyectoId || '' }} onSubmit={(data) => handleEdit(plano._id, data)} />,
+        html: <PlanoForm initialData={{ ...plano, proyectoId: proyectoId || '' }} onSubmit={(data) => handleEdit(plano._id, data)} isEdit={true} />,
         showConfirmButton: false,
         showCancelButton: true,
         cancelButtonText: 'Cancelar',
@@ -119,6 +124,28 @@ const PlanosList: React.FC = () => {
       });
     };
 
+    const handleShowFile = (plano: Plano) => {
+      let fileContent;
+    
+      if (plano.nombreArchivo.endsWith('.pdf')) {
+        // Si el archivo es un PDF
+        fileContent = `<iframe src="data:application/pdf;base64,${plano.archivo}" width="100%" height="600px"></iframe>`;
+      } else {
+        // Asumimos que es una imagen si no es un PDF
+        fileContent = `<img src="data:image/jpeg;base64,${plano.archivo}" alt="${plano.nombreArchivo}" style="max-width: 100%; height: auto;" />`;
+      }
+    
+      Swal.fire({
+        title: `<strong>${plano.nombre}</strong>`,
+        html: fileContent,
+        showCancelButton: false,
+        showConfirmButton: true,
+        confirmButtonText: 'Cerrar',
+      });
+    };
+    
+    
+
     return (
         <Container>
           <h1 className="text-center my-4">Planos del Proyecto</h1>
@@ -131,7 +158,7 @@ const PlanosList: React.FC = () => {
           ) : (
             <>
               <div className="d-flex justify-content-end mb-3">
-                <Button variant="primary" onClick={handleShowCreateForm}>Crear Plano</Button>
+              <Button variant="primary" onClick={() => handleShowCreateForm(proyectoId? proyectoId : '1')}>Crear Plano</Button>
               </div>
               {planos.length === 0 ? (
                 <div className="text-center">
@@ -143,7 +170,7 @@ const PlanosList: React.FC = () => {
                     <tr>
                       <th>Nombre</th>
                       <th>Especialidad</th>
-                      <th>Archivo</th>
+                      <th>Etiquetas</th>
                       <th>Acciones</th>
                     </tr>
                   </thead>
@@ -152,9 +179,14 @@ const PlanosList: React.FC = () => {
                       <tr key={plano._id}>
                         <td>{plano.nombre}</td>
                         <td>{plano.especialidad}</td>
-                        <td>{plano.archivo}</td>
+                        <td>
+                          { plano.etiquetas.map((etiqueta, Ekey) => (
+                            <span key={Ekey}>[ {etiqueta} ]</span>
+                          )) }
+                        </td>
                         <td>
                           <Button variant="secondary" onClick={() => handleShowEditForm(plano)} className="me-2">Modificar</Button>
+                          <Button variant="secondary" onClick={() => handleShowFile(plano)} className="me-2">Ver archivo</Button>
                           <Button variant="secondary" onClick={() => handleConfirmDelete(plano._id)} className="me-2">Eliminar</Button>
                         </td>
                       </tr>

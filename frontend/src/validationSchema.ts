@@ -70,6 +70,4 @@ export const planoSchema = Yup.object().shape({
     .required('La especialidad es obligatoria'),
   etiquetas: Yup.array()
     .of(Yup.string()),
-  archivo: Yup.string()
-    .required('El archivo es obligatorio'),
 });

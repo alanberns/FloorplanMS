@@ -8,11 +8,13 @@ interface PlanoFormProps {
   initialData?: {
     nombre: string;
     especialidad: string;
-    archivo: string;
+    archivo?: File;
     etiquetas?: string[];
+    nombreArchivo: string;
     proyectoId: string;
   };
-  onSubmit: (data: { nombre: string; especialidad: string; archivo: string; etiquetas?: string[]; proyectoId: string }) => void;
+  isEdit?: boolean;
+  onSubmit: (data: any) => void;
 }
 
 const EspecialidadOptions = [
@@ -23,9 +25,10 @@ const EspecialidadOptions = [
   { value: 'Otros', label: 'Otros' },
 ];
 
-const PlanoForm: React.FC<PlanoFormProps> = ({ initialData, onSubmit }) => {
+const PlanoForm: React.FC<PlanoFormProps> = ({ initialData, isEdit, onSubmit }) => {
   const [etiquetaInput, setEtiquetaInput] = useState('');
   const [etiquetas, setEtiquetas] = useState<string[]>(initialData?.etiquetas || []);
+  const [file, setFile] = useState<File | null>(null);
 
   const handleAddEtiqueta = () => {
     if (etiquetaInput.trim()) {
@@ -39,17 +42,53 @@ const PlanoForm: React.FC<PlanoFormProps> = ({ initialData, onSubmit }) => {
     setEtiquetas(nuevasEtiquetas);
   };
 
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      setFile(event.target.files[0]);
+    }
+  };
+
   return (
     <Formik
       initialValues={{
         nombre: initialData?.nombre || '',
         especialidad: initialData?.especialidad || '',
-        archivo: initialData?.archivo || '',
-        proyectoId: initialData?.proyectoId || ''
+        proyectoId: initialData?.proyectoId || '',
       }}
       validationSchema={planoSchema}
       onSubmit={(values, { setSubmitting }) => {
-        onSubmit({ ...values, etiquetas });
+        if (!isEdit && !file) {
+          Swal.fire('Error', 'Debe seleccionar un archivo', 'error');
+          setSubmitting(false);
+          return;
+        }
+
+        const data = {
+          nombre: values.nombre,
+          especialidad: values.especialidad,
+          proyectoId: values.proyectoId,
+          etiquetas: etiquetas.length > 0 ? etiquetas : [], 
+        };
+
+        if (isEdit) {
+          onSubmit(data);
+        } else {
+          const formData = new FormData();
+          formData.append('nombre', values.nombre);
+          formData.append('especialidad', values.especialidad);
+
+          if (etiquetas.length > 0) {
+            etiquetas.forEach((etiqueta, index) => { 
+              formData.append(`etiquetas[${index}]`, etiqueta); 
+            });
+          } 
+          if (file) {
+            formData.append('archivo', file);
+          }
+
+          onSubmit(formData);
+        }
+
         setSubmitting(false);
         Swal.close(); // Cierra el modal de SweetAlert después de enviar el formulario
       }}
@@ -73,14 +112,16 @@ const PlanoForm: React.FC<PlanoFormProps> = ({ initialData, onSubmit }) => {
             </Field>
             <ErrorMessage name="especialidad" component="div" className="text-danger" />
           </div>
-          <div className="form-group">
-            <label htmlFor="archivo">Archivo</label>
-            <Field type="text" name="archivo" className="form-control" />
-            <ErrorMessage name="archivo" component="div" className="text-danger" />
-          </div>
+          {!isEdit && (
+            <div className="form-group">
+              <label htmlFor="archivo">Archivo</label>
+              <input type="file" name="archivo" onChange={handleFileChange} className="form-control" accept="image/*,application/pdf" />
+              <ErrorMessage name="archivo" component="div" className="text-danger" />
+            </div>
+          )}
           <div className="form-group">
             <label htmlFor="etiquetas">Añadir Etiqueta</label>
-            <div className="d-flex align-items-center mb-3"> {/* Añadir margen inferior */}
+            <div className="d-flex align-items-center mb-3">
               <input
                 type="text"
                 value={etiquetaInput}
@@ -88,7 +129,7 @@ const PlanoForm: React.FC<PlanoFormProps> = ({ initialData, onSubmit }) => {
                 className="form-control me-2"
                 placeholder="Ingrese una etiqueta"
               />
-              <Button type="button" variant="secondary" onClick={handleAddEtiqueta} className="ms-2"> 
+              <Button type="button" variant="secondary" onClick={handleAddEtiqueta} className="ms-2">
                 +
               </Button>
             </div>
@@ -97,7 +138,7 @@ const PlanoForm: React.FC<PlanoFormProps> = ({ initialData, onSubmit }) => {
               {etiquetas.map((etiqueta, index) => (
                 <span key={index} className="badge bg-secondary m-1">
                   {etiqueta}
-                  <Button variant="btn btn-outline-light rounded-circle ms-2" size="sm" onClick={() => handleRemoveEtiqueta(index)}> {/* Añadir margen izquierdo */}
+                  <Button variant="btn btn-outline-light rounded-circle ms-2" size="sm" onClick={() => handleRemoveEtiqueta(index)}>
                     &times;
                   </Button>
                 </span>

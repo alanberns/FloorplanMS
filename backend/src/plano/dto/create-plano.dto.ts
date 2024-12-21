@@ -23,11 +23,11 @@ export class CreatePlanoDto {
   @IsString({ each: true })
   etiquetas?: string[];
 
-  @IsNotEmpty()
-  @IsString()
-  archivo: string;
+  archivo: Buffer;
+
+  nombreArchivo: string;
 
   @IsNotEmpty()
   @IsString()
-  readonly proyectoId: string;
+  proyectoId: string;
 }

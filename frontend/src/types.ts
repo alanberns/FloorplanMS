@@ -35,6 +35,7 @@ export interface Plano {
   nombre: string;
   especialidad: string;
   etiquetas: [];
-  archivo: string;
+  archivo: File;
+  nombreArchivo: string;
 }
   

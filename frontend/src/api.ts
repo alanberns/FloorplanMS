@@ -220,14 +220,26 @@ export const getPlanosByProyecto = async (proyectoId: string) => {
   return response.data;
 };
 
-// Crear un plano
-export const createPlano = async (data: {nombre: string; especialidad: string; archivo: string; etiquetas?: string[]; proyectoId: string;}) => {
-  const response = await api.post('/plano', data);
-  return response.data;
-}
+// crear un plano
+export const createPlano = async (formData: FormData) => {
+  console.log('FormData enviado:', Array.from(formData.entries()));
+  try {
+    const response = await api.post('/plano', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error al crear plano:', error);
+    throw error;
+  }
+};
+
+
 
 // Editar un plano
-export const updatePlano = async (id: string, data: {nombre: string; especialidad: string; archivo: string; etiquetas?: string[];}) => {
+export const updatePlano = async (id: string, data: {nombre: string; especialidad: string; etiquetas?: string[];}) => {
   const response = await api.patch(`/plano/${id}`, data);
   return response.data;
 }
