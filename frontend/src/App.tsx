@@ -8,6 +8,7 @@ import Proyectos from './components/proyectos/Proyectos';
 import ProyectosList from './components/proyectos/ProyectosList';
 import UsuariosList from './components/usuarios/UsuariosList';
 import PlanosList from './components/planos/PlanoList';
+import RedirectPage from './components/auth/RedirectPage';
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Route path="/organizaciones/:orgId/usuarios" element={<UsuariosList />} />
         <Route path="/organizaciones/:orgId/proyectos" element={<ProyectosList />} />
         <Route path="/proyectos/:proyectoId/planos" element={<PlanosList />} />
+        <Route path="/redirect" element={<RedirectPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BaseLayout>

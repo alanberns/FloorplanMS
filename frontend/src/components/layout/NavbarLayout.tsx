@@ -1,7 +1,7 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
-import { LoginButton, LogoutButton } from '../authButtons/AuthButtons';
+import { LoginButton, LogoutButton } from '../auth/AuthButtons';
 
 function NavbarLayout() {
 

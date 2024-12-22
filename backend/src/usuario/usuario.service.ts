@@ -29,4 +29,9 @@ export class UsuarioService {
   async remove(id: string): Promise<Usuario> {
     return this.usuarioModel.findOneAndDelete({ _id: id }).exec();
   }
+
+  async checkUserExists(email: string): Promise<boolean> { 
+    const user = await this.usuarioModel.findOne({ email }); 
+    return !!user; // Retorna true si el usuario existe, false si no 
+  }
 }

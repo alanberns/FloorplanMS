@@ -36,4 +36,10 @@ export class UsuarioController {
   remove(@Param('id') id: string) {
     return this.usuarioService.remove(id);
   }
+
+  @Post('checkLogin')
+  async checkLogin(@Body() body: { email: string }) { 
+    const { email } = body; const userExists = await this.usuarioService.checkUserExists(email); 
+    return { exists: userExists }; // Asegúrate de retornar un booleano 
+  }
 }

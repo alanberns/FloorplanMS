@@ -250,6 +250,19 @@ export const deletePlano = async (id: string) => {
   return response.data;
 }
 
+// Verificar si el usuario existe
+export const checkLogin = async (userEmail: string, token: string) => {
+  console.log("peticion a back");
+  const response = await api.post('/usuario/checkLogin',
+  { email: userEmail },
+  {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  console.log("Rta: ", response.data);
+  return response.data;
+};
 
 // Exporta el cliente de Axios para usos adicionales si es necesario
 export default api;
