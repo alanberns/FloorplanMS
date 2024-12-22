@@ -39,7 +39,8 @@ export class UsuarioController {
 
   @Post('checkLogin')
   async checkLogin(@Body() body: { email: string }) { 
-    const { email } = body; const userExists = await this.usuarioService.checkUserExists(email); 
+    const { email } = body; 
+    const userExists = await this.usuarioService.checkUserExistsAndIsActive(email); 
     return { exists: userExists }; // Asegúrate de retornar un booleano 
   }
 }

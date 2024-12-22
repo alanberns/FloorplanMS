@@ -16,7 +16,7 @@ const RedirectPage = () => {
           const data = await checkLogin(user.email || '', token);
 
           if (!data.exists) {
-            showErrorAlert("Usuario no registrado. Cerrando sesión...");
+            showErrorAlert("Usuario no registrado o inactivo. Cerrando sesión...");
             setTimeout(() => {
               logout({ logoutParams: { returnTo: window.location.origin }});
             }, 2000);
