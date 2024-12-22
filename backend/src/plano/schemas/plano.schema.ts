@@ -27,6 +27,9 @@ export class Plano extends Document {
   @Prop({ type: String, required: true})
   nombreArchivo: String
 
+  @Prop({ type: String })
+  usuarioMail: String
+
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Proyecto' })
   proyecto: MongooseSchema.Types.ObjectId;
 }

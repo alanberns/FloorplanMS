@@ -30,4 +30,8 @@ export class CreatePlanoDto {
   @IsNotEmpty()
   @IsString()
   proyectoId: string;
+
+  @IsOptional()
+  @IsString()
+  usuarioMail: String;
 }
