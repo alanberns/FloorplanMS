@@ -34,4 +34,9 @@ export class UsuarioService {
     const user = await this.usuarioModel.findOne({ email, isActive: true }); 
     return !!user; // Retorna true si el usuario existe, false si no 
   }
+
+  async findByEmail(email: string): Promise<Usuario> {
+    const user = await this.usuarioModel.findOne({ email });
+    return user;
+  }
 }

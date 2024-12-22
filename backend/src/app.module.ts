@@ -29,7 +29,7 @@ import { JwtModule } from '@nestjs/jwt';
   ],
   controllers: [AppController],
   providers: [AppService, JwtStrategy, JwtAuthGuard],
-  exports: [JwtAuthGuard]
+  exports: [JwtAuthGuard, PassportModule, JwtModule]
 })
 
 
