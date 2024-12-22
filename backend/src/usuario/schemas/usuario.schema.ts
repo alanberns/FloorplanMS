@@ -16,7 +16,7 @@ export class Usuario extends Document {
   isActive: boolean;
 
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Organizacion' })
-  organizacion: MongooseSchema.Types.ObjectId;
+  organizacionId: MongooseSchema.Types.ObjectId;
 }
 
 export const UsuarioSchema = SchemaFactory.createForClass(Usuario);

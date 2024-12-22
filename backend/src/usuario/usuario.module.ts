@@ -12,6 +12,6 @@ import { OrganizacionModule } from 'src/organizacion/organizacion.module';
   ],
   controllers: [UsuarioController],
   providers: [UsuarioService],
-  exports: [MongooseModule]
+  exports: [MongooseModule, UsuarioService]
 })
 export class UsuarioModule {}

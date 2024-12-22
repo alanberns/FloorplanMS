@@ -28,6 +28,7 @@ export interface Usuario {
   apellido: string;
   email: string;
   isActive: boolean;
+  organizacionId: string;
 }
 
 export interface Plano {

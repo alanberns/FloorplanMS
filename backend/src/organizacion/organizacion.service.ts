@@ -63,18 +63,6 @@ export class OrganizacionService {
     return this.organizacionModel.findByIdAndUpdate( orgId, { $pull: { usuarios: usuarioId } }, { new: true } ).exec();
   }
   
-  async findUsuariosNoAsignados(orgId: string): Promise<Usuario[]> {
-    const organizacion = await this.organizacionModel.findById(orgId).select('usuarios').lean().exec();
-    const usuariosOrg = organizacion?.usuarios || [];
-    
-    const query = {
-      _id: { $nin: usuariosOrg },
-      isActive: true,
-    };
-  
-    return this.usuarioModel.find(query).exec();
-  }
-
   async findProyectosByOrganizacion(orgId: string): Promise<Proyecto[]> {
     const organizacion = await this.organizacionModel.findById(orgId).populate('proyectos').lean().exec(); 
       if (organizacion && organizacion.proyectos) { 

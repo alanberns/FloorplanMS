@@ -1,11 +1,15 @@
 import { Controller, Get, Post, Body, Put, Param, Delete, Patch } from '@nestjs/common';
 import { OrganizacionService } from './organizacion.service';
+import { UsuarioService } from '../usuario/usuario.service';
 import { CreateOrganizacionDto } from './dto/create-organizacion.dto';
 import { UpdateOrganizacionDto } from './dto/update-organizacion.dto';
+import { UpdateUsuarioDto } from 'src/usuario/dto/update-usuario.dto';
 
 @Controller('organizacion')
 export class OrganizacionController {
-  constructor(private readonly organizacionService: OrganizacionService) {}
+  constructor(private readonly organizacionService: OrganizacionService,
+    private readonly usuarioService: UsuarioService
+  ) {}
 
   @Post()
   create(@Body() createOrganizacionDto: CreateOrganizacionDto) {
@@ -39,17 +43,22 @@ export class OrganizacionController {
 
   @Delete(':orgId/usuario/:usuarioId') 
   removeUsuarioFromOrganizacion(@Param('orgId') orgId: string, @Param('usuarioId') usuarioId: string) {
+    let updateUsuarioDto = new UpdateUsuarioDto();
+    updateUsuarioDto.organizacionId=null;
+    this.usuarioService.update(usuarioId,updateUsuarioDto);
    return this.organizacionService.removeUsuarioFromOrganizacion(orgId, usuarioId); 
   }
 
   @Get(':orgId/usuarios-no-asignados') 
-  findUsuariosNoAsignados(@Param('orgId') orgId: string) { 
-    return this.organizacionService.findUsuariosNoAsignados(orgId); 
+  findUsuariosNoAsignados() { 
+    return this.usuarioService.findUsuariosNoAsignados(); 
   }
 
-  // URGENTE: EL USUARIO NO CONOCE A SU ORGANIZACION POR EL MOMENTO.
   @Post(':orgId/usuario/:usuarioId')
   addUsuarioToOrganizacion(@Param('orgId') orgId: string, @Param('usuarioId') usuarioId: string) {
+    let updateUsuarioDto = new UpdateUsuarioDto();
+    updateUsuarioDto.organizacionId=orgId;
+    this.usuarioService.update(usuarioId,updateUsuarioDto);
     return this.organizacionService.addUsuario(orgId,usuarioId);
   }
 

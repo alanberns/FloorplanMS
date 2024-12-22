@@ -23,6 +23,7 @@ export class UsuarioService {
   }
 
   async update(id: string, updateUsuarioDto: UpdateUsuarioDto): Promise<Usuario> {
+    
     return this.usuarioModel.findByIdAndUpdate(id, updateUsuarioDto, { new: true }).exec();
   }
 
@@ -38,5 +39,13 @@ export class UsuarioService {
   async findByEmail(email: string): Promise<Usuario> {
     const user = await this.usuarioModel.findOne({ email });
     return user;
+  }
+
+  async findUsuariosNoAsignados(): Promise<Usuario[]> {
+    const query = {
+      organizacionId: null, 
+      isActive: true,
+    };
+    return this.usuarioModel.find(query).exec();
   }
 }

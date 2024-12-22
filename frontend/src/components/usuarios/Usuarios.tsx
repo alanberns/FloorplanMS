@@ -1,38 +1,43 @@
-import { useEffect, useState } from 'react';
-import { getUsuarios, createUsuario, deleteUsuario, updateUsuario } from '../../api'; 
-import { Usuario } from "../../types";
-import { showErrorAlert, showSuccessAlert } from "../../alerts";
+import React, { useEffect, useState } from 'react';
+import { Spinner, Button, Container, Table } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import { getUsuarios, createUsuario, deleteUsuario, updateUsuario, getOrganizaciones } from '../../api'; 
+import { Usuario, Organizacion } from "../../types";
+import { showErrorAlert, showSuccessAlert } from "../../alerts";
 import UsuarioForm from './UsuarioForm';
-import { Spinner, Button, Container, Table } from 'react-bootstrap';
 
 const MySwal = withReactContent(Swal);
 
 function Usuarios() {
-  
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
+  const [organizaciones, setOrganizaciones] = useState<Organizacion[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [editingUsuario, setEditingUsuario] = useState<Usuario | null>(null);
-  
+
   useEffect(() => {
-    const fetchUsuarios = async () => {
+    const fetchData = async () => {
       try {
-        const data = await getUsuarios();
-        setUsuarios(data);
+        const [usuariosData, organizacionesData] = await Promise.all([
+          getUsuarios(),
+          getOrganizaciones()
+        ]);
+        setUsuarios(usuariosData);
+        setOrganizaciones(organizacionesData);
       } catch (error) {
-        showErrorAlert("Ocurrió un error al cargar los usuarios");
+        showErrorAlert("Ocurrió un error al cargar los datos");
       } finally {
         setLoading(false);
-      }    
+      }
     };
 
-    fetchUsuarios();
+    fetchData();
   }, []);
 
-  const handleCreate = async (data: { nombre: string; apellido: string; email: string }) => {
+  const handleCreate = async (data: { nombre: string; apellido: string; email: string; organizacionId: string }) => {
     try {
       setLoading(true);
+      console.log(data);
       const nuevoUsuario = await createUsuario(data);
       setUsuarios([...usuarios, nuevoUsuario]);
       Swal.close();
@@ -45,9 +50,10 @@ function Usuarios() {
     }
   };
 
-  const handleEdit = async (id: string, data: { nombre: string; apellido: string; email: string, isActive: boolean }) => {
+  const handleEdit = async (id: string, data: { nombre: string; apellido: string; email: string; isActive: boolean; organizacionId: string }) => {
     try {
       setLoading(true);
+      console.log(data);
       const updatedUsuario = await updateUsuario(id, data);
       setUsuarios(usuarios.map(user => (user._id === id ? updatedUsuario : user)));
       setEditingUsuario(null);
@@ -90,7 +96,7 @@ function Usuarios() {
   const handleShowCreateForm = () => {
     MySwal.fire({
       title: 'Crear Usuario',
-      html: <UsuarioForm onSubmit={handleCreate} />,
+      html: <UsuarioForm onSubmit={handleCreate} organizaciones={organizaciones} isEditing={false} />,
       showCancelButton: true,
       showConfirmButton: false,
       cancelButtonText: 'Cancelar',
@@ -104,7 +110,7 @@ function Usuarios() {
     setEditingUsuario(usuario);
     MySwal.fire({
       title: 'Modificar Usuario',
-      html: <UsuarioForm initialData={usuario} onSubmit={(data) => handleEdit(usuario._id, data)} />,
+      html: <UsuarioForm initialData={usuario} onSubmit={(data) => handleEdit(usuario._id, data)} organizaciones={organizaciones} isEditing={true} />,
       showConfirmButton: false,
       showCancelButton: true,
       cancelButtonText: 'Cancelar',
@@ -188,5 +194,4 @@ function Usuarios() {
     </Container>
   );
 }
-
 export default Usuarios;
