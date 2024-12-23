@@ -15,7 +15,7 @@ const PlanosList: React.FC = () => {
     const [planos, setPlanos] = useState<Plano[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [editingPlano, setEditingPlano] = useState<Plano | null>(null);
-    const { getAccessTokenSilently } = useAuth0();
+    const { getAccessTokenSilently, user } = useAuth0();
     
     useEffect(() => {
       const fetchPlanos = async () => {
@@ -39,6 +39,7 @@ const PlanosList: React.FC = () => {
       try {
         setLoading(true);
         formData.append('proyectoId', proyectoId);
+        formData.append('usuarioMail', user?.email || '');
         const token = await getAccessTokenSilently();
         const nuevoPlano = await createPlano(formData, token);
         setPlanos([...planos, nuevoPlano]);

@@ -31,7 +31,8 @@ export class PlanoController {
       
       createPlanoDto.archivo = file.buffer;
       createPlanoDto.nombreArchivo = file.originalname;
-      createPlanoDto.usuarioMail = req.user.email;
+      //createPlanoDto.usuarioMail = req.user.email;
+      //console.log(req,createPlanoDto);
       
       const createdPlano = await this.planoService.create(createPlanoDto);
       await this.proyectoService.addPlano(createPlanoDto.proyectoId, createdPlano.id);
