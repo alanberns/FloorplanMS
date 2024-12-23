@@ -31,7 +31,7 @@ function Organizaciones() {
 
     fetchOrganizaciones();
   }, []);
-  const handleCreate = async (data: { nombre: string; direccion: string; contacto: string }) => {
+  const handleCreate = async (data: { nombre: string; direccion: string; contacto: string; letra: string; numero: number; }) => {
     try {
       setLoading(true);
       const nuevaOrganizacion = await createOrganizacion(data);
@@ -46,7 +46,7 @@ function Organizaciones() {
     }
   };
 
-  const handleEdit = async (id: string, data: { nombre: string; direccion: string; contacto: string }) => {
+  const handleEdit = async (id: string, data: { nombre: string; direccion: string; contacto: string; letra: string; numero: number; }) => {
     try {
       setLoading(true);
       const updatedOrganizacion = await updateOrganizacion(id, data);

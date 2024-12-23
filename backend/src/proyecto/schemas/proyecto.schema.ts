@@ -24,7 +24,7 @@ export class Proyecto extends Document{
   @Prop({ required: true, minlength: 3, maxlength: 100, match: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s, .-@:]*$/ })
   nombre: string;
 
-  @Prop({ required: true, minlength: 3, maxlength: 50, match: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s, .-@:]*$/ })
+  @Prop({ required: true, minlength: 3, maxlength: 50})
   expediente: string;
 
   @Prop({ required: true, minlength: 3, maxlength: 255, match: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s, .-@:]*$/ })

@@ -71,6 +71,7 @@ const UsuarioForm: React.FC<UsuarioFormProps> = ({ initialData, onSubmit, organi
               <ErrorMessage name="organizacionId" component="div" className="text-danger" />
             </div>
           )}
+          <br />
           <Button type="submit" disabled={isSubmitting}>
             Guardar
           </Button>

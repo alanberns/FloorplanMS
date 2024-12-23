@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from 'react-bootstrap';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { organizacionSchema } from '../../validationSchema';
@@ -8,8 +8,16 @@ interface OrganizacionFormProps {
     nombre: string;
     direccion: string;
     contacto: string;
+    letra: string; 
+    numero: number;
   };
-  onSubmit: (data: { nombre: string; direccion: string; contacto: string }) => void;
+  onSubmit: (data: {
+    nombre: string;
+    direccion: string;
+    contacto: string;
+    letra: string;
+    numero: number;
+  }) => void;
 }
 
 const OrganizacionForm: React.FC<OrganizacionFormProps> = ({ initialData, onSubmit }) => {
@@ -18,7 +26,9 @@ const OrganizacionForm: React.FC<OrganizacionFormProps> = ({ initialData, onSubm
       initialValues={{
         nombre: initialData?.nombre || '',
         direccion: initialData?.direccion || '',
-        contacto: initialData?.contacto || ''
+        contacto: initialData?.contacto || '',
+        letra: initialData?.letra || '', 
+        numero: initialData?.numero || 0, 
       }}
       validationSchema={organizacionSchema}
       onSubmit={(values, { setSubmitting }) => {
@@ -43,6 +53,17 @@ const OrganizacionForm: React.FC<OrganizacionFormProps> = ({ initialData, onSubm
             <Field type="text" name="contacto" className="form-control" />
             <ErrorMessage name="contacto" component="div" className="text-danger" />
           </div>
+          <div className="form-group">
+            <label htmlFor="letra">Letra</label>
+            <Field type="text" name="letra" className="form-control" />
+            <ErrorMessage name="letra" component="div" className="text-danger" />
+          </div>
+          <div className="form-group">
+            <label htmlFor="numero">Número</label>
+            <Field type="number" name="numero" className="form-control" />
+            <ErrorMessage name="numero" component="div" className="text-danger" />
+          </div>
+          <br />
           <Button type="submit" disabled={isSubmitting}>
             Guardar
           </Button>

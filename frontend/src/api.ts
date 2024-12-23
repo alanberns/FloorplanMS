@@ -104,7 +104,6 @@ export const getProyecto = async (id: string) => {
 // Crear un nuevo proyecto
 export const createProyecto = async (data: { 
     nombre: string, 
-    expediente: string,
     ubicacion: string, 
     destino: string, 
     obra: string, 
@@ -128,7 +127,6 @@ export const createProyecto = async (data: {
 // Actualizar un proyecto existente
 export const updateProyecto = async (id: string, data: {
     nombre: string, 
-    expediente: string,
     ubicacion: string, 
     destino: string, 
     obra: string, 

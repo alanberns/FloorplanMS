@@ -24,9 +24,6 @@ export class CreateProyectoDto {
   @Matches(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s, .-@:]*$/, { message: 'Valid characters: a-zA-ZáéíóúÁÉÍÓÚñÑ0-9,.- @:' })
   nombre: string;
 
-  @IsString()
-  @Length(3, 50)
-  @Matches(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s, .-@:]*$/, { message: 'Valid characters: a-zA-ZáéíóúÁÉÍÓÚñÑ0-9,.- @:' })
   expediente: string;
 
   @IsNotEmpty()

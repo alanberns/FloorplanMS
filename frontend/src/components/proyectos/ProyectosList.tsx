@@ -39,7 +39,6 @@ const ProyectosList: React.FC = () => {
 
   const handleCreate = async (data: {
     nombre: string;
-    expediente: string;
     ubicacion: string;
     destino: string;
     obra: string;
@@ -68,7 +67,6 @@ const ProyectosList: React.FC = () => {
 
   const handleEdit = async (id: string, data: {
     nombre: string,
-    expediente: string,
     ubicacion: string,
     destino: string,
     obra: string,

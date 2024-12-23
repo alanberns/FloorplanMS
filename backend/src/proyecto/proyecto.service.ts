@@ -51,4 +51,10 @@ export class ProyectoService {
     } 
     return []; 
   };
+
+  async obtainPartida(year: number): Promise<string> { 
+    const yearRegex = new RegExp(`${year}`, 'i'); 
+    const count = await this.proyectoModel.countDocuments({ expediente: { $regex: yearRegex } }).exec(); 
+    return count.toString(); 
+  }
 }

@@ -23,7 +23,6 @@ const DestinoOptions = [
 interface ProyectoFormProps {
   initialData?: {
     nombre: string;
-    expediente: string;
     ubicacion: string;
     destino: string;
     obra: string;
@@ -38,7 +37,6 @@ interface ProyectoFormProps {
   };
   onSubmit: (data: { 
                 nombre: string; 
-                expediente: string,
                 ubicacion: string; 
                 destino: string; 
                 obra: string; 
@@ -57,7 +55,6 @@ const ProyectoForm: React.FC<ProyectoFormProps> = ({ initialData, onSubmit }) =>
     <Formik
       initialValues={{
         nombre: initialData?.nombre || '',
-        expediente: initialData?.expediente || '',
         ubicacion: initialData?.ubicacion || '',
         destino: initialData?.destino || '',
         obra: initialData?.obra || '',
@@ -82,11 +79,6 @@ const ProyectoForm: React.FC<ProyectoFormProps> = ({ initialData, onSubmit }) =>
             <label htmlFor="nombre">Nombre</label>
             <Field type="text" name="nombre" className="form-control" />
             <ErrorMessage name="nombre" component="div" className="text-danger" />
-          </div>
-          <div className="form-group">
-            <label htmlFor="expediente">Expediente</label>
-            <Field type="text" name="expediente" className="form-control" />
-            <ErrorMessage name="expediente" component="div" className="text-danger" />
           </div>
           <div className="form-group">
             <label htmlFor="obra">Obra</label>
@@ -143,6 +135,7 @@ const ProyectoForm: React.FC<ProyectoFormProps> = ({ initialData, onSubmit }) =>
             <Field type="text" name="direccionTecnica" className="form-control" />
             <ErrorMessage name="direccionTecnica" component="div" className="text-danger" />
           </div>
+          <br />
           <Button type="submit" disabled={isSubmitting}>
             Guardar
           </Button>

@@ -13,6 +13,9 @@ export class ProyectoController {
   @Post()
   async create(@Body() createProyectoDto: CreateProyectoDto) {
     try {
+      let expediente = await this.organizacionService.obtainExpediente(createProyectoDto.organizacionId);
+      expediente += await this.proyectoService.obtainPartida(new Date().getFullYear());
+      createProyectoDto.expediente = expediente;
       const createdProyecto = await this.proyectoService.create(createProyectoDto);
       await this.organizacionService.addProyecto(createProyectoDto.organizacionId, createdProyecto.id);
       return createdProyecto;

@@ -3,6 +3,8 @@ export interface Organizacion {
     nombre: string;
     direccion: string;
     contacto: string;
+    letra: string; 
+    numero: number;
   }
 
 export interface Proyecto {

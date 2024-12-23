@@ -65,9 +65,15 @@ export class OrganizacionService {
   
   async findProyectosByOrganizacion(orgId: string): Promise<Proyecto[]> {
     const organizacion = await this.organizacionModel.findById(orgId).populate('proyectos').lean().exec(); 
-      if (organizacion && organizacion.proyectos) { 
-        return organizacion.proyectos as unknown as Proyecto[]; 
-      } 
-      return []; 
-    };
+    if (organizacion && organizacion.proyectos) { 
+      return organizacion.proyectos as unknown as Proyecto[]; 
+    } 
+    return []; 
+  };
+
+  async obtainExpediente(orgId: string): Promise<string> {
+    const org = await this.findOne(orgId);
+    const year = new Date().getFullYear(); 
+    return `${org.letra}/${org.numero}/${year}/`; 
+  }
 }

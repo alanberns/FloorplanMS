@@ -17,6 +17,10 @@ export const organizacionSchema = Yup.object().shape({
     .min(3, 'El contacto es muy corto')
     .max(100, 'El contacto es muy largo')
     .required('El contacto es obligatorio'),
+  letra: Yup.string()
+    .required('La letra es obligatoria'),
+  numero: Yup.number()
+    .required('El número es obligatorio'),
 });
 
 export const proyectoSchema = Yup.object().shape({
@@ -24,11 +28,6 @@ export const proyectoSchema = Yup.object().shape({
     .min(3, 'El nombre es muy corto')
     .max(100, 'El nombre es muy largo')
     .matches(textoRegEx, 'Caracteres válidos: '+ validChars),
-  expediente: Yup.string()
-    .min(3, 'El expediente es muy corto')
-    .max(50, 'El expediente es muy largo')
-    .matches(textoRegEx, 'Caracteres válidos: '+ validChars)
-    .required('El expediente es obligatorio'),
   ubicacion: Yup.string()
     .min(3, 'La ubicación es muy corta')
     .max(255, 'La ubicación es muy larga')

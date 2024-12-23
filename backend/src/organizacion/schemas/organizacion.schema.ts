@@ -12,6 +12,12 @@ export class Organizacion extends Document {
   @Prop({ required: true, minlength: 3, maxlength: 300 })
   contacto: string;
 
+  @Prop({ required: true }) 
+  letra: string; 
+  
+  @Prop({ required: true }) 
+  numero: number;
+
   @Prop([{ type: MongooseSchema.Types.ObjectId, ref: 'Usuario' }])
   usuarios: MongooseSchema.Types.ObjectId[];
 

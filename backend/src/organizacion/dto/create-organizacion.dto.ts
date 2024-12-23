@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, Length } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, Length } from 'class-validator';
 
 export class CreateOrganizacionDto {
   @IsNotEmpty()
@@ -15,4 +15,12 @@ export class CreateOrganizacionDto {
   @IsString()
   @Length(3, 300)
   contacto: string;
+
+  @IsNotEmpty()
+  @IsString()
+  letra: string; 
+  
+  @IsNotEmpty()
+  @IsNumber()
+  numero: number;
 }
