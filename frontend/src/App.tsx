@@ -19,13 +19,13 @@ function App() {
       <BaseLayout>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/redirect" element={<RedirectPage />} />
           <Route path="/organizaciones" element={<Organizaciones />} />
           <Route path="/proyectos" element={<Proyectos />} />
           <Route path="/organizaciones/:orgId/usuarios" element={<UsuariosList />} />
+          <Route path='/usuarios' element={<Usuarios />} />
           <Route path="/organizaciones/:orgId/proyectos" element={<ProyectosList />} />
           <Route path="/proyectos/:proyectoId/planos" element={<PlanosList />} />
-          <Route path="/redirect" element={<RedirectPage />} />
-          <Route path='/usuarios' element={<Usuarios />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BaseLayout>

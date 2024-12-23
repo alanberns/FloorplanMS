@@ -7,6 +7,9 @@ import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import OrganizacionForm from './OrganizacionForm';
 import { Spinner, Button, Container, Table } from 'react-bootstrap';
+import { useAuthContext } from '../auth/AuthContext';
+
+
 
 const MySwal = withReactContent(Swal);
 
@@ -16,6 +19,7 @@ function Organizaciones() {
   const [loading, setLoading] = useState<boolean>(true);
   const [editingOrganizacion, setEditingOrganizacion] = useState<Organizacion | null>(null);
   const navigate = useNavigate();
+  const { userInfo } = useAuthContext();
 
   useEffect(() => {
     const fetchOrganizaciones = async () => {
@@ -187,6 +191,20 @@ function Organizaciones() {
     navigate(`/organizaciones/${orgId}/usuarios`);
   };
 
+  const navigateToHome = () => {
+    navigate(`/`);
+  };
+
+  if (userInfo?.role !== "Admin") { 
+    return ( 
+    <Container> 
+      <h1 className="text-center my-4">Acceso Denegado</h1> 
+      <p className="text-center">No tienes permiso para ver esta página.</p> 
+      <div className="d-flex justify-content-center mb-3">
+        <Button variant="secondary" onClick={() => navigateToHome()} className="me-2">Ir al inicio</Button>
+      </div>
+    </Container> ); 
+  }
   return (
     <Container>
       <h1 className="text-center my-4">Organizaciones</h1>

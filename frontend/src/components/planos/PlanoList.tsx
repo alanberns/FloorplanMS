@@ -163,7 +163,7 @@ const PlanosList: React.FC = () => {
               </div>
               {planos.length === 0 ? (
                 <div className="text-center">
-                  <p>No hay planos registrados.</p>
+                  <p>No se encontraron planos.</p>
                 </div>
               ) : (
                 <Table striped bordered hover className="rounded">

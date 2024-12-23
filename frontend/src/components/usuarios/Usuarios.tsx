@@ -6,6 +6,8 @@ import { getUsuarios, createUsuario, deleteUsuario, updateUsuario, getOrganizaci
 import { Usuario, Organizacion } from "../../types";
 import { showErrorAlert, showSuccessAlert } from "../../alerts";
 import UsuarioForm from './UsuarioForm';
+import { useAuthContext } from '../auth/AuthContext';
+
 
 const MySwal = withReactContent(Swal);
 
@@ -14,6 +16,8 @@ function Usuarios() {
   const [organizaciones, setOrganizaciones] = useState<Organizacion[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [editingUsuario, setEditingUsuario] = useState<Usuario | null>(null);
+  const { userInfo } = useAuthContext();
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -137,6 +141,21 @@ function Usuarios() {
     });
   };
 
+  const navigateToHome = () => {
+    navigate(`/`);
+  };
+
+  if (userInfo?.role !== "Admin") { 
+    return ( 
+    <Container> 
+      <h1 className="text-center my-4">Acceso Denegado</h1> 
+      <p className="text-center">No tienes permiso para ver esta página.</p> 
+      <div className="d-flex justify-content-center mb-3">
+        <Button variant="secondary" onClick={() => navigateToHome()} className="me-2">Ir al inicio</Button>
+      </div>
+    </Container> ); 
+  }
+
   return (
     <Container>
       <h1 className="text-center my-4">Usuarios</h1>
@@ -153,7 +172,7 @@ function Usuarios() {
           </div>
           {usuarios.length === 0 ? (
             <div className="text-center">
-              <p>No hay usuarios registrados.</p>
+              <p>No se encontraron usuarios.</p>
             </div>
           ) : (
             <Table striped bordered hover className="rounded">

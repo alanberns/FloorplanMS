@@ -203,7 +203,7 @@ const ProyectosList: React.FC = () => {
           </div>
           {proyectos.length === 0 ? (
             <div className="text-center">
-              <p>No hay proyectos registrados.</p>
+              <p>No se encontraron proyectos.</p>
             </div>
           ) : (
             <Table striped bordered hover className="rounded">

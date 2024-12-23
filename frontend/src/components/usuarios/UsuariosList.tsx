@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Table, Button, Spinner, Container } from 'react-bootstrap';
 import { getUsuariosByOrganizacion, removeUsuarioFromOrganizacion } from '../../api';
 import { showErrorAlert, showSuccessAlert } from "../../alerts";
+import { useAuthContext } from '../auth/AuthContext';
 
 interface UsuariosListProps {
     orgId: string;
@@ -14,6 +15,7 @@ interface UsuariosListProps {
     const navigate = useNavigate();
     const [usuarios, setUsuarios] = useState<Usuario[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const { userInfo } = useAuthContext();
   
 
   useEffect(() => {
@@ -45,7 +47,20 @@ interface UsuariosListProps {
     }
   };
 
+  const navigateToHome = () => {
+    navigate(`/`);
+  };
 
+  if (userInfo?.role !== "Admin") { 
+    return ( 
+    <Container> 
+      <h1 className="text-center my-4">Acceso Denegado</h1> 
+      <p className="text-center">No tienes permiso para ver esta página.</p> 
+      <div className="d-flex justify-content-center mb-3">
+        <Button variant="secondary" onClick={() => navigateToHome()} className="me-2">Ir al inicio</Button>
+      </div>
+    </Container> ); 
+  }
   return (
     <Container>
       <h1 className="text-center my-4">Usuarios</h1>
@@ -62,7 +77,7 @@ interface UsuariosListProps {
           </div>
           {usuarios.length === 0 ? (
             <div className="text-center">
-              <p>No hay usuarios registrados.</p>
+              <p>No se encontraron usuarios.</p>
             </div>
           ) : (
             <Table striped bordered hover className="rounded">

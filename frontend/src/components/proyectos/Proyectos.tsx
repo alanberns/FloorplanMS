@@ -6,6 +6,9 @@ import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import ProyectoForm from './ProyectoForm';
 import { Spinner, Button, Table, Container } from 'react-bootstrap';
+import { useAuthContext } from '../auth/AuthContext';
+import { useNavigate } from 'react-router-dom';
+
 
 const MySwal = withReactContent(Swal);
 
@@ -14,6 +17,9 @@ function Proyectos() {
   const [proyectos, setProyectos] = useState<Proyecto[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [editingProyecto, setEditingProyecto] = useState<Proyecto | null>(null);
+  const { userInfo } = useAuthContext();
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const fetchProyectos = async () => {
@@ -113,6 +119,20 @@ function Proyectos() {
     });
   };
 
+  const navigateToHome = () => {
+    navigate(`/`);
+  };
+
+  if (userInfo?.role !== "Admin") { 
+    return ( 
+    <Container> 
+      <h1 className="text-center my-4">Acceso Denegado</h1> 
+      <p className="text-center">No tienes permiso para ver esta página.</p> 
+      <div className="d-flex justify-content-center mb-3">
+        <Button variant="secondary" onClick={() => navigateToHome()} className="me-2">Ir al inicio</Button>
+      </div>
+    </Container> ); 
+  }
   return (
     <Container>
       <h1 className="text-center my-4">Proyectos</h1>
@@ -126,7 +146,7 @@ function Proyectos() {
         <>
           {proyectos.length === 0 ? (
             <div className="text-center">
-              <p>No hay proyectos registrados.</p>
+              <p>No se encontraron proyectos.</p>
             </div>
           ) : (
             <Table striped bordered hover className="rounded">
