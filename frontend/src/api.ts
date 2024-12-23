@@ -159,6 +159,17 @@ export const deleteProyecto = async (id: string) => {
   }
 };
 
+// Cambiar estado de un proyecto
+export const toggleAprobado = async (id: string, data: { aprobado: boolean }) => {
+  try {
+    const response = await api.patch(`/proyecto/${id}`, data);
+    return response.data;
+  } catch (error) {
+    console.error('Error al modificar proyecto:', error);
+    throw error;
+  }
+}
+
 // Obtener proyectos de una organizacion
 export const getProyectosByOrganizacion = async (orgId: string) => {
   const response = await api.get(`/organizacion/${orgId}/proyectos`);
@@ -252,7 +263,6 @@ export const deletePlano = async (id: string) => {
 
 // Verificar si el usuario existe
 export const checkLogin = async (userEmail: string, token: string) => {
-  console.log("peticion a back");
   const response = await api.post('/usuario/checkLogin',
   { email: userEmail },
   {
@@ -260,7 +270,6 @@ export const checkLogin = async (userEmail: string, token: string) => {
       Authorization: `Bearer ${token}`,
     },
   });
-  console.log("Rta: ", response.data);
   return response.data;
 };
 

@@ -1,13 +1,15 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { OrganizacionService } from '../organizacion/organizacion.service';
 import { UsuarioService } from './usuario.service';
+import { AdminService } from 'src/admin/admin.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 
 @Controller('usuario')
 export class UsuarioController {
   constructor(private readonly usuarioService: UsuarioService,
-    private readonly organizacionService: OrganizacionService
+    private readonly organizacionService: OrganizacionService,
+    private readonly adminService: AdminService,
   ) {}
 
   @Post()
@@ -40,7 +42,12 @@ export class UsuarioController {
   @Post('checkLogin')
   async checkLogin(@Body() body: { email: string }) { 
     const { email } = body; 
-    const userExists = await this.usuarioService.checkUserExistsAndIsActive(email); 
-    return { exists: userExists }; // Asegúrate de retornar un booleano 
+    const userExists = await this.usuarioService.checkUserExistsAndIsActive(email);
+
+    const user = await this.usuarioService.findByEmail(email);
+    const isAdmin = await this.adminService.isAdmin(user._id as string);
+    console.log(isAdmin);
+    const rol = isAdmin? "Admin" : "User";
+    return { exists: userExists, rol: rol, user: user }; 
   }
 }

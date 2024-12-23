@@ -1,23 +1,16 @@
-import { useEffect, useState } from 'react';
-import { createProyecto, updateProyecto, deleteProyecto, getProyectosByOrganizacion, getOrganizacionById } from '../../api';
+import React, { useEffect, useState } from 'react';
+import { createProyecto, updateProyecto, deleteProyecto, getProyectosByOrganizacion, getOrganizacionById, toggleAprobado } from '../../api';
 import { Organizacion, Proyecto } from "../../types";
 import { showErrorAlert, showSuccessAlert } from "../../alerts";
 import Swal from 'sweetalert2';
 import ProyectoForm from './ProyectoForm';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Spinner, Button, Table, Container } from 'react-bootstrap';
 import withReactContent from 'sweetalert2-react-content';
-import { useNavigate } from 'react-router-dom';
-
-
-interface ProyectosListProps {
-    orgId: string;
-  }
 
 const MySwal = withReactContent(Swal);
 
-
-const ProyectosList: React.FC<ProyectosListProps> = () => {
+const ProyectosList: React.FC = () => {
   const { orgId } = useParams<{ orgId: string }>();
   const [proyectos, setProyectos] = useState<Proyecto[]>([]);
   const [organizacion, setOrganizacion] = useState<Organizacion>();
@@ -28,7 +21,7 @@ const ProyectosList: React.FC<ProyectosListProps> = () => {
   useEffect(() => {
     const fetchProyectos = async () => {
       try {
-        setLoading(true); 
+        setLoading(true);
         if (!orgId) { throw new Error("Organización ID no disponible"); }
         const data = await getProyectosByOrganizacion(orgId);
         setProyectos(data);
@@ -44,20 +37,21 @@ const ProyectosList: React.FC<ProyectosListProps> = () => {
     fetchProyectos();
   }, [orgId]);
 
-  const handleCreate = async (data: { 
-                                  nombre: string; 
-                                  expediente: string;
-                                  ubicacion: string; 
-                                  destino: string; 
-                                  obra: string; 
-                                  escala: string; 
-                                  otrasExigencias: string;
-                                  antecedentes: string;
-                                  propietario: string;
-                                  proyectistas: string;
-                                  direccionTecnica: string;
-                                  aprobado: boolean;
-                                  organizacionId: string; }) => {
+  const handleCreate = async (data: {
+    nombre: string;
+    expediente: string;
+    ubicacion: string;
+    destino: string;
+    obra: string;
+    escala: string;
+    otrasExigencias: string;
+    antecedentes: string;
+    propietario: string;
+    proyectistas: string;
+    direccionTecnica: string;
+    aprobado: boolean;
+    organizacionId: string;
+  }) => {
     try {
       setLoading(true);
       console.log("handle create");
@@ -72,19 +66,20 @@ const ProyectosList: React.FC<ProyectosListProps> = () => {
     }
   };
 
-  const handleEdit = async (id: string, data: { 
-      nombre: string, 
-      expediente: string,
-      ubicacion: string, 
-      destino: string, 
-      obra: string, 
-      escala: string, 
-      otrasExigencias: string,
-      antecedentes: string,
-      propietario: string,
-      proyectistas: string,
-      direccionTecnica: string,
-      aprobado: boolean, }) => {
+  const handleEdit = async (id: string, data: {
+    nombre: string,
+    expediente: string,
+    ubicacion: string,
+    destino: string,
+    obra: string,
+    escala: string,
+    otrasExigencias: string,
+    antecedentes: string,
+    propietario: string,
+    proyectistas: string,
+    direccionTecnica: string,
+    aprobado: boolean,
+  }) => {
     try {
       setLoading(true);
       const updatedProyecto = await updateProyecto(id, data);
@@ -157,32 +152,41 @@ const ProyectosList: React.FC<ProyectosListProps> = () => {
     });
   };
 
-  const handleShowDetails = (proyecto: Proyecto) => { 
-    MySwal.fire({ 
-      title: `<strong>${proyecto.expediente}</strong>`, 
-      html: ` 
-        <div class="card"> 
-          <div class="card-body text-start"> 
-            <p class="card-text"><strong>Nombre:</strong> ${proyecto.nombre ? proyecto.nombre : "-"}</p> 
-            <p class="card-text"><strong>Ubicación:</strong> ${proyecto.ubicacion ? proyecto.ubicacion : "-"}</p> 
-            <p class="card-text"><strong>Destino:</strong> ${proyecto.destino ? proyecto.destino : "-"}</p> 
-            <p class="card-text"><strong>Obra:</strong> ${proyecto.obra}</p> 
-            <p class="card-text"><strong>Aprobado:</strong> ${proyecto.aprobado ? 'Sí' : 'No'}</p> 
-            <p class="card-text"><strong>Antecedentes:</strong> ${proyecto.antecedentes ? proyecto.antecedentes : "-"}</p> 
-            <p class="card-text"><strong>Propietarios:</strong> ${proyecto.propietario ? proyecto.propietario : "-"}</p> 
-            <p class="card-text"><strong>Proyectistas:</strong> ${proyecto.proyectistas ? proyecto.proyectistas : "-"}</p> 
-            <p class="card-text"><strong>Dirección técnica:</strong> ${proyecto.direccionTecnica ? proyecto.direccionTecnica : "-"}</p> 
-            <p class="card-text"><strong>Otras exigencias:</strong> ${proyecto.otrasExigencias ? proyecto.otrasExigencias : "-"}</p> 
+  const handleShowDetails = (proyecto: Proyecto) => {
+    MySwal.fire({
+      title: `<strong>${proyecto.expediente}</strong>`,
+      html: `
+        <div class="card">
+          <div class="card-body text-start">
+            <p class="card-text"><strong>Nombre:</strong> ${proyecto.nombre ? proyecto.nombre : "-"}</p>
+            <p class="card-text"><strong>Ubicación:</strong> ${proyecto.ubicacion ? proyecto.ubicacion : "-"}</p>
+            <p class="card-text"><strong>Destino:</strong> ${proyecto.destino ? proyecto.destino : "-"}</p>
+            <p class="card-text"><strong>Obra:</strong> ${proyecto.obra}</p>
+            <p class="card-text"><strong>Aprobado:</strong> ${proyecto.aprobado ? 'Sí' : 'No'}</p>
+            <p class="card-text"><strong>Antecedentes:</strong> ${proyecto.antecedentes ? proyecto.antecedentes : "-"}</p>
+            <p class="card-text"><strong>Propietarios:</strong> ${proyecto.propietario ? proyecto.propietario : "-"}</p>
+            <p class="card-text"><strong>Proyectistas:</strong> ${proyecto.proyectistas ? proyecto.proyectistas : "-"}</p>
+            <p class="card-text"><strong>Dirección técnica:</strong> ${proyecto.direccionTecnica ? proyecto.direccionTecnica : "-"}</p>
+            <p class="card-text"><strong>Otras exigencias:</strong> ${proyecto.otrasExigencias ? proyecto.otrasExigencias : "-"}</p>
           </div>
         </div> `,
       showCancelButton: false,
-      showConfirmButton: true, 
-      confirmButtonText: 'Volver', 
+      showConfirmButton: true,
+      confirmButtonText: 'Volver',
     });
   };
 
-  const handleShowPlanos = (proyectoId: string) => { 
-    navigate(`/proyectos/${proyectoId}/planos`); 
+  const handleToggleApprove = async (proyectoId: string, aprobado: boolean) => {
+    try {
+      const updatedProyecto = await toggleAprobado(proyectoId, { aprobado });
+      setProyectos(proyectos.map(proj => (proj._id === proyectoId ? { ...proj, aprobado } : proj))); // Actualiza el estado local
+    } catch (error) {
+      console.error('Error al modificar el estado del proyecto:', error);
+    }
+  }
+
+  const handleShowPlanos = (proyectoId: string) => {
+    navigate(`/proyectos/${proyectoId}/planos`);
   };
 
   return (
@@ -224,6 +228,7 @@ const ProyectosList: React.FC<ProyectosListProps> = () => {
                       <Button variant="secondary" onClick={() => handleConfirmDelete(proyecto._id)} className="me-2">Eliminar</Button>
                       <Button variant="secondary" onClick={() => handleShowDetails(proyecto)} className="me-2">Ver detalles</Button>
                       <Button variant="secondary" onClick={() => handleShowPlanos(proyecto._id)} className="me-2">Ver planos</Button>
+                      <Button variant="secondary" onClick={() => handleToggleApprove(proyecto._id, !proyecto.aprobado)} className="me-2" > {proyecto.aprobado ? 'Desaprobar' : 'Aprobar'} </Button>
                     </td>
                   </tr>
                 ))}

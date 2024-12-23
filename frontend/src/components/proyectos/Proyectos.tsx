@@ -30,20 +30,6 @@ function Proyectos() {
     fetchProyectos();
   }, []);
 
-  const handleCreate = async (data: { nombre: string; ubicacion: string, destino: string, obra: string, escala: string }) => {
-    try {
-      setLoading(true);
-      const nuevoProyecto = await createProyecto(data);
-      setProyectos([...proyectos, nuevoProyecto]);
-      Swal.close();
-      showSuccessAlert("El proyecto ha sido creado");
-    } catch (error) {
-      console.error('Error al crear proyecto:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handleEdit = async (id: string, data: { nombre: string; ubicacion: string, destino: string, obra: string, escala: string }) => {
     try {
       setLoading(true);
@@ -70,19 +56,6 @@ function Proyectos() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleShowCreateForm = () => {
-    MySwal.fire({
-      title: 'Crear Proyecto',
-      html: <ProyectoForm onSubmit={handleCreate} />,
-      showCancelButton: true,
-      showConfirmButton: false,
-      cancelButtonText: 'Cancelar',
-      preConfirm: () => {
-        Swal.close();
-      },
-    });
   };
 
   const handleShowEditForm = (proyecto: Proyecto) => {
@@ -151,9 +124,6 @@ function Proyectos() {
         </div>
       ) : (
         <>
-          <div className="d-flex justify-content-end mb-3">
-            <Button variant="primary" onClick={handleShowCreateForm}>Crear Proyecto</Button>
-          </div>
           {proyectos.length === 0 ? (
             <div className="text-center">
               <p>No hay proyectos registrados.</p>
@@ -178,7 +148,6 @@ function Proyectos() {
                       <Button variant="secondary" onClick={() => handleShowEditForm(proyecto)} className="me-2">Modificar</Button>
                       <Button variant="secondary" onClick={() => handleConfirmDelete(proyecto._id)} className="me-2">Eliminar</Button>
                       <Button variant="secondary" onClick={() => handleShowDetails(proyecto)} className="me-2">Ver detalles</Button>
-                      <Button variant="secondary" onClick={() => showErrorAlert('Sin implementar')} className="me-2">Ver planos</Button>
                     </td>
                   </tr>
                 ))}

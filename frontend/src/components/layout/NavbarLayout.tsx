@@ -2,17 +2,26 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
 import { LoginButton, LogoutButton } from '../auth/AuthButtons';
+import { useAuthContext } from '../auth/AuthContext'; 
 
 function NavbarLayout() {
 
   const location = useLocation();
   const { user, isAuthenticated } = useAuth0();
+  const { userInfo } = useAuthContext(); 
 
-  const routes = [
-      {path:"/", name:"Home"},
-      {path:"/organizaciones", name:"Organizaciones"},
-      {path:"/proyectos", name:"Proyectos"},
+  const routes = [ 
+    { path: "/", name: "Home" },
+    ...(isAuthenticated && userInfo && userInfo.rol === "Admin" ? [
+      { path: "/organizaciones", name: "Organizaciones" },
+      { path: "/proyectos", name: "Proyectos" }
+    ] : (
+      isAuthenticated && userInfo && userInfo.user.organizacionId ? [
+        { path: `/organizaciones/${userInfo.user.organizacionId}/proyectos`, name: "Proyectos" }
+      ] : []
+    ))
   ];
+  
 
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
