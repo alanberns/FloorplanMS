@@ -10,9 +10,9 @@ const api = axios.create({
 // ORGANIZACIONES
 
 // Obtener una organizacion por id
-export const getOrganizacionById = async (id: string) => {
+export const getOrganizacionById = async (id: string, token: string) => {
   try{
-      const response = await api.get(`/organizacion/${id}`);
+      const response = await api.get(`/organizacion/${id}`, { headers: { Authorization: `Bearer ${token}` }});
       return response.data;
   } catch(error) {
       console.error('Error al obtener la organización:', error);
@@ -22,9 +22,9 @@ export const getOrganizacionById = async (id: string) => {
 
 
 // Obtener todas las organizaciones
-export const getOrganizaciones = async () => {
+export const getOrganizaciones = async (token: string) => {
   try{
-      const response = await api.get('/organizacion');
+      const response = await api.get('/organizacion', { headers: { Authorization: `Bearer ${token}` }});
       return response.data;
   } catch(error) {
       console.error('Error al obtener organizaciones:', error);
@@ -33,9 +33,9 @@ export const getOrganizaciones = async () => {
 }
 
 // Obtener una organizacion
-export const getOrganizacion = async (id: string) => {
+export const getOrganizacion = async (id: string, token: string) => {
   try{
-      const response = await api.get(`/organizacion/${id}`);
+      const response = await api.get(`/organizacion/${id}`, { headers: { Authorization: `Bearer ${token}` }});
       return response.data;
   } catch(error) {
       console.error('Error al obtener la organizacion:', error);
@@ -44,9 +44,9 @@ export const getOrganizacion = async (id: string) => {
 }
 
 // Crear una nueva organización
-export const createOrganizacion = async (data: { nombre: string; direccion: string; contacto: string }) => {
+export const createOrganizacion = async (data: { nombre: string; direccion: string; contacto: string }, token: string) => {
   try {
-    const response = await api.post('/organizacion', data);
+    const response = await api.post('/organizacion', data, { headers: { Authorization: `Bearer ${token}` }});
     return response.data;
   } catch (error) {
     console.error('Error al crear organización:', error);
@@ -55,9 +55,9 @@ export const createOrganizacion = async (data: { nombre: string; direccion: stri
 };
 
 // Actualizar una organización existente
-export const updateOrganizacion = async (id: string, data: { nombre: string; direccion: string; contacto: string }) => {
+export const updateOrganizacion = async (id: string, data: { nombre: string; direccion: string; contacto: string }, token: string) => {
   try {
-    const response = await api.put(`/organizacion/${id}`, data);
+    const response = await api.put(`/organizacion/${id}`, data, { headers: { Authorization: `Bearer ${token}` }});
     return response.data;
   } catch (error) {
     console.error('Error al actualizar organización:', error);
@@ -66,9 +66,9 @@ export const updateOrganizacion = async (id: string, data: { nombre: string; dir
 };
 
 // Eliminar una organización
-export const deleteOrganizacion = async (id: string) => {
+export const deleteOrganizacion = async (id: string, token: string) => {
   try {
-    const response = await api.delete(`/organizacion/${id}`);
+    const response = await api.delete(`/organizacion/${id}`, { headers: { Authorization: `Bearer ${token}` }});
     return response.data;
   } catch (error) {
     console.error('Error al eliminar organización:', error);
@@ -80,9 +80,9 @@ export const deleteOrganizacion = async (id: string) => {
 // PROYECTOS
 
 // Obtener todos los proyectos
-export const getProyectos = async () => {
+export const getProyectos = async (token: string) => {
   try{
-      const response = await api.get('/proyecto');
+      const response = await api.get('/proyecto', { headers: { Authorization: `Bearer ${token}` }});
       return response.data;
   } catch(error) {
       console.error('Error al obtener proyectos:', error);
@@ -91,9 +91,9 @@ export const getProyectos = async () => {
 }
 
 // Obtener un proyecto
-export const getProyecto = async (id: string) => {
+export const getProyecto = async (id: string, token: string) => {
   try{
-      const response = await api.get(`/proyecto/${id}`);
+      const response = await api.get(`/proyecto/${id}`, { headers: { Authorization: `Bearer ${token}` }});
       return response.data;
   } catch(error) {
       console.error('Error al obtener el proyecto:', error);
@@ -114,9 +114,9 @@ export const createProyecto = async (data: {
     proyectistas: string,
     direccionTecnica: string,
     aprobado: boolean,
-    organizacionId: string }) => {
+    organizacionId: string }, token: string) => {
   try {
-    const response = await api.post('/proyecto', data);
+    const response = await api.post('/proyecto', data, { headers: { Authorization: `Bearer ${token}` }});
     return response.data;
   } catch (error) {
     console.error('Error al crear proyecto:', error);
@@ -136,9 +136,9 @@ export const updateProyecto = async (id: string, data: {
     propietario: string,
     proyectistas: string,
     direccionTecnica: string,
-    aprobado: boolean, }) => {
+    aprobado: boolean, }, token: string) => {
   try {
-    const response = await api.patch(`/proyecto/${id}`, data);
+    const response = await api.patch(`/proyecto/${id}`, data, { headers: { Authorization: `Bearer ${token}` }});
     return response.data;
   } catch (error) {
     console.error('Error al actualizar proyecto:', error);
@@ -147,9 +147,9 @@ export const updateProyecto = async (id: string, data: {
 };
 
 // Eliminar un proyecto
-export const deleteProyecto = async (id: string) => {
+export const deleteProyecto = async (id: string, token: string) => {
   try {
-    const response = await api.delete(`/proyecto/${id}`);
+    const response = await api.delete(`/proyecto/${id}`, { headers: { Authorization: `Bearer ${token}` }});
     return response.data;
   } catch (error) {
     console.error('Error al eliminar proyecto:', error);
@@ -158,9 +158,9 @@ export const deleteProyecto = async (id: string) => {
 };
 
 // Cambiar estado de un proyecto
-export const toggleAprobado = async (id: string, data: { aprobado: boolean }) => {
+export const toggleAprobado = async (id: string, data: { aprobado: boolean }, token: string) => {
   try {
-    const response = await api.patch(`/proyecto/${id}`, data);
+    const response = await api.patch(`/proyecto/${id}`, data, { headers: { Authorization: `Bearer ${token}` }});
     return response.data;
   } catch (error) {
     console.error('Error al modificar proyecto:', error);
@@ -169,54 +169,54 @@ export const toggleAprobado = async (id: string, data: { aprobado: boolean }) =>
 }
 
 // Obtener proyectos de una organizacion
-export const getProyectosByOrganizacion = async (orgId: string) => {
-  const response = await api.get(`/organizacion/${orgId}/proyectos`);
+export const getProyectosByOrganizacion = async (orgId: string, token: string) => {
+  const response = await api.get(`/organizacion/${orgId}/proyectos`, { headers: { Authorization: `Bearer ${token}` }});
   return response.data;
 };
 
 
 // USUARIOS
-export const getUsuarios = async () => {
-  const response = await api.get('/usuario');
+export const getUsuarios = async (token: string) => {
+  const response = await api.get('/usuario', { headers: { Authorization: `Bearer ${token}` }});
   return response.data;
 };
 
-export const createUsuario = async (data: { nombre: string; apellido: string; email: string }) => {
-  const response = await api.post('/usuario', data);
+export const createUsuario = async (data: { nombre: string; apellido: string; email: string }, token: string) => {
+  const response = await api.post('/usuario', data, { headers: { Authorization: `Bearer ${token}` }});
   return response.data;
 };
 
-export const updateUsuario = async (id: string, data: Partial<{ isActive: boolean }>) => { 
-  const response = await api.patch(`/usuario/${id}`, data); 
+export const updateUsuario = async (id: string, data: Partial<{ isActive: boolean }>, token: string) => { 
+  const response = await api.patch(`/usuario/${id}`, data, { headers: { Authorization: `Bearer ${token}` }}); 
   return response.data; 
 };
 
-export const deleteUsuario = async (id: string) => {
-  const response = await api.delete(`/usuario/${id}`);
+export const deleteUsuario = async (id: string, token: string) => {
+  const response = await api.delete(`/usuario/${id}`, { headers: { Authorization: `Bearer ${token}` }});
   return response.data;
 };
 
 // Obtener usuarios de una organizacion
-export const getUsuariosByOrganizacion = async (orgId: string) => {
-  const response = await api.get(`/organizacion/${orgId}/usuarios`);
+export const getUsuariosByOrganizacion = async (orgId: string, token: string) => {
+  const response = await api.get(`/organizacion/${orgId}/usuarios`, { headers: { Authorization: `Bearer ${token}` }});
   return response.data;
 };
 
 // Eliminar usuario de una organizacion
-export const removeUsuarioFromOrganizacion = async (orgId: string, usuarioId: string) => { 
-  const response = await api.delete(`/organizacion/${orgId}/usuario/${usuarioId}`); 
+export const removeUsuarioFromOrganizacion = async (orgId: string, usuarioId: string, token: string) => { 
+  const response = await api.delete(`/organizacion/${orgId}/usuario/${usuarioId}`, { headers: { Authorization: `Bearer ${token}` }}); 
   return response.data; 
 };
 
 // Añadir usuario a organizacion
-export const addUsuarioToOrganizacion = async (orgId: string, usuarioId: string) => {
-  const response = await api.post(`/organizacion/${orgId}/usuario/${usuarioId}`); 
+export const addUsuarioToOrganizacion = async (orgId: string, usuarioId: string, token: string) => {
+  const response = await api.post(`/organizacion/${orgId}/usuario/${usuarioId}`, { headers: { Authorization: `Bearer ${token}` }}); 
   return response.data; 
 };
 
 //Obtener usuarios que no pertenecen a una organizacion
-export const getUsuariosNoAsignados = async (orgId: string) => {
-  const response = await api.get(`/organizacion/${orgId}/usuarios-no-asignados`);
+export const getUsuariosNoAsignados = async (orgId: string, token: string) => {
+  const response = await api.get(`/organizacion/${orgId}/usuarios-no-asignados`, { headers: { Authorization: `Bearer ${token}` }});
   return response.data;
 };
 
@@ -224,18 +224,19 @@ export const getUsuariosNoAsignados = async (orgId: string) => {
 //PLANOS
 
 // Obtener planos de un proyecto
-export const getPlanosByProyecto = async (proyectoId: string) => {
-  const response = await api.get(`/proyecto/${proyectoId}/planos`);
+export const getPlanosByProyecto = async (proyectoId: string, token: string) => {
+  const response = await api.get(`/proyecto/${proyectoId}/planos`, { headers: { Authorization: `Bearer ${token}` }});
   return response.data;
 };
 
 // crear un plano
-export const createPlano = async (formData: FormData) => {
+export const createPlano = async (formData: FormData, token: string) => {
   console.log('FormData enviado:', Array.from(formData.entries()));
   try {
     const response = await api.post('/plano', formData, {
       headers: {
-        'Content-Type': 'multipart/form-data'
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${token}`
       }
     });
     return response.data;
@@ -248,14 +249,14 @@ export const createPlano = async (formData: FormData) => {
 
 
 // Editar un plano
-export const updatePlano = async (id: string, data: {nombre: string; especialidad: string; etiquetas?: string[];}) => {
-  const response = await api.patch(`/plano/${id}`, data);
+export const updatePlano = async (id: string, data: {nombre: string; especialidad: string; etiquetas?: string[];}, token: string) => {
+  const response = await api.patch(`/plano/${id}`, data, { headers: { Authorization: `Bearer ${token}` }});
   return response.data;
 }
 
 // Eliminar un plano
-export const deletePlano = async (id: string) => {
-  const response = await api.delete(`/plano/${id}`);
+export const deletePlano = async (id: string, token: string) => {
+  const response = await api.delete(`/plano/${id}`, { headers: { Authorization: `Bearer ${token}` }});
   return response.data;
 }
 

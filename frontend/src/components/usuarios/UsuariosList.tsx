@@ -5,6 +5,7 @@ import { Table, Button, Spinner, Container } from 'react-bootstrap';
 import { getUsuariosByOrganizacion, removeUsuarioFromOrganizacion } from '../../api';
 import { showErrorAlert, showSuccessAlert } from "../../alerts";
 import { useAuthContext } from '../auth/AuthContext';
+import { useAuth0 } from '@auth0/auth0-react';
 
 interface UsuariosListProps {
     orgId: string;
@@ -16,13 +17,14 @@ interface UsuariosListProps {
     const [usuarios, setUsuarios] = useState<Usuario[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const { userInfo } = useAuthContext();
-  
+    const { getAccessTokenSilently } = useAuth0();  
 
   useEffect(() => {
     const fetchUsuarios = async () => {
       try {
         setLoading(true);
-        const usuarios = await getUsuariosByOrganizacion(orgId);
+        const token = await getAccessTokenSilently();
+        const usuarios = await getUsuariosByOrganizacion(orgId, token);
         setUsuarios(usuarios);
       } catch (error) {
         showErrorAlert('Ocurrió un error al cargar los usuarios de la organización');
@@ -37,7 +39,8 @@ interface UsuariosListProps {
   const handleRemoveUsuario = async (usuarioId: string) => {
     try {
       setLoading(true);
-      await removeUsuarioFromOrganizacion(orgId, usuarioId);
+      const token = await getAccessTokenSilently();
+      await removeUsuarioFromOrganizacion(orgId, usuarioId, token);
       setUsuarios(usuarios.filter(usuario => usuario._id !== usuarioId));
       showSuccessAlert("El usuario ha sido eliminado de la organización");
     } catch (error) {

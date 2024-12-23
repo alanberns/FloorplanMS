@@ -5,13 +5,19 @@ import { UsuarioController } from './usuario.controller';
 import { Usuario, UsuarioSchema } from './schemas/usuario.schema';
 import { OrganizacionModule } from 'src/organizacion/organizacion.module';
 import { AdminModule } from 'src/admin/admin.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Usuario.name, schema: UsuarioSchema }]),
     forwardRef(() => OrganizacionModule),
-    AdminModule
-  ],
+    forwardRef(() =>AdminModule),
+    JwtModule.register({
+      secret: '7e3K3jKxoghSTlYFnnPeigOLfzGWmfFeztaKX-AhLPbWy-EF2LCIy8JBaI46yqIm',
+      signOptions: { 
+        expiresIn: '60m' 
+      },
+     }),],
   controllers: [UsuarioController],
   providers: [UsuarioService],
   exports: [MongooseModule, UsuarioService]

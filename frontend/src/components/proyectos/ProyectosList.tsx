@@ -7,6 +7,8 @@ import ProyectoForm from './ProyectoForm';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Spinner, Button, Table, Container } from 'react-bootstrap';
 import withReactContent from 'sweetalert2-react-content';
+import { useAuth0 } from '@auth0/auth0-react';
+
 
 const MySwal = withReactContent(Swal);
 
@@ -17,15 +19,17 @@ const ProyectosList: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [editingProyecto, setEditingProyecto] = useState<Proyecto | null>(null);
   const navigate = useNavigate();
+  const { getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
     const fetchProyectos = async () => {
       try {
         setLoading(true);
         if (!orgId) { throw new Error("Organización ID no disponible"); }
-        const data = await getProyectosByOrganizacion(orgId);
+        const token = await getAccessTokenSilently(); 
+        const data = await getProyectosByOrganizacion(orgId,token);
         setProyectos(data);
-        const dataOrg = await getOrganizacionById(orgId);
+        const dataOrg = await getOrganizacionById(orgId,token);
         setOrganizacion(dataOrg);
       } catch (error) {
         console.error('Error al cargar los proyectos:', error);
@@ -53,8 +57,8 @@ const ProyectosList: React.FC = () => {
   }) => {
     try {
       setLoading(true);
-      console.log("handle create");
-      const nuevoProyecto = await createProyecto(data);
+      const token = await getAccessTokenSilently(); 
+      const nuevoProyecto = await createProyecto(data,token);
       setProyectos([...proyectos, nuevoProyecto]);
       Swal.close();
       showSuccessAlert("El proyecto ha sido creado");
@@ -80,7 +84,8 @@ const ProyectosList: React.FC = () => {
   }) => {
     try {
       setLoading(true);
-      const updatedProyecto = await updateProyecto(id, data);
+      const token = await getAccessTokenSilently(); 
+      const updatedProyecto = await updateProyecto(id, data, token);
       setProyectos(proyectos.map(proj => (proj._id === id ? updatedProyecto : proj)));
       setEditingProyecto(null);
       Swal.close();
@@ -95,7 +100,8 @@ const ProyectosList: React.FC = () => {
   const handleDelete = async (id: string) => {
     try {
       setLoading(true);
-      await deleteProyecto(id);
+      const token = await getAccessTokenSilently(); 
+      await deleteProyecto(id, token);
       setProyectos(proyectos.filter(proj => proj._id !== id));
       showSuccessAlert("El proyecto ha sido eliminado");
     } catch (error) {
@@ -176,7 +182,8 @@ const ProyectosList: React.FC = () => {
 
   const handleToggleApprove = async (proyectoId: string, aprobado: boolean) => {
     try {
-      const updatedProyecto = await toggleAprobado(proyectoId, { aprobado });
+      const token = await getAccessTokenSilently(); 
+      await toggleAprobado(proyectoId, { aprobado }, token);
       setProyectos(proyectos.map(proj => (proj._id === proyectoId ? { ...proj, aprobado } : proj))); // Actualiza el estado local
     } catch (error) {
       console.error('Error al modificar el estado del proyecto:', error);

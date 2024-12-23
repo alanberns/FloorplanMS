@@ -7,6 +7,8 @@ import { Usuario, Organizacion } from "../../types";
 import { showErrorAlert, showSuccessAlert } from "../../alerts";
 import UsuarioForm from './UsuarioForm';
 import { useAuthContext } from '../auth/AuthContext';
+import { useAuth0 } from '@auth0/auth0-react';
+import { useNavigate } from 'react-router-dom';
 
 
 const MySwal = withReactContent(Swal);
@@ -17,17 +19,21 @@ function Usuarios() {
   const [loading, setLoading] = useState<boolean>(true);
   const [editingUsuario, setEditingUsuario] = useState<Usuario | null>(null);
   const { userInfo } = useAuthContext();
+  const navigate = useNavigate();
+  const { getAccessTokenSilently } = useAuth0();
+  const [token, setToken] = useState(String);
 
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [usuariosData, organizacionesData] = await Promise.all([
-          getUsuarios(),
-          getOrganizaciones()
+          getUsuarios(token),
+          getOrganizaciones(token)
         ]);
         setUsuarios(usuariosData);
         setOrganizaciones(organizacionesData);
+        setToken(await getAccessTokenSilently());
       } catch (error) {
         showErrorAlert("Ocurrió un error al cargar los datos");
       } finally {
@@ -42,7 +48,7 @@ function Usuarios() {
     try {
       setLoading(true);
       console.log(data);
-      const nuevoUsuario = await createUsuario(data);
+      const nuevoUsuario = await createUsuario(data, token);
       setUsuarios([...usuarios, nuevoUsuario]);
       Swal.close();
       showSuccessAlert("El usuario ha sido creado");
@@ -58,7 +64,7 @@ function Usuarios() {
     try {
       setLoading(true);
       console.log(data);
-      const updatedUsuario = await updateUsuario(id, data);
+      const updatedUsuario = await updateUsuario(id, data, token);
       setUsuarios(usuarios.map(user => (user._id === id ? updatedUsuario : user)));
       setEditingUsuario(null);
       Swal.close();
@@ -74,7 +80,7 @@ function Usuarios() {
   const handleDelete = async (id: string) => {
     try {
       setLoading(true);
-      await deleteUsuario(id);
+      await deleteUsuario(id, token);
       setUsuarios(usuarios.filter(user => user._id !== id));
       showSuccessAlert("El usuario ha sido eliminado");
     } catch (error) {
@@ -87,7 +93,7 @@ function Usuarios() {
   const handleToggleActive = async (id: string, isActive: boolean) => {
     try {
       setLoading(true);
-      const updatedUsuario = await updateUsuario(id, { isActive: !isActive });
+      const updatedUsuario = await updateUsuario(id, { isActive: !isActive }, token);
       setUsuarios(usuarios.map(user => (user._id === id ? updatedUsuario : user)));
       showSuccessAlert(`El usuario ha sido ${!isActive ? 'activado' : 'desactivado'}`);
     } catch (error) {

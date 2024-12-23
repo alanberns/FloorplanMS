@@ -8,8 +8,7 @@ import withReactContent from 'sweetalert2-react-content';
 import OrganizacionForm from './OrganizacionForm';
 import { Spinner, Button, Container, Table } from 'react-bootstrap';
 import { useAuthContext } from '../auth/AuthContext';
-
-
+import { useAuth0 } from '@auth0/auth0-react';
 
 const MySwal = withReactContent(Swal);
 
@@ -20,12 +19,15 @@ function Organizaciones() {
   const [editingOrganizacion, setEditingOrganizacion] = useState<Organizacion | null>(null);
   const navigate = useNavigate();
   const { userInfo } = useAuthContext();
+  const { getAccessTokenSilently } = useAuth0();
+  const [token, setToken] = useState(String);
 
   useEffect(() => {
     const fetchOrganizaciones = async () => {
       try {
-        const data = await getOrganizaciones();
+        const data = await getOrganizaciones(token);
         setOrganizaciones(data);
+        setToken(await getAccessTokenSilently());
       } catch (error) {
         showErrorAlert("Ocurrió un error al cargar las organizaciones");
       } finally {
@@ -38,7 +40,7 @@ function Organizaciones() {
   const handleCreate = async (data: { nombre: string; direccion: string; contacto: string; letra: string; numero: number; }) => {
     try {
       setLoading(true);
-      const nuevaOrganizacion = await createOrganizacion(data);
+      const nuevaOrganizacion = await createOrganizacion(data, token);
       setOrganizaciones([...organizaciones, nuevaOrganizacion]);
       Swal.close();
       showSuccessAlert("La organización ha sido creada");
@@ -53,7 +55,7 @@ function Organizaciones() {
   const handleEdit = async (id: string, data: { nombre: string; direccion: string; contacto: string; letra: string; numero: number; }) => {
     try {
       setLoading(true);
-      const updatedOrganizacion = await updateOrganizacion(id, data);
+      const updatedOrganizacion = await updateOrganizacion(id, data, token);
       setOrganizaciones(organizaciones.map(org => (org._id === id ? updatedOrganizacion : org)));
       setEditingOrganizacion(null);
       Swal.close();
@@ -69,7 +71,7 @@ function Organizaciones() {
   const handleDelete = async (id: string) => {
     try {
       setLoading(true);
-      await deleteOrganizacion(id);
+      await deleteOrganizacion(id, token);
       setOrganizaciones(organizaciones.filter(org => org._id !== id));
       showSuccessAlert("La organización ha sido eliminada");
     } catch (error) {
@@ -124,7 +126,7 @@ function Organizaciones() {
   const handleShowAddUserForm = async (orgId: string) => {
     try {
       setLoading(true);
-      const usuarios = await getUsuariosNoAsignados(orgId);
+      const usuarios = await getUsuariosNoAsignados(orgId, token);
       let filteredUsuarios = usuarios;
 
       const renderUsuariosList = () => {
@@ -164,7 +166,7 @@ function Organizaciones() {
               const usuarioId = target.getAttribute('data-id');
               try {
                 setLoading(true);
-                await addUsuarioToOrganizacion(orgId, usuarioId!);
+                await addUsuarioToOrganizacion(orgId, usuarioId!, token);
                 Swal.close();
                 showSuccessAlert("El usuario ha sido añadido a la organización");
               } catch (error) {

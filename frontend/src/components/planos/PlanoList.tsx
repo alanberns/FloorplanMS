@@ -7,7 +7,7 @@ import PlanoForm from './PlanoForm';
 import { useParams } from 'react-router-dom';
 import { Spinner, Button, Table, Container } from 'react-bootstrap';
 import withReactContent from 'sweetalert2-react-content';
-
+import { useAuth0 } from '@auth0/auth0-react';
 
 const MySwal = withReactContent(Swal);
 const PlanosList: React.FC = () => {
@@ -15,13 +15,15 @@ const PlanosList: React.FC = () => {
     const [planos, setPlanos] = useState<Plano[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [editingPlano, setEditingPlano] = useState<Plano | null>(null);
-  
+    const { getAccessTokenSilently } = useAuth0();
+    
     useEffect(() => {
       const fetchPlanos = async () => {
         try {
           setLoading(true);
           if (!proyectoId) { throw new Error("Proyecto ID no disponible"); }
-          const data = await getPlanosByProyecto(proyectoId);
+          const token = await getAccessTokenSilently();
+          const data = await getPlanosByProyecto(proyectoId, token);
           setPlanos(data);
         } catch (error) {
           console.error('Error al cargar los planos:', error);
@@ -37,7 +39,8 @@ const PlanosList: React.FC = () => {
       try {
         setLoading(true);
         formData.append('proyectoId', proyectoId);
-        const nuevoPlano = await createPlano(formData);
+        const token = await getAccessTokenSilently();
+        const nuevoPlano = await createPlano(formData, token);
         setPlanos([...planos, nuevoPlano]);
         Swal.close();
         showSuccessAlert("El plano ha sido creado");
@@ -53,7 +56,8 @@ const PlanosList: React.FC = () => {
     const handleEdit = async (id: string, data: { nombre: string; especialidad: string; etiquetas?: string[] }) => {
       try {
         setLoading(true);
-        const updatedPlano = await updatePlano(id, data);
+        const token = await getAccessTokenSilently();
+        const updatedPlano = await updatePlano(id, data, token);
         setPlanos(planos.map(plano => (plano._id === id ? updatedPlano : plano)));
         setEditingPlano(null);
         Swal.close();
@@ -68,7 +72,8 @@ const PlanosList: React.FC = () => {
     const handleDelete = async (id: string) => {
       try {
         setLoading(true);
-        await deletePlano(id);
+        const token = await getAccessTokenSilently();
+        await deletePlano(id, token);
         setPlanos(planos.filter(plano => plano._id !== id));
         showSuccessAlert("El plano ha sido eliminado");
       } catch (error) {

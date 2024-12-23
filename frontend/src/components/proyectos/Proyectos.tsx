@@ -8,7 +8,7 @@ import ProyectoForm from './ProyectoForm';
 import { Spinner, Button, Table, Container } from 'react-bootstrap';
 import { useAuthContext } from '../auth/AuthContext';
 import { useNavigate } from 'react-router-dom';
-
+import { useAuth0 } from '@auth0/auth0-react';
 
 const MySwal = withReactContent(Swal);
 
@@ -19,13 +19,15 @@ function Proyectos() {
   const [editingProyecto, setEditingProyecto] = useState<Proyecto | null>(null);
   const { userInfo } = useAuthContext();
   const navigate = useNavigate();
-
+  const { getAccessTokenSilently } = useAuth0();
+  const [token, setToken] = useState(String);
 
   useEffect(() => {
     const fetchProyectos = async () => {
       try {
-        const data = await getProyectos();
+        const data = await getProyectos(token);
         setProyectos(data);
+        setToken(await getAccessTokenSilently());
       } catch (error) {
         showErrorAlert("Ocurrió un error al cargar los proyectos");
       } finally {
@@ -36,10 +38,14 @@ function Proyectos() {
     fetchProyectos();
   }, []);
 
-  const handleEdit = async (id: string, data: { nombre: string; ubicacion: string, destino: string, obra: string, escala: string }) => {
+  const handleEdit = async (id: string, data: { nombre: string; ubicacion: string; 
+    destino: string; obra: string; escala: string; 
+    otrasExigencias: string; antecedentes: string; 
+    propietario: string; proyectistas: string; 
+    direccionTecnica: string; aprobado: boolean; }) => {
     try {
       setLoading(true);
-      const updatedProyecto = await updateProyecto(id, data);
+      const updatedProyecto = await updateProyecto(id, data, token);
       setProyectos(proyectos.map(proj => (proj._id === id ? updatedProyecto : proj)));
       setEditingProyecto(null);
       Swal.close();
@@ -54,7 +60,7 @@ function Proyectos() {
   const handleDelete = async (id: string) => {
     try {
       setLoading(true);
-      await deleteProyecto(id);
+      await deleteProyecto(id, token);
       setProyectos(proyectos.filter(proj => proj._id !== id));
       showSuccessAlert("El proyecto ha sido eliminado");
     } catch (error) {
