@@ -21,19 +21,18 @@ function Usuarios() {
   const { userInfo } = useAuthContext();
   const navigate = useNavigate();
   const { getAccessTokenSilently } = useAuth0();
-  const [token, setToken] = useState(String);
 
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const token = await getAccessTokenSilently(); 
         const [usuariosData, organizacionesData] = await Promise.all([
           getUsuarios(token),
           getOrganizaciones(token)
         ]);
         setUsuarios(usuariosData);
         setOrganizaciones(organizacionesData);
-        setToken(await getAccessTokenSilently());
       } catch (error) {
         showErrorAlert("Ocurrió un error al cargar los datos");
       } finally {
@@ -48,6 +47,7 @@ function Usuarios() {
     try {
       setLoading(true);
       console.log(data);
+      const token = await getAccessTokenSilently(); 
       const nuevoUsuario = await createUsuario(data, token);
       setUsuarios([...usuarios, nuevoUsuario]);
       Swal.close();
@@ -64,6 +64,7 @@ function Usuarios() {
     try {
       setLoading(true);
       console.log(data);
+      const token = await getAccessTokenSilently(); 
       const updatedUsuario = await updateUsuario(id, data, token);
       setUsuarios(usuarios.map(user => (user._id === id ? updatedUsuario : user)));
       setEditingUsuario(null);
@@ -80,6 +81,7 @@ function Usuarios() {
   const handleDelete = async (id: string) => {
     try {
       setLoading(true);
+      const token = await getAccessTokenSilently(); 
       await deleteUsuario(id, token);
       setUsuarios(usuarios.filter(user => user._id !== id));
       showSuccessAlert("El usuario ha sido eliminado");
@@ -93,6 +95,7 @@ function Usuarios() {
   const handleToggleActive = async (id: string, isActive: boolean) => {
     try {
       setLoading(true);
+      const token = await getAccessTokenSilently(); 
       const updatedUsuario = await updateUsuario(id, { isActive: !isActive }, token);
       setUsuarios(usuarios.map(user => (user._id === id ? updatedUsuario : user)));
       showSuccessAlert(`El usuario ha sido ${!isActive ? 'activado' : 'desactivado'}`);
@@ -151,17 +154,26 @@ function Usuarios() {
     navigate(`/`);
   };
 
-  if (userInfo?.role !== "Admin") { 
+  if (userInfo?.rol !== "Admin") { 
     return ( 
     <Container> 
-      <h1 className="text-center my-4">Acceso Denegado</h1> 
-      <p className="text-center">No tienes permiso para ver esta página.</p> 
-      <div className="d-flex justify-content-center mb-3">
-        <Button variant="secondary" onClick={() => navigateToHome()} className="me-2">Ir al inicio</Button>
-      </div>
+      {loading ? (
+        <div className="d-flex justify-content-center">
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Cargando...</span>
+          </Spinner>
+        </div>
+        ) : (
+          <>
+            <h1 className="text-center my-4">Acceso Denegado</h1> 
+            <p className="text-center">No tienes permiso para ver esta página.</p> 
+            <div className="d-flex justify-content-center mb-3">
+              <Button variant="secondary" onClick={() => navigateToHome()} className="me-2">Ir al inicio</Button>
+            </div>
+          </>
+        )}
     </Container> ); 
   }
-
   return (
     <Container>
       <h1 className="text-center my-4">Usuarios</h1>

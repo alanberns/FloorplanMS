@@ -42,7 +42,8 @@ export class PlanoController {
     }
   }  
 
-  @UseGuards(JwtAuthGuard, AdminAuthGuard)
+  //@UseGuards(JwtAuthGuard, AdminAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Get()
   findAll() {
     return this.planoService.findAll();

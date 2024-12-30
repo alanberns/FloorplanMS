@@ -20,14 +20,13 @@ function Organizaciones() {
   const navigate = useNavigate();
   const { userInfo } = useAuthContext();
   const { getAccessTokenSilently } = useAuth0();
-  const [token, setToken] = useState(String);
 
   useEffect(() => {
     const fetchOrganizaciones = async () => {
       try {
+        const token = await getAccessTokenSilently(); 
         const data = await getOrganizaciones(token);
         setOrganizaciones(data);
-        setToken(await getAccessTokenSilently());
       } catch (error) {
         showErrorAlert("Ocurrió un error al cargar las organizaciones");
       } finally {
@@ -40,6 +39,7 @@ function Organizaciones() {
   const handleCreate = async (data: { nombre: string; direccion: string; contacto: string; letra: string; numero: number; }) => {
     try {
       setLoading(true);
+      const token = await getAccessTokenSilently(); 
       const nuevaOrganizacion = await createOrganizacion(data, token);
       setOrganizaciones([...organizaciones, nuevaOrganizacion]);
       Swal.close();
@@ -55,6 +55,7 @@ function Organizaciones() {
   const handleEdit = async (id: string, data: { nombre: string; direccion: string; contacto: string; letra: string; numero: number; }) => {
     try {
       setLoading(true);
+      const token = await getAccessTokenSilently(); 
       const updatedOrganizacion = await updateOrganizacion(id, data, token);
       setOrganizaciones(organizaciones.map(org => (org._id === id ? updatedOrganizacion : org)));
       setEditingOrganizacion(null);
@@ -71,6 +72,7 @@ function Organizaciones() {
   const handleDelete = async (id: string) => {
     try {
       setLoading(true);
+      const token = await getAccessTokenSilently(); 
       await deleteOrganizacion(id, token);
       setOrganizaciones(organizaciones.filter(org => org._id !== id));
       showSuccessAlert("La organización ha sido eliminada");
@@ -126,6 +128,7 @@ function Organizaciones() {
   const handleShowAddUserForm = async (orgId: string) => {
     try {
       setLoading(true);
+      const token = await getAccessTokenSilently(); 
       const usuarios = await getUsuariosNoAsignados(orgId, token);
       let filteredUsuarios = usuarios;
 
@@ -197,14 +200,24 @@ function Organizaciones() {
     navigate(`/`);
   };
 
-  if (userInfo?.role !== "Admin") { 
+  if (userInfo?.rol !== "Admin") { 
     return ( 
     <Container> 
-      <h1 className="text-center my-4">Acceso Denegado</h1> 
-      <p className="text-center">No tienes permiso para ver esta página.</p> 
-      <div className="d-flex justify-content-center mb-3">
-        <Button variant="secondary" onClick={() => navigateToHome()} className="me-2">Ir al inicio</Button>
-      </div>
+      {loading ? (
+        <div className="d-flex justify-content-center">
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Cargando...</span>
+          </Spinner>
+        </div>
+        ) : (
+          <>
+            <h1 className="text-center my-4">Acceso Denegado</h1> 
+            <p className="text-center">No tienes permiso para ver esta página.</p> 
+            <div className="d-flex justify-content-center mb-3">
+              <Button variant="secondary" onClick={() => navigateToHome()} className="me-2">Ir al inicio</Button>
+            </div>
+          </>
+        )}
     </Container> ); 
   }
   return (

@@ -13,13 +13,15 @@ export class OrganizacionController {
     private readonly usuarioService: UsuarioService
   ) {}
 
-  @UseGuards(JwtAuthGuard, AdminAuthGuard)
+  //@UseGuards(JwtAuthGuard, AdminAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Post()
   create(@Body() createOrganizacionDto: CreateOrganizacionDto) {
     return this.organizacionService.create(createOrganizacionDto);
   }
 
-  @UseGuards(JwtAuthGuard, AdminAuthGuard)
+  //@UseGuards(JwtAuthGuard, AdminAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Get()
   findAll() {
     return this.organizacionService.findAll();
@@ -31,25 +33,29 @@ export class OrganizacionController {
     return this.organizacionService.findOne(id);
   }
 
-  @UseGuards(JwtAuthGuard, AdminAuthGuard)
+  //@UseGuards(JwtAuthGuard, AdminAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Get(':id/usuarios')
   findUsuariosByOrganizacion(@Param('id') id: string) {
     return this.organizacionService.findUsuariosByOrganizacion(id);
   }
 
-  @UseGuards(JwtAuthGuard, AdminAuthGuard)
+  //@UseGuards(JwtAuthGuard, AdminAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Put(':id')
   update(@Param('id') id: string, @Body() updateOrganizacionDto: UpdateOrganizacionDto) {
     return this.organizacionService.update(id, updateOrganizacionDto);
   }
 
-  @UseGuards(JwtAuthGuard, AdminAuthGuard)
+  //@UseGuards(JwtAuthGuard, AdminAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.organizacionService.remove(id);
   }
 
-  @UseGuards(JwtAuthGuard, AdminAuthGuard)
+  //@UseGuards(JwtAuthGuard, AdminAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Delete(':orgId/usuario/:usuarioId') 
   removeUsuarioFromOrganizacion(@Param('orgId') orgId: string, @Param('usuarioId') usuarioId: string) {
     let updateUsuarioDto = new UpdateUsuarioDto();
@@ -58,15 +64,18 @@ export class OrganizacionController {
    return this.organizacionService.removeUsuarioFromOrganizacion(orgId, usuarioId); 
   }
 
-  @UseGuards(JwtAuthGuard, AdminAuthGuard)
+  //@UseGuards(JwtAuthGuard, AdminAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Get(':orgId/usuarios-no-asignados') 
   findUsuariosNoAsignados() { 
     return this.usuarioService.findUsuariosNoAsignados(); 
   }
 
-  @UseGuards(JwtAuthGuard, AdminAuthGuard)
+  //@UseGuards(JwtAuthGuard, AdminAuthGuard) 
+  //@UseGuards(JwtAuthGuard) aca paso algo, no autoriza por mas que envie el token
   @Post(':orgId/usuario/:usuarioId')
   addUsuarioToOrganizacion(@Param('orgId') orgId: string, @Param('usuarioId') usuarioId: string) {
+    console.log("Añadir user: ", orgId, "  ..  ", usuarioId); 
     let updateUsuarioDto = new UpdateUsuarioDto();
     updateUsuarioDto.organizacionId=orgId;
     this.usuarioService.update(usuarioId,updateUsuarioDto);

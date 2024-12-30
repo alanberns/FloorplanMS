@@ -20,14 +20,13 @@ function Proyectos() {
   const { userInfo } = useAuthContext();
   const navigate = useNavigate();
   const { getAccessTokenSilently } = useAuth0();
-  const [token, setToken] = useState(String);
 
   useEffect(() => {
     const fetchProyectos = async () => {
       try {
+        const token = await getAccessTokenSilently(); 
         const data = await getProyectos(token);
         setProyectos(data);
-        setToken(await getAccessTokenSilently());
       } catch (error) {
         showErrorAlert("Ocurrió un error al cargar los proyectos");
       } finally {
@@ -45,6 +44,7 @@ function Proyectos() {
     direccionTecnica: string; aprobado: boolean; }) => {
     try {
       setLoading(true);
+      const token = await getAccessTokenSilently(); 
       const updatedProyecto = await updateProyecto(id, data, token);
       setProyectos(proyectos.map(proj => (proj._id === id ? updatedProyecto : proj)));
       setEditingProyecto(null);
@@ -60,6 +60,7 @@ function Proyectos() {
   const handleDelete = async (id: string) => {
     try {
       setLoading(true);
+      const token = await getAccessTokenSilently(); 
       await deleteProyecto(id, token);
       setProyectos(proyectos.filter(proj => proj._id !== id));
       showSuccessAlert("El proyecto ha sido eliminado");
@@ -129,14 +130,24 @@ function Proyectos() {
     navigate(`/`);
   };
 
-  if (userInfo?.role !== "Admin") { 
+  if (userInfo?.rol !== "Admin") { 
     return ( 
     <Container> 
-      <h1 className="text-center my-4">Acceso Denegado</h1> 
-      <p className="text-center">No tienes permiso para ver esta página.</p> 
-      <div className="d-flex justify-content-center mb-3">
-        <Button variant="secondary" onClick={() => navigateToHome()} className="me-2">Ir al inicio</Button>
-      </div>
+      {loading ? (
+        <div className="d-flex justify-content-center">
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Cargando...</span>
+          </Spinner>
+        </div>
+        ) : (
+          <>
+            <h1 className="text-center my-4">Acceso Denegado</h1> 
+            <p className="text-center">No tienes permiso para ver esta página.</p> 
+            <div className="d-flex justify-content-center mb-3">
+              <Button variant="secondary" onClick={() => navigateToHome()} className="me-2">Ir al inicio</Button>
+            </div>
+          </>
+        )}
     </Container> ); 
   }
   return (

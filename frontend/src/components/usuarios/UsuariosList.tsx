@@ -54,14 +54,24 @@ interface UsuariosListProps {
     navigate(`/`);
   };
 
-  if (userInfo?.role !== "Admin") { 
+  if (userInfo?.rol !== "Admin") { 
     return ( 
     <Container> 
-      <h1 className="text-center my-4">Acceso Denegado</h1> 
-      <p className="text-center">No tienes permiso para ver esta página.</p> 
-      <div className="d-flex justify-content-center mb-3">
-        <Button variant="secondary" onClick={() => navigateToHome()} className="me-2">Ir al inicio</Button>
-      </div>
+      {loading ? (
+        <div className="d-flex justify-content-center">
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Cargando...</span>
+          </Spinner>
+        </div>
+        ) : (
+          <>
+            <h1 className="text-center my-4">Acceso Denegado</h1> 
+            <p className="text-center">No tienes permiso para ver esta página.</p> 
+            <div className="d-flex justify-content-center mb-3">
+              <Button variant="secondary" onClick={() => navigateToHome()} className="me-2">Ir al inicio</Button>
+            </div>
+          </>
+        )}
     </Container> ); 
   }
   return (

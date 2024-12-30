@@ -12,6 +12,8 @@ export class ProyectoController {
     private readonly organizacionService: OrganizacionService
   ) {}
 
+  //@UseGuards(JwtAuthGuard, AdminAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Body() createProyectoDto: CreateProyectoDto) {
     try {
@@ -27,7 +29,8 @@ export class ProyectoController {
     }
   }
 
-  @UseGuards(JwtAuthGuard, AdminAuthGuard)
+  //@UseGuards(JwtAuthGuard, AdminAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Get()
   findAll() {
     return this.proyectoService.findAll();

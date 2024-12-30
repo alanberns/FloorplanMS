@@ -16,8 +16,9 @@ export class AdminService {
     await this.adminModel.deleteOne({ userId });
   }
 
-  async isAdmin(userId: string): Promise<boolean> {
-    const admin = await this.adminModel.findOne({ userId });
+  async isAdmin(_id: string): Promise<boolean> {
+    const admin = await this.adminModel.findOne({ _id });
+    console.log(admin);
     return !!admin;
   }
 }

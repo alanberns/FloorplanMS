@@ -14,7 +14,8 @@ function NavbarLayout() {
     { path: "/", name: "Home" },
     ...(isAuthenticated && userInfo && userInfo.rol === "Admin" ? [
       { path: "/organizaciones", name: "Organizaciones" },
-      { path: "/proyectos", name: "Proyectos" }
+      { path: "/proyectos", name: "Proyectos" },
+      { path: "/usuarios", name: "Usuarios" }
     ] : (
       isAuthenticated && userInfo && userInfo.user.organizacionId ? [
         { path: `/organizaciones/${userInfo.user.organizacionId}/proyectos`, name: "Proyectos" }

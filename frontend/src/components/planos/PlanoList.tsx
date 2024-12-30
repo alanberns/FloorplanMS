@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { createPlano, updatePlano, deletePlano, getPlanosByProyecto } from '../../api';
 import { Plano } from "../../types";
 import { showErrorAlert, showSuccessAlert } from "../../alerts";
@@ -8,6 +9,7 @@ import { useParams } from 'react-router-dom';
 import { Spinner, Button, Table, Container } from 'react-bootstrap';
 import withReactContent from 'sweetalert2-react-content';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useAuthContext } from '../auth/AuthContext';
 
 const MySwal = withReactContent(Swal);
 const PlanosList: React.FC = () => {
@@ -15,7 +17,10 @@ const PlanosList: React.FC = () => {
     const [planos, setPlanos] = useState<Plano[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [editingPlano, setEditingPlano] = useState<Plano | null>(null);
+    const navigate = useNavigate();
     const { getAccessTokenSilently, user } = useAuth0();
+    const { userInfo } = useAuthContext();
+
     
     useEffect(() => {
       const fetchPlanos = async () => {
@@ -59,6 +64,8 @@ const PlanosList: React.FC = () => {
         setLoading(true);
         const token = await getAccessTokenSilently();
         const updatedPlano = await updatePlano(id, data, token);
+        const existingPlano = planos.find(plano => plano._id === id);
+        updatedPlano.archivo = existingPlano?.archivo;
         setPlanos(planos.map(plano => (plano._id === id ? updatedPlano : plano)));
         setEditingPlano(null);
         Swal.close();
@@ -151,7 +158,31 @@ const PlanosList: React.FC = () => {
         confirmButtonText: 'Cerrar',
       });
     };
+
+    const navigateToHome = () => {
+      navigate(`/`);
+    };
     
+    if (userInfo?.rol !== "Admin" && userInfo?.rol !== "User") { 
+      return ( 
+      <Container> 
+        {loading ? (
+          <div className="d-flex justify-content-center">
+            <Spinner animation="border" role="status">
+              <span className="visually-hidden">Cargando...</span>
+            </Spinner>
+          </div>
+          ) : (
+            <>
+              <h1 className="text-center my-4">Acceso Denegado</h1> 
+              <p className="text-center">No tienes permiso para ver esta página.</p> 
+              <div className="d-flex justify-content-center mb-3">
+                <Button variant="secondary" onClick={() => navigateToHome()} className="me-2">Ir al inicio</Button>
+              </div>
+            </>
+          )}
+      </Container> ); 
+    }
 
     return (
         <Container>
@@ -165,7 +196,9 @@ const PlanosList: React.FC = () => {
           ) : (
             <>
               <div className="d-flex justify-content-end mb-3">
-              <Button variant="primary" onClick={() => handleShowCreateForm(proyectoId? proyectoId : '1')}>Crear Plano</Button>
+                {userInfo?.rol === 'User' && (
+                  <Button variant="primary" onClick={() => handleShowCreateForm(proyectoId ? proyectoId : '1')}> Crear Plano </Button> 
+                )}
               </div>
               {planos.length === 0 ? (
                 <div className="text-center">

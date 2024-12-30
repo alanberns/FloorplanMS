@@ -8,6 +8,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Spinner, Button, Table, Container } from 'react-bootstrap';
 import withReactContent from 'sweetalert2-react-content';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useAuthContext } from '../auth/AuthContext';
 
 
 const MySwal = withReactContent(Swal);
@@ -20,6 +21,7 @@ const ProyectosList: React.FC = () => {
   const [editingProyecto, setEditingProyecto] = useState<Proyecto | null>(null);
   const navigate = useNavigate();
   const { getAccessTokenSilently } = useAuth0();
+  const { userInfo } = useAuthContext();
 
   useEffect(() => {
     const fetchProyectos = async () => {
@@ -185,14 +187,41 @@ const ProyectosList: React.FC = () => {
       const token = await getAccessTokenSilently(); 
       await toggleAprobado(proyectoId, { aprobado }, token);
       setProyectos(proyectos.map(proj => (proj._id === proyectoId ? { ...proj, aprobado } : proj))); // Actualiza el estado local
+      aprobado? showSuccessAlert("El proyecto fue aprobado") : showSuccessAlert("El proyecto fue desaprobado");
     } catch (error) {
       console.error('Error al modificar el estado del proyecto:', error);
+      showErrorAlert("Hubo un problema al actualizar el proyecto");
     }
   }
 
   const handleShowPlanos = (proyectoId: string) => {
     navigate(`/proyectos/${proyectoId}/planos`);
   };
+
+  const navigateToHome = () => {
+    navigate(`/`);
+  };
+
+  if (userInfo?.rol !== "Admin" && userInfo?.rol !== "User") { 
+    return ( 
+    <Container> 
+      {loading ? (
+        <div className="d-flex justify-content-center">
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Cargando...</span>
+          </Spinner>
+        </div>
+        ) : (
+          <>
+            <h1 className="text-center my-4">Acceso Denegado</h1> 
+            <p className="text-center">No tienes permiso para ver esta página.</p> 
+            <div className="d-flex justify-content-center mb-3">
+              <Button variant="secondary" onClick={() => navigateToHome()} className="me-2">Ir al inicio</Button>
+            </div>
+          </>
+        )}
+    </Container> ); 
+  }
 
   return (
     <Container>
@@ -206,7 +235,9 @@ const ProyectosList: React.FC = () => {
       ) : (
         <>
           <div className="d-flex justify-content-end mb-3">
-            <Button variant="primary" onClick={handleShowCreateForm}>Crear Proyecto</Button>
+            {userInfo?.rol === 'User' && (
+              <Button variant="primary" onClick={handleShowCreateForm}>Crear Proyecto</Button>
+            )}
           </div>
           {proyectos.length === 0 ? (
             <div className="text-center">

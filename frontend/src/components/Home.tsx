@@ -1,11 +1,8 @@
-import PruebaAuth from './pruebaAuth';
-
-
 function Home() {
   
   return (
     <div>
-      <PruebaAuth></PruebaAuth>
+      FloorplanMS
     </div>
   )
 }

@@ -6,12 +6,6 @@ import { AppService } from './app.service';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @UseGuards(JwtAuthGuard)
-  @Get('auth')
-  Auth() {
-    return { message: 'Protected data'};
-  }
-
   @Get()
   getHello(): string {
     return this.appService.getHello();
