@@ -16,6 +16,12 @@ docker-compose up --build
 docker-compose exec floorplan_nest npx ts-node /app/src/db-init.ts
 
 
+## Acceso al contenedor de la base de datos:
+docker exec -it floorplan_db /bin/bash
+mongo
+use nest
+
+
 ### Test web
 cd frontend/
 npx cypress run #Ejecuta los tests
