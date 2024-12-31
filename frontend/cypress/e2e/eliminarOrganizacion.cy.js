@@ -4,10 +4,10 @@ describe('Organizaciones - Eliminar', () => {
       cy.visit('/organizaciones');
   
       // Asegurarnos de que la organización "Nueva Organización" existe antes de intentar eliminarla
-      cy.contains('Nueva Organización').should('exist');
+      cy.contains('Organización Editada').should('exist');
   
       // Hacer click en el botón "Eliminar" correspondiente a "Nueva Organización"
-      cy.contains('Nueva Organización').parents('tr').within(() => {
+      cy.contains('Organización Editada').parents('tr').within(() => {
         cy.contains('Eliminar').click();
       });
   
@@ -15,7 +15,7 @@ describe('Organizaciones - Eliminar', () => {
       cy.get('.swal2-confirm').click();
   
       // Verificar que la organización ya no aparece en la tabla
-      cy.contains('Nueva Organización').should('not.exist');
+      cy.contains('Organización Editada').should('not.exist');
     });
   });
   

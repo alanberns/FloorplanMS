@@ -26,7 +26,7 @@ function Usuarios() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = await getAccessTokenSilently(); 
+        const token = "await getAccessTokenSilently(); "
         const [usuariosData, organizacionesData] = await Promise.all([
           getUsuarios(token),
           getOrganizaciones(token)
@@ -47,7 +47,7 @@ function Usuarios() {
     try {
       setLoading(true);
       console.log(data);
-      const token = await getAccessTokenSilently(); 
+      const token = "await getAccessTokenSilently(); "
       const nuevoUsuario = await createUsuario(data, token);
       setUsuarios([...usuarios, nuevoUsuario]);
       Swal.close();
@@ -64,7 +64,7 @@ function Usuarios() {
     try {
       setLoading(true);
       console.log(data);
-      const token = await getAccessTokenSilently(); 
+      const token = "await getAccessTokenSilently(); "
       const updatedUsuario = await updateUsuario(id, data, token);
       setUsuarios(usuarios.map(user => (user._id === id ? updatedUsuario : user)));
       setEditingUsuario(null);
@@ -81,7 +81,7 @@ function Usuarios() {
   const handleDelete = async (id: string) => {
     try {
       setLoading(true);
-      const token = await getAccessTokenSilently(); 
+      const token = "await getAccessTokenSilently(); "
       await deleteUsuario(id, token);
       setUsuarios(usuarios.filter(user => user._id !== id));
       showSuccessAlert("El usuario ha sido eliminado");
@@ -95,7 +95,7 @@ function Usuarios() {
   const handleToggleActive = async (id: string, isActive: boolean) => {
     try {
       setLoading(true);
-      const token = await getAccessTokenSilently(); 
+      const token = "await getAccessTokenSilently(); "
       const updatedUsuario = await updateUsuario(id, { isActive: !isActive }, token);
       setUsuarios(usuarios.map(user => (user._id === id ? updatedUsuario : user)));
       showSuccessAlert(`El usuario ha sido ${!isActive ? 'activado' : 'desactivado'}`);

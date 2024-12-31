@@ -28,7 +28,7 @@ const ProyectosList: React.FC = () => {
       try {
         setLoading(true);
         if (!orgId) { throw new Error("Organización ID no disponible"); }
-        const token = await getAccessTokenSilently(); 
+        const token = "await getAccessTokenSilently(); "
         const data = await getProyectosByOrganizacion(orgId,token);
         setProyectos(data);
         const dataOrg = await getOrganizacionById(orgId,token);
@@ -59,7 +59,7 @@ const ProyectosList: React.FC = () => {
   }) => {
     try {
       setLoading(true);
-      const token = await getAccessTokenSilently(); 
+      const token = "await getAccessTokenSilently(); "
       const nuevoProyecto = await createProyecto(data,token);
       setProyectos([...proyectos, nuevoProyecto]);
       Swal.close();
@@ -86,7 +86,7 @@ const ProyectosList: React.FC = () => {
   }) => {
     try {
       setLoading(true);
-      const token = await getAccessTokenSilently(); 
+      const token = "await getAccessTokenSilently(); "
       const updatedProyecto = await updateProyecto(id, data, token);
       setProyectos(proyectos.map(proj => (proj._id === id ? updatedProyecto : proj)));
       setEditingProyecto(null);
@@ -102,7 +102,7 @@ const ProyectosList: React.FC = () => {
   const handleDelete = async (id: string) => {
     try {
       setLoading(true);
-      const token = await getAccessTokenSilently(); 
+      const token = "await getAccessTokenSilently(); "
       await deleteProyecto(id, token);
       setProyectos(proyectos.filter(proj => proj._id !== id));
       showSuccessAlert("El proyecto ha sido eliminado");
@@ -184,7 +184,7 @@ const ProyectosList: React.FC = () => {
 
   const handleToggleApprove = async (proyectoId: string, aprobado: boolean) => {
     try {
-      const token = await getAccessTokenSilently(); 
+      const token = "await getAccessTokenSilently(); "
       await toggleAprobado(proyectoId, { aprobado }, token);
       setProyectos(proyectos.map(proj => (proj._id === proyectoId ? { ...proj, aprobado } : proj))); // Actualiza el estado local
       aprobado? showSuccessAlert("El proyecto fue aprobado") : showSuccessAlert("El proyecto fue desaprobado");

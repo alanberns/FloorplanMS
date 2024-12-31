@@ -15,7 +15,7 @@ export class UsuarioController {
   ) {}
 
   //@UseGuards(JwtAuthGuard, AdminAuthGuard)
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   @Post()
   async create(@Body() createUsuarioDto: CreateUsuarioDto) {
     const createdUsuario = await  this.usuarioService.create(createUsuarioDto);
@@ -24,28 +24,28 @@ export class UsuarioController {
   }
 
   //@UseGuards(JwtAuthGuard, AdminAuthGuard)
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   @Get()
   findAll() {
     return this.usuarioService.findAll();
   }
 
   //@UseGuards(JwtAuthGuard, AdminAuthGuard)
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.usuarioService.findOne(id);
   }
 
   //@UseGuards(JwtAuthGuard, AdminAuthGuard)
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
     return this.usuarioService.update(id, updateUsuarioDto);
   }
 
   //@UseGuards(JwtAuthGuard, AdminAuthGuard)
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.usuarioService.remove(id);

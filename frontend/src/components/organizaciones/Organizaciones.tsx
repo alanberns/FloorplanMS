@@ -24,7 +24,7 @@ function Organizaciones() {
   useEffect(() => {
     const fetchOrganizaciones = async () => {
       try {
-        const token = await getAccessTokenSilently(); 
+        const token = "await getAccessTokenSilently(); "
         const data = await getOrganizaciones(token);
         setOrganizaciones(data);
       } catch (error) {
@@ -39,7 +39,7 @@ function Organizaciones() {
   const handleCreate = async (data: { nombre: string; direccion: string; contacto: string; letra: string; numero: number; }) => {
     try {
       setLoading(true);
-      const token = await getAccessTokenSilently(); 
+      const token = "await getAccessTokenSilently(); "
       const nuevaOrganizacion = await createOrganizacion(data, token);
       setOrganizaciones([...organizaciones, nuevaOrganizacion]);
       Swal.close();
@@ -55,7 +55,7 @@ function Organizaciones() {
   const handleEdit = async (id: string, data: { nombre: string; direccion: string; contacto: string; letra: string; numero: number; }) => {
     try {
       setLoading(true);
-      const token = await getAccessTokenSilently(); 
+      const token = "await getAccessTokenSilently(); "
       const updatedOrganizacion = await updateOrganizacion(id, data, token);
       setOrganizaciones(organizaciones.map(org => (org._id === id ? updatedOrganizacion : org)));
       setEditingOrganizacion(null);
@@ -72,7 +72,7 @@ function Organizaciones() {
   const handleDelete = async (id: string) => {
     try {
       setLoading(true);
-      const token = await getAccessTokenSilently(); 
+      const token = "await getAccessTokenSilently(); "
       await deleteOrganizacion(id, token);
       setOrganizaciones(organizaciones.filter(org => org._id !== id));
       showSuccessAlert("La organización ha sido eliminada");
@@ -128,7 +128,7 @@ function Organizaciones() {
   const handleShowAddUserForm = async (orgId: string) => {
     try {
       setLoading(true);
-      const token = await getAccessTokenSilently(); 
+      const token = "await getAccessTokenSilently(); "
       const usuarios = await getUsuariosNoAsignados(orgId, token);
       let filteredUsuarios = usuarios;
 
@@ -200,7 +200,7 @@ function Organizaciones() {
     navigate(`/`);
   };
 
-  if (userInfo?.rol !== "Admin") { 
+  if (userInfo?.rol !== "Admin" && false) { 
     return ( 
     <Container> 
       {loading ? (

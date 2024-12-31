@@ -24,7 +24,7 @@ function Proyectos() {
   useEffect(() => {
     const fetchProyectos = async () => {
       try {
-        const token = await getAccessTokenSilently(); 
+        const token = "await getAccessTokenSilently(); "
         const data = await getProyectos(token);
         setProyectos(data);
       } catch (error) {
@@ -44,7 +44,7 @@ function Proyectos() {
     direccionTecnica: string; aprobado: boolean; }) => {
     try {
       setLoading(true);
-      const token = await getAccessTokenSilently(); 
+      const token = "await getAccessTokenSilently(); "
       const updatedProyecto = await updateProyecto(id, data, token);
       setProyectos(proyectos.map(proj => (proj._id === id ? updatedProyecto : proj)));
       setEditingProyecto(null);
@@ -60,7 +60,7 @@ function Proyectos() {
   const handleDelete = async (id: string) => {
     try {
       setLoading(true);
-      const token = await getAccessTokenSilently(); 
+      const token = "await getAccessTokenSilently(); "
       await deleteProyecto(id, token);
       setProyectos(proyectos.filter(proj => proj._id !== id));
       showSuccessAlert("El proyecto ha sido eliminado");

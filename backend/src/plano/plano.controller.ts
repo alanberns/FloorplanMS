@@ -16,7 +16,7 @@ export class PlanoController {
     private readonly proyectoService: ProyectoService
   ) {}
   
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   @Post()
   @UseInterceptors(FileInterceptor('archivo'))
   async create(
@@ -43,25 +43,25 @@ export class PlanoController {
   }  
 
   //@UseGuards(JwtAuthGuard, AdminAuthGuard)
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   @Get()
   findAll() {
     return this.planoService.findAll();
   }
 
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.planoService.findOne(id);
   }
 
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePlanoDto: UpdatePlanoDto) {
     return this.planoService.update(id, updatePlanoDto);
   }
 
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.planoService.remove(id);

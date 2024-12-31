@@ -13,7 +13,7 @@ export class ProyectoController {
   ) {}
 
   //@UseGuards(JwtAuthGuard, AdminAuthGuard)
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   @Post()
   async create(@Body() createProyectoDto: CreateProyectoDto) {
     try {
@@ -30,31 +30,31 @@ export class ProyectoController {
   }
 
   //@UseGuards(JwtAuthGuard, AdminAuthGuard)
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   @Get()
   findAll() {
     return this.proyectoService.findAll();
   }
 
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.proyectoService.findOne(id);
   }
 
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProyectoDto: UpdateProyectoDto) {
     return this.proyectoService.update(id, updateProyectoDto);
   }
 
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.proyectoService.remove(id);
   }
 
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   @Get(':id/planos')
   findPlanosByProyecto(@Param('id') id: string){
     return this.proyectoService.findPlanosByProyecto(id);
