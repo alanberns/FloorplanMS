@@ -18,8 +18,14 @@ export class UsuarioController {
   @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Body() createUsuarioDto: CreateUsuarioDto) {
+    if (createUsuarioDto.organizacionId === "") {
+      createUsuarioDto.organizacionId = null;
+    }
     const createdUsuario = await  this.usuarioService.create(createUsuarioDto);
-    await this.organizacionService.addUsuario(createUsuarioDto.organizacionId, createdUsuario.id);
+    // Verificar si organizacionId no es una cadena vacía antes de ejecutar el método addUsuario
+    if (createUsuarioDto.organizacionId) {
+      await this.organizacionService.addUsuario(createUsuarioDto.organizacionId, createdUsuario.id);
+    }
     return createdUsuario;
   }
 
