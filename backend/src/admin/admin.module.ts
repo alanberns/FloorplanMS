@@ -5,7 +5,7 @@ import { AdminService } from './admin.service';
 import { AdminController } from './admin.controller';
 import { AdminAuthGuard } from './admin-auth.guard';
 import { JwtModule } from '@nestjs/jwt';
-import { UsuarioModule } from 'src/usuario/usuario.module';
+import { UsuarioModule } from '../usuario/usuario.module';
 
 @Module({
   imports: [MongooseModule.forFeature([{ name: Admin.name, schema: AdminSchema }]),

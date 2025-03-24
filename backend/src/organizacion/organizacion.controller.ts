@@ -3,7 +3,7 @@ import { OrganizacionService } from './organizacion.service';
 import { UsuarioService } from '../usuario/usuario.service';
 import { CreateOrganizacionDto } from './dto/create-organizacion.dto';
 import { UpdateOrganizacionDto } from './dto/update-organizacion.dto';
-import { UpdateUsuarioDto } from 'src/usuario/dto/update-usuario.dto';
+import { UpdateUsuarioDto } from '../usuario/dto/update-usuario.dto';
 import { JwtAuthGuard } from '../jwt-auth.guard';
 import { AdminAuthGuard } from '../admin/admin-auth.guard';
 

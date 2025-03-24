@@ -5,7 +5,7 @@ import { OrganizacionController } from './organizacion.controller';
 import { Organizacion, OrganizacionSchema } from './schemas/organizacion.schema';
 import { UsuarioModule } from '../usuario/usuario.module'; 
 import { ProyectoModule } from '../proyecto/proyecto.module'; 
-import { AdminModule } from 'src/admin/admin.module';
+import { AdminModule } from '../admin/admin.module';
 import { JwtModule } from '@nestjs/jwt';
 
 @Module({

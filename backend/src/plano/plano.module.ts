@@ -4,10 +4,10 @@ import { PlanoController } from './plano.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Plano, PlanoSchema } from './schemas/plano.schema';
 import { ProyectoModule } from '../proyecto/proyecto.module';
-import { AdminAuthGuard } from 'src/admin/admin-auth.guard';
+import { AdminAuthGuard } from '../admin/admin-auth.guard';
 import { JwtModule } from '@nestjs/jwt';
-import { UsuarioModule } from 'src/usuario/usuario.module';
-import { AdminModule } from 'src/admin/admin.module';
+import { UsuarioModule } from '../usuario/usuario.module';
+import { AdminModule } from '../admin/admin.module';
 
 @Module({
   imports: [
