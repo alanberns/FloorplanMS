@@ -23,6 +23,8 @@ use nest
 
 
 ### Test web
-cd frontend/
-npx cypress run #Ejecuta los tests
-npx cypress open #Abre la interfaz gráfica
+- docker-compose down
+- docker compose up
+- cd frontend/
+- npx cypress run #Ejecuta los tests
+- npx cypress open #Abre la interfaz gráfica
