@@ -52,7 +52,9 @@ use nest
 
 
 ### Test web
-git checkout prueba-cypress
-cd frontend/
-npx cypress run #Ejecuta los tests
-npx cypress open #Abre la interfaz gráfica
+- git checkout prueba-cypress
+- docker-compose down
+- docker compose up
+- cd frontend/
+- npx cypress run #Ejecuta los tests
+- npx cypress open #Abre la interfaz gráfica
